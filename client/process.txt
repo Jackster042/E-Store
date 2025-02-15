@@ -1,0 +1,27 @@
+# Process
+
+create-vite@latest
+
+# Install dependencies
+
+npm install
+
+# Run dev server
+
+npm run dev
+
+#this file will hold general
+notes for the process of building this app  
+
+# 15/02/2025
+
+- Created a new Vite project
+- Installed Tailwind CSS
+- Created a new React component
+- Added Tailwind CSS to the project 
+
+redux store setup
+
+layout.tsx
+
+
