@@ -7,8 +7,7 @@
 .pnp.js
 
 # Environment variables
-# Environment files
-/server/.env
+
 .env
 .env.local
 .env.development.local
