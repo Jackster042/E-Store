@@ -22,6 +22,25 @@ notes for the process of building this app
 
 redux store setup
 
-layout.tsx
+pages will consist of folders
+where each folder will have a component file and a route file
+
+used router v7
+auth protect /w checkAuth component for RBAC 
+
+because shadcn creates components in the components folder  
+common folder inside components is used for all shared components in project
+
+default layout
+routes setup
+auth setup
+
+login and register pages
+created from in components/common/form.tsx
+that form will serve for all forms in the project   
+it will be used in login and register pages
+it receives props from the pages
+
+
 
 

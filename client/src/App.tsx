@@ -29,11 +29,8 @@ import UnauthPage from "./pages/unauth-page";
 import CheckAuth from "./components/common/check-auth";
 
 // USER
-const isAuthenticated = true;
-const user = {
-  name: "John Doe",
-  role: "admin",
-};
+const isAuthenticated = false;
+const user = null;
 
 // ROUTER
 const router = createBrowserRouter([
