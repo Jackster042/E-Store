@@ -1,19 +1,51 @@
-import CommonForm from "@/components/common/form";
-import { loginFormControls } from "@/config";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+
+// COMPONENTS
+import CommonForm from "@/components/common/form";
+
+// CONFIG
+import { loginFormControls } from "@/config";
+
+// HOOKS
+import { useToast } from "@/hooks/use-toast";
+
+// REDUX
+import { loginUser } from "@/store/auth-slice";
+import { AppDispatch } from "@/store/store";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
 const initialState = {
   email: "",
   password: "",
 };
 
+// TODO: FIX EMPTY INPUT ERRORS
 const AuthLogin = () => {
   const [formData, setFormdata] = useState(initialState);
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log(formData);
+    // console.log(formData);
+    dispatch(loginUser(formData)).then((data) => {
+      console.log(data);
+      if (data?.payload?.status === "success") {
+        toast({
+          title: "Success",
+          description: data?.payload?.message,
+        });
+        navigate("/shop/home");
+      } else {
+        toast({
+          // title: "Error",
+          description: data?.payload?.response?.message,
+          variant: "destructive",
+        });
+      }
+    });
   }
 
   return (

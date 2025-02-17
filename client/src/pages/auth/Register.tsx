@@ -1,7 +1,11 @@
 import CommonForm from "@/components/common/form";
 import { registerFormControls } from "@/config";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { registerUser } from "@/store/auth-slice";
+import { AppDispatch } from "@/store/store"; // Adjust the import based on your file structure
+import { useToast } from "@/hooks/use-toast";
 
 const initialState = {
   userName: "",
@@ -9,12 +13,31 @@ const initialState = {
   password: "",
 };
 
+// TODO: FIX EMPTY INPUT ERRORS
 const AuthRegister = () => {
   const [formData, setFormdata] = useState(initialState);
-
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const { toast } = useToast();
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     console.log(formData);
+    dispatch(registerUser(formData)).then((data) => {
+      console.log(data);
+      if (data?.payload?.status === "success") {
+        toast({
+          title: "Success",
+          description: data?.payload?.message,
+        });
+        navigate("/auth/login");
+      } else {
+        toast({
+          title: "Error",
+          description: data?.payload?.response?.message,
+          variant: "destructive",
+        });
+      }
+    });
   }
 
   return (
@@ -40,7 +63,7 @@ const AuthRegister = () => {
         formData={formData}
         setFormData={setFormdata}
         onSubmit={onSubmit}
-        buttonText="Sing Up"
+        buttonText="Sign Up"
       />
     </div>
   );

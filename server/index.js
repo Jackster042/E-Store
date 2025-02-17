@@ -4,6 +4,10 @@ const cors = require("cors");
 
 const app = express();
 
+// ROUTES
+const authRoutes = require("./routes/auth/auth-routes");
+
+// MIDDLEWARES
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -25,7 +29,6 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("Hello World");
@@ -33,6 +36,7 @@ app.get("/", (req, res) => {
 
 // ROUTES
 // TODO: ADD ROUTES HERE
+app.use("/api/auth", authRoutes);
 
 // 404 HANDLER
 app.use("*", (req, res, next) => {
