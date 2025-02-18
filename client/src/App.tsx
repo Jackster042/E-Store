@@ -1,3 +1,4 @@
+import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // AUTH
@@ -21,19 +22,37 @@ import ShoppingHome from "./pages/shopping-view/home";
 
 // NOT FOUND
 import NotFound from "./pages/not-found";
+import { Skeleton } from "@/components/ui/skeleton";
 
 // UNAUTH
 import UnauthPage from "./pages/unauth-page";
 import CheckAuth from "./components/common/check-auth";
 import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
+import { checkAuth } from "./store/auth-slice";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "./store/store";
 
 const App = () => {
+  const dispatch = useDispatch<AppDispatch>();
   // USER
-  const { user, isAuthenticated } = useSelector(
+  const { user, isAuthenticated, isLoading } = useSelector(
     (state: RootState) => state.authStore
   );
-  console.log(user, "user APP");
+
+  // CHECK AUTH
+  React.useEffect(() => {
+    dispatch(checkAuth());
+  }, [dispatch]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Skeleton className="w-[100px] h-[20px] rounded-full bg-gray-200" />
+      </div>
+    );
+  }
+
   // ROUTER
   const router = createBrowserRouter([
     {

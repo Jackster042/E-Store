@@ -110,6 +110,7 @@ exports.login = async (req, res, next) => {
           role: userData.role,
           id: userData._id,
         },
+        token,
       });
 
     // console.log(userData, "userData");
@@ -131,3 +132,8 @@ exports.login = async (req, res, next) => {
 };
 
 //  LOGOUT USER
+
+exports.logout = async (req, res, next) => {
+  res.clearCookie("token");
+  res.status(200).json({ success: true, message: "Logged out successfully" });
+};

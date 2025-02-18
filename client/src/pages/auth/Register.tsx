@@ -1,10 +1,10 @@
 import CommonForm from "@/components/common/form";
 import { registerFormControls } from "@/config";
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { registerUser } from "@/store/auth-slice";
-import { AppDispatch } from "@/store/store"; // Adjust the import based on your file structure
+import { AppDispatch } from "@/store/store";
 import { useToast } from "@/hooks/use-toast";
 
 const initialState = {
@@ -16,29 +16,60 @@ const initialState = {
 // TODO: FIX EMPTY INPUT ERRORS
 const AuthRegister = () => {
   const [formData, setFormdata] = useState(initialState);
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const location = useLocation();
+
+  // const { isAuthenticated, user } = useSelector(
+  //   (state: RootState) => state.authStore
+  // );
+
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log(formData);
-    dispatch(registerUser(formData)).then((data) => {
-      console.log(data);
-      if (data?.payload?.success) {
-        toast({
-          title: "Success",
-          description: data?.payload?.message,
-        });
-        navigate("/auth/login");
-      } else {
+    dispatch(registerUser(formData))
+      .then((data) => {
+        console.log("Registration response:", data);
+        if (data?.payload?.success) {
+          toast({
+            title: "Success",
+            description: data?.payload?.message,
+          });
+          setRegistrationSuccess(true);
+        } else {
+          toast({
+            title: "Error",
+            description: data?.payload?.response?.message,
+            variant: "destructive",
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Registration error:", error);
         toast({
           title: "Error",
-          description: data?.payload?.response?.message,
+          description: "Registration failed. Please try again.",
           variant: "destructive",
         });
-      }
-    });
+      });
   }
+
+  // Handle navigation after successful registration
+  React.useEffect(() => {
+    if (registrationSuccess) {
+      console.log("Registration successful, navigating to login...");
+      // Add a small delay to ensure toast is visible
+      setTimeout(() => {
+        navigate("/auth/login", { replace: true });
+      }, 1500);
+    }
+  }, [registrationSuccess, navigate]);
+
+  // Monitor location changes for debugging
+  React.useEffect(() => {
+    console.log("Current location:", location.pathname);
+  }, [location]);
 
   return (
     <div className="mx-auto w-full max-w-md space-x-6">
