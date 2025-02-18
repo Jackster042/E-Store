@@ -24,7 +24,7 @@ const AuthRegister = () => {
     console.log(formData);
     dispatch(registerUser(formData)).then((data) => {
       console.log(data);
-      if (data?.payload?.status === "success") {
+      if (data?.payload?.success) {
         toast({
           title: "Success",
           description: data?.payload?.message,
@@ -63,7 +63,7 @@ const AuthRegister = () => {
         formData={formData}
         setFormData={setFormdata}
         onSubmit={onSubmit}
-        buttonText="Sign Up"
+        buttonText={"Sign Up"}
       />
     </div>
   );

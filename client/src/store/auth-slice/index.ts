@@ -8,7 +8,7 @@ interface AuthState {
 
 const initialState: AuthState = {
   isAuthenticated: false,
-  isLoading: false,
+  isLoading: true,
   user: null,
 };
 
@@ -66,6 +66,7 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      // REGISTER USER
       .addCase(registerUser.pending, (state) => {
         state.isLoading = true;
       })
@@ -75,6 +76,21 @@ const authSlice = createSlice({
         state.user = null;
       })
       .addCase(registerUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isAuthenticated = false;
+        state.user = null;
+      })
+      // LOGIN USER
+      .addCase(loginUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        // console.log(action.payload, "action.payload");
+        state.isLoading = false;
+        state.isAuthenticated = !action.payload.success ? false : true;
+        state.user = !action.payload.success ? null : action.payload.user;
+      })
+      .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isAuthenticated = false;
         state.user = null;

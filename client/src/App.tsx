@@ -19,77 +19,78 @@ import ShoppingCheckout from "./pages/shopping-view/checkout";
 import ShoppingAccount from "./pages/shopping-view/account";
 import ShoppingHome from "./pages/shopping-view/home";
 
-// PAYPAL
-
 // NOT FOUND
 import NotFound from "./pages/not-found";
 
 // UNAUTH
 import UnauthPage from "./pages/unauth-page";
 import CheckAuth from "./components/common/check-auth";
+import { useSelector } from "react-redux";
+import { RootState } from "./store/store";
 
-// USER
-const isAuthenticated = false;
-const user = null;
-
-// ROUTER
-const router = createBrowserRouter([
-  {
-    path: "/auth",
-    element: (
-      <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-        <AuthLayout />
-      </CheckAuth>
-    ),
-    children: [
-      {
-        path: "login",
-        element: <AuthLogin />,
-      },
-      {
-        path: "register",
-        element: <AuthRegister />,
-      },
-    ],
-  },
-  {
-    path: "/admin",
-    element: (
-      <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-        <AdminLayout />
-      </CheckAuth>
-    ),
-    children: [
-      { path: "dashboard", element: <AdminDashboard /> },
-      { path: "products", element: <AdminProducts /> },
-      { path: "orders", element: <AdminOrders /> },
-      { path: "features", element: <AdminFeatures /> },
-    ],
-  },
-  {
-    path: "/shop",
-    element: (
-      <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-        <ShoppingLayout />
-      </CheckAuth>
-    ),
-    children: [
-      { path: "home", element: <ShoppingHome /> },
-      { path: "listing", element: <ShoppingListing /> },
-      { path: "checkout", element: <ShoppingCheckout /> },
-      { path: "account", element: <ShoppingAccount /> },
-    ],
-  },
-  {
-    path: "/unauth-page",
-    element: <UnauthPage />,
-  },
-  {
-    path: "*",
-    element: <NotFound />,
-  },
-]);
 const App = () => {
+  // USER
+  const { user, isAuthenticated } = useSelector(
+    (state: RootState) => state.authStore
+  );
+  console.log(user, "user APP");
+  // ROUTER
+  const router = createBrowserRouter([
+    {
+      path: "/auth",
+      element: (
+        <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+          <AuthLayout />
+        </CheckAuth>
+      ),
+      children: [
+        {
+          path: "login",
+          element: <AuthLogin />,
+        },
+        {
+          path: "register",
+          element: <AuthRegister />,
+        },
+      ],
+    },
+    {
+      path: "/admin",
+      element: (
+        <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+          <AdminLayout />
+        </CheckAuth>
+      ),
+      children: [
+        { path: "dashboard", element: <AdminDashboard /> },
+        { path: "products", element: <AdminProducts /> },
+        { path: "orders", element: <AdminOrders /> },
+        { path: "features", element: <AdminFeatures /> },
+      ],
+    },
+    {
+      path: "/shop",
+      element: (
+        <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+          <ShoppingLayout />
+        </CheckAuth>
+      ),
+      children: [
+        { path: "home", element: <ShoppingHome /> },
+        { path: "listing", element: <ShoppingListing /> },
+        { path: "checkout", element: <ShoppingCheckout /> },
+        { path: "account", element: <ShoppingAccount /> },
+      ],
+    },
+    {
+      path: "/unauth-page",
+      element: <UnauthPage />,
+    },
+    {
+      path: "*",
+      element: <NotFound />,
+    },
+  ]);
   return (
     <div className="flex flex-col overflow-hidden bg-white">
       <RouterProvider router={router} />

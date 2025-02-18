@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 // COMPONENTS
 import CommonForm from "@/components/common/form";
@@ -26,27 +29,48 @@ const AuthLogin = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const location = useLocation();
+  const { isAuthenticated, user } = useSelector(
+    (state: RootState) => state.authStore
+  );
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // console.log(formData);
-    dispatch(loginUser(formData)).then((data) => {
-      console.log(data);
-      if (data?.payload?.status === "success") {
-        toast({
-          title: "Success",
-          description: data?.payload?.message,
-        });
-        navigate("/shop/home");
-      } else {
-        toast({
-          // title: "Error",
-          description: data?.payload?.response?.message,
-          variant: "destructive",
-        });
-      }
-    });
+    dispatch(loginUser(formData))
+      .then((data) => {
+        console.log("Login response:", data);
+        if (data?.payload?.success) {
+          console.log("Login successful, attempting navigation...");
+          toast({
+            title: "Success",
+            description: data?.payload?.message,
+          });
+        } else {
+          console.log("Login failed:", data?.payload?.response?.message);
+          toast({
+            title: "Error",
+            description: data?.payload?.response?.message,
+            variant: "destructive",
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Login error:", error);
+      });
   }
+
+  React.useEffect(() => {
+    if (isAuthenticated && user) {
+      console.log("Auth state updated, user:", user);
+      const targetPath =
+        user.role === "admin" ? "/admin/dashboard" : "/shop/home";
+      navigate(targetPath, { replace: true });
+    }
+  }, [isAuthenticated, user, navigate]);
+
+  React.useEffect(() => {
+    console.log("Location changed to:", location.pathname);
+  }, [location]);
 
   return (
     <div className="mx-auto w-full max-w-md space-x-6">
@@ -71,7 +95,7 @@ const AuthLogin = () => {
         formData={formData}
         setFormData={setFormdata}
         onSubmit={onSubmit}
-        buttonText="Sign In"
+        buttonText={"Sign In"}
       />
     </div>
   );
