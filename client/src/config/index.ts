@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 interface FormControl {
   name: string;
   label: string;

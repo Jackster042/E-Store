@@ -27,6 +27,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 // UNAUTH
 import UnauthPage from "./pages/unauth-page";
 import CheckAuth from "./components/common/check-auth";
+
+// REDUX
 import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
 import { checkAuth } from "./store/auth-slice";
