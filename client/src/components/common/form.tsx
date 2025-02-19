@@ -4,8 +4,8 @@ import {
   SelectContent,
   SelectTrigger,
   SelectValue,
+  SelectItem,
 } from "../ui/select";
-import { SelectItem } from "@radix-ui/react-select";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
@@ -41,6 +41,8 @@ const CommonForm = ({
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   buttonText: string;
 }) => {
+  //
+
   // RENDER INPUTS BY COMPONENT TYPE
   //   TODO: CHECK IF THIS FUNCTION CAUSES RE-RENDER
   const renderInputsByComponentType = (controlItem: FormControl) => {
@@ -67,16 +69,16 @@ const CommonForm = ({
       case "select":
         element = (
           <Select
-            value={value}
             onValueChange={(value) =>
               setFormData({
                 ...formData,
                 [controlItem.name]: value,
               })
             }
+            value={value}
           >
             <SelectTrigger className="w-full">
-              <SelectValue placeholder={controlItem.placeholder} />
+              <SelectValue placeholder={controlItem.label} />
             </SelectTrigger>
             <SelectContent>
               {controlItem.options && controlItem.options.length > 0
@@ -124,6 +126,7 @@ const CommonForm = ({
     return element;
   };
 
+  //
   return (
     <form onSubmit={onSubmit}>
       <div className="flex flex-col gap-3">
