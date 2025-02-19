@@ -13,6 +13,7 @@ import { addProductFormElements } from "../../config";
 import { SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Sheet } from "@/components/ui/sheet";
 import CommonForm from "@/components/common/form";
+import ProductImageUpload from "@/components/admin-view/image-upload";
 
 // INITIAL FORM DATA
 const initialFromData = {
@@ -29,6 +30,8 @@ const initialFromData = {
 const AdminProducts = () => {
   const [openAddProduct, setOpenAddProduct] = useState(false);
   const [formData, setFormData] = useState<any>(initialFromData);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -57,6 +60,12 @@ const AdminProducts = () => {
           <SheetHeader>
             <SheetTitle>Add New Product</SheetTitle>
           </SheetHeader>
+          <ProductImageUpload
+            file={imageFile}
+            setFile={setImageFile}
+            url={uploadedImageUrl}
+            setUrl={setUploadedImageUrl}
+          />
           <div className="py-6">
             <CommonForm
               formControls={addProductFormElements}
