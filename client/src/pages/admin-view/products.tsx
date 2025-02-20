@@ -32,11 +32,13 @@ const AdminProducts = () => {
   const [formData, setFormData] = useState<any>(initialFromData);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
+  const [imageLoadingState, setImageLoadingState] = useState<boolean>(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(formData);
   };
+  console.log(formData, "formData");
 
   return (
     <Fragment>
@@ -65,6 +67,7 @@ const AdminProducts = () => {
             setFile={setImageFile}
             url={uploadedImageUrl}
             setUrl={setUploadedImageUrl}
+            setImageLoadingState={setImageLoadingState}
           />
           <div className="py-6">
             <CommonForm

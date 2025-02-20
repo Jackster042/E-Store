@@ -1,8 +1,11 @@
 import { Label } from "../ui/label";
+import { useEffect } from "react";
 import { Button } from "../ui/button";
 import { useRef } from "react";
+import axios from "axios";
 import { Input } from "../ui/input";
 import { Divide, UploadCloudIcon, FileIcon } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 // PROPS TYPES
 interface ProductImageUploadProps {
@@ -10,6 +13,7 @@ interface ProductImageUploadProps {
   setFile: React.Dispatch<React.SetStateAction<File | null>>;
   url: string | null;
   setUrl: React.Dispatch<React.SetStateAction<string | null>>;
+  setImageLoadingState: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ProductImageUpload: React.FC<ProductImageUploadProps> = ({
@@ -17,13 +21,15 @@ const ProductImageUpload: React.FC<ProductImageUploadProps> = ({
   setFile,
   url,
   setUrl,
+  setImageLoadingState,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files);
-    if (e.target.files) {
-      setFile(e.target.files[0]);
+    console.log(e.target.files?.[0]);
+    const selectedFile = e.target.files?.[0];
+    if (selectedFile) {
+      setFile(selectedFile);
     }
   };
 
@@ -34,8 +40,10 @@ const ProductImageUpload: React.FC<ProductImageUploadProps> = ({
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    if (e.dataTransfer.files) {
-      setFile(e.dataTransfer.files[0]);
+    const droppedFile = e.dataTransfer.files?.[0];
+    console.log(droppedFile, "file from drag and drop");
+    if (droppedFile) {
+      setFile(droppedFile);
     }
   };
 
@@ -46,6 +54,39 @@ const ProductImageUpload: React.FC<ProductImageUploadProps> = ({
       inputRef.current.value = "";
     }
   };
+
+  const uploadImageToCloudinary = async () => {
+    try {
+      setImageLoadingState(true);
+      const data = new FormData();
+      if (file) {
+        data.append("my_file", file);
+      }
+
+      const response = await axios.post(
+        "http://localhost:3000/api/admin/products/upload-image",
+        data
+      );
+      console.log(response, "response from uploadImageToCloudinary");
+
+      if (response?.data?.success) {
+        setUrl(response?.data?.result?.url);
+        setImageLoadingState(false);
+      } else {
+        toast({
+          title: "Error",
+          description: response?.data?.message,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.error(error, "error from uploadImageToCloudinary");
+    }
+  };
+
+  useEffect(() => {
+    if (file !== null) uploadImageToCloudinary();
+  }, [file]);
 
   return (
     <section className="w-full max-w-md mx-auto">

@@ -17,7 +17,7 @@ const authMiddleware = async (req, res, next) => {
     console.log(req.user, "req.user from middleware");
 
     const freshUser = await UserModel.findById(req.user._id);
-    console.log(freshUser, "freshUser from middleware");
+    // console.log(freshUser, "freshUser from middleware");
 
     next();
   } catch (error) {

@@ -95,7 +95,7 @@ exports.login = async (req, res, next) => {
     // console.log(token, "token");
 
     const { userName, password, __v, ...userData } = user._doc;
-    console.log(userData, "userData");
+    // console.log(userData, "userData");
 
     res
       .cookie("token", token, {
