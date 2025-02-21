@@ -28,12 +28,14 @@ interface FormControl {
 
 // FORM COMPONENT
 const CommonForm = ({
+  isBtnDisabled,
   formControls,
   formData,
   setFormData,
   onSubmit,
   buttonText,
 }: {
+  isBtnDisabled: boolean;
   // TODO: CHECK LATER IF TYPES AS OK
   formControls: FormControl[];
   formData: any;
@@ -137,7 +139,7 @@ const CommonForm = ({
           </div>
         ))}
       </div>
-      <Button type="submit" className="mt-2 w-full">
+      <Button type="submit" className="mt-2 w-full" disabled={isBtnDisabled}>
         {buttonText || "submit"}
       </Button>
     </form>

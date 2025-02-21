@@ -1,10 +1,15 @@
-import { Label } from "../ui/label";
-import { useEffect } from "react";
-import { Button } from "../ui/button";
-import { useRef } from "react";
+// IMPORTS
+import { useRef, useEffect } from "react";
 import axios from "axios";
+
+// COMPONENTS
+import { Label } from "../ui/label";
+import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { Divide, UploadCloudIcon, FileIcon } from "lucide-react";
+import { UploadCloudIcon, FileIcon } from "lucide-react";
+import { Skeleton } from "../ui/skeleton";
+
+// HOOKS
 import { toast } from "@/hooks/use-toast";
 
 // PROPS TYPES
@@ -13,7 +18,9 @@ interface ProductImageUploadProps {
   setFile: React.Dispatch<React.SetStateAction<File | null>>;
   url: string | null;
   setUrl: React.Dispatch<React.SetStateAction<string | null>>;
+  imageLoadingState: boolean;
   setImageLoadingState: React.Dispatch<React.SetStateAction<boolean>>;
+  isEditMode: boolean;
 }
 
 const ProductImageUpload: React.FC<ProductImageUploadProps> = ({
@@ -21,7 +28,9 @@ const ProductImageUpload: React.FC<ProductImageUploadProps> = ({
   setFile,
   url,
   setUrl,
+  imageLoadingState,
   setImageLoadingState,
+  isEditMode,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -102,17 +111,22 @@ const ProductImageUpload: React.FC<ProductImageUploadProps> = ({
           type="file"
           id="image-upload"
           className="hidden"
+          disabled={isEditMode}
           ref={inputRef}
           onChange={handleFileChange}
         />
         {!file ? (
           <Label
             htmlFor="image-upload"
-            className="flex flex-col items-center justify-center h-32 cursor-pointer"
+            className={`flex flex-col items-center justify-center h-32 cursor-pointer ${
+              isEditMode && "cursor-not-allowed"
+            }`}
           >
             <UploadCloudIcon className="w-10 h-10 text-muted-foreground mb-2" />
             <span>Drag and drop or click to upload your image</span>
           </Label>
+        ) : imageLoadingState ? (
+          <Skeleton className="h-10" />
         ) : (
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">

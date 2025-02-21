@@ -31,6 +31,7 @@ exports.handleImageUpload = async (req, res, next) => {
 exports.addProduct = async (req, res, next) => {
   try {
     const {
+      image,
       title,
       description,
       category,
@@ -41,7 +42,8 @@ exports.addProduct = async (req, res, next) => {
       averageReview,
     } = req.body;
 
-    const newProduct = await Product.create({
+    const newProduct = new ProductModel({
+      image,
       title,
       description,
       category,
@@ -52,12 +54,12 @@ exports.addProduct = async (req, res, next) => {
       averageReview,
     });
 
-    const data = await newProduct.save();
+    await newProduct.save();
 
     return res.status(201).json({
       success: true,
       message: "Product added successfully",
-      data,
+      data: newProduct,
     });
   } catch (error) {
     console.error(error, "error from ADD PRODUCT");
@@ -93,6 +95,7 @@ exports.editProduct = async (req, res, next) => {
   try {
     const { id } = req.params;
     const {
+      image,
       title,
       description,
       category,
@@ -119,12 +122,12 @@ exports.editProduct = async (req, res, next) => {
     product.image = image || product.image;
     product.averageReview = averageReview || product.averageReview;
 
-    const data = await product.save();
+    await product.save();
 
     return res.status(201).json({
       success: true,
       message: "Product updated successfully",
-      data,
+      data: product,
     });
   } catch (error) {
     console.error(error, "error from EDIT PRODUCT");

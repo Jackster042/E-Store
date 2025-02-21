@@ -36,7 +36,7 @@ export const addNewProduct = createAsyncThunk(
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
           },
           withCredentials: true,
         }
@@ -66,7 +66,7 @@ export const getAllProducts = createAsyncThunk(
           withCredentials: true,
         }
       );
-      console.log(response.data, "response from GET ALL PRODUCTS");
+      console.log(response.data.products, "response from GET ALL PRODUCTS");
       return response.data;
     } catch (error) {
       console.error(error, "error from GET ALL PRODUCTS");
@@ -88,12 +88,12 @@ export const editProduct = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await axios.post(
+      const response = await axios.put(
         `${API_URL}/api/admin/products/editProduct/${id}`,
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
           },
           withCredentials: true,
         }
@@ -148,7 +148,7 @@ const AdminProductSlice = createSlice({
       console.log(action.payload, "action.payload from GET ALL PRODUCTS");
 
       state.isLoading = false;
-      state.products = action.payload;
+      state.products = action.payload.products;
     });
     builder.addCase(getAllProducts.rejected, (state, action) => {
       state.isLoading = false;
