@@ -87,6 +87,7 @@ exports.login = async (req, res, next) => {
       _id: user._id,
       role: user.role,
       email: user.email,
+      userName: user.userName,
     };
 
     // console.log(payload, "payload");
@@ -94,7 +95,7 @@ exports.login = async (req, res, next) => {
     const token = jwt.sign(payload, JWT_SECRET, JWT_OPTIONS);
     // console.log(token, "token");
 
-    const { userName, password, __v, ...userData } = user._doc;
+    const { password, __v, ...userData } = user._doc;
     // console.log(userData, "userData");
 
     res
@@ -109,18 +110,10 @@ exports.login = async (req, res, next) => {
           email: userData.email,
           role: userData.role,
           id: userData._id,
+          userName: userData.userName,
         },
         token,
       });
-
-    // console.log(userData, "userData");
-
-    // return res.status(200).json({
-    //   status: "success",
-    //   message: "Logged in successfully",
-    //   user: userData,
-    //   token,
-    // });
   } catch (error) {
     console.error(error, "error from LOGIN BACKEND");
     return res.status(500).json({
