@@ -112,8 +112,12 @@ const ShoppingHeader = () => {
               <span className="sr-only">Toggle header menu</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-full max-w-xs">
+          <SheetContent
+            side="left"
+            className="w-full max-w-xs flex flex-col justify-between "
+          >
             <MenuItems />
+            <HeaderRightContent />
           </SheetContent>
 
           {/* MENU ITEMS */}
@@ -123,7 +127,9 @@ const ShoppingHeader = () => {
         </Sheet>
 
         {/* AUTHENTICATED USER */}
-        {isAuthenticated ? <HeaderRightContent /> : null}
+        <div className="hidden lg:block">
+          <HeaderRightContent />
+        </div>
       </div>
     </header>
   );
