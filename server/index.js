@@ -7,6 +7,7 @@ const app = express();
 // ROUTES
 const authRoutes = require("./routes/auth/auth-routes");
 const adminRoutes = require("./routes/admin/productRoutes");
+const shopRoutes = require("./routes/shop/productRoutes");
 // MIDDLEWARES
 app.use(
   cors({
@@ -38,6 +39,7 @@ app.get("/", (req, res) => {
 // TODO: ADD ROUTES HERE
 app.use("/api/auth", authRoutes);
 app.use("/api/admin/products", adminRoutes);
+app.use("/api/shop/products", shopRoutes);
 
 // 404 HANDLER
 app.use("*", (req, res, next) => {

@@ -1,3 +1,5 @@
+import { brandOptionsMap } from "@/config";
+import { categoryOptionsMap } from "@/config";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardFooter } from "../ui/card";
@@ -35,11 +37,16 @@ const ShoppingProductTile = ({ product }: ShoppingProductTileProps) => {
           <h2 className="text-lg font-bold mb-2 truncate">{product?.title}</h2>
           {/* CATEGORY AND BRAND */}
           <div className="flex justify-between items-center mb-2">
-            <span className="text-muted-foreground text-sm capitalize">
-              {product?.category}
+            <span className="text-muted-foreground text-sm ">
+              {
+                categoryOptionsMap[
+                  product?.category as keyof typeof categoryOptionsMap
+                ]
+              }
+              {/* {product?.category} */}
             </span>
-            <span className="text-muted-foreground text-sm capitalize">
-              {product?.brand}
+            <span className="text-muted-foreground text-sm ">
+              {brandOptionsMap[product?.brand as keyof typeof brandOptionsMap]}
             </span>
           </div>
           {/* PRICE AND SALE PRICE */}

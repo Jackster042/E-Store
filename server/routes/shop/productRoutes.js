@@ -5,6 +5,6 @@ const {
   getFilteredProducts,
 } = require("../../controllers/shop/shopController");
 
-router.get("/getFilteredProducts", getFilteredProducts);
+router.get("/get", getFilteredProducts);
 
 module.exports = router;

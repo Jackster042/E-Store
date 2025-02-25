@@ -6,7 +6,20 @@ import { Separator } from "../ui/separator";
 
 type FilterOptions = keyof typeof filterOptions;
 
-const ProductFilter = () => {
+export interface Filter {
+  sectionId: string;
+  optionId: string;
+  filters: Record<string, string[]>;
+  // Add other properties as needed
+}
+
+const ProductFilter = ({
+  filters,
+  handleFilter,
+}: {
+  filters: Record<string, string[]>;
+  handleFilter: (getSectionId: string, getOptionId: string) => void;
+}) => {
   return (
     <div className="bg-background rounded-lg shadow-sm">
       <div className="p-4 border-b">
@@ -23,7 +36,13 @@ const ProductFilter = () => {
                     key={options.id}
                     className="flex items-center gap-2 font-medium"
                   >
-                    <Checkbox id={options.id} />
+                    <Checkbox
+                      id={options.id}
+                      onCheckedChange={() =>
+                        handleFilter(keyItem, options.id || "")
+                      }
+                      checked={filters[keyItem]?.includes(options.id)}
+                    />
                     <span className="text-sm">{options.label}</span>
                   </Label>
                 ))}
