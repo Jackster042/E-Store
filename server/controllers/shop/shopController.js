@@ -46,3 +46,28 @@ exports.getFilteredProducts = async (req, res, next) => {
     });
   }
 };
+
+exports.getProductDetails = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const product = await ProductModel.findById(id);
+
+    if (!product) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      product,
+    });
+  } catch (error) {
+    console.error(error, "error from GET PRODUCT DETAILS - BACKEND");
+    return res.status(500).json({
+      success: false,
+      message: "Error fetching product details",
+    });
+  }
+};

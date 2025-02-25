@@ -17,12 +17,16 @@ interface Product {
 
 interface ShoppingProductTileProps {
   product: Product;
+  handleGetProductDetails: (id: string) => void;
 }
 
-const ShoppingProductTile = ({ product }: ShoppingProductTileProps) => {
+const ShoppingProductTile = ({
+  product,
+  handleGetProductDetails,
+}: ShoppingProductTileProps) => {
   return (
     <Card className="w-full max-w-sm mx-auto">
-      <div>
+      <div onClick={() => handleGetProductDetails(product?._id)}>
         <div className="relative">
           <img
             src={product?.image}

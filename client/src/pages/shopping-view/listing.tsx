@@ -3,7 +3,10 @@ import { ArrowUpDown } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 import { useEffect, useState } from "react";
-import { getFilteredProducts } from "@/store/shop/product-slice";
+import {
+  getFilteredProducts,
+  getProductDetails,
+} from "@/store/shop/product-slice";
 
 // COMPONENTS
 import ProductFilter, { Filter } from "@/components/shopping-view/filter";
@@ -20,6 +23,7 @@ import ShoppingProductTile from "@/components/shopping-view/product-tile";
 // CONFIG
 import { sortOptions } from "@/config";
 import { useSearchParams } from "react-router-dom";
+import ProductDetailsDialog from "@/components/shopping-view/product-details";
 
 interface Product {
   _id: string;
@@ -60,9 +64,10 @@ const ShoppingListing = () => {
   const [filters, setFilters] = useState<Record<string, string[]>>({});
   const [sort, setSort] = useState<string | undefined>(undefined);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [open, setOpen] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
-  const { products } = useSelector(
+  const { products, productDetails } = useSelector(
     (state: RootState) => state.shopProductStore
   );
 
@@ -95,6 +100,11 @@ const ShoppingListing = () => {
     sessionStorage.setItem("filters", JSON.stringify(copyFilters));
   };
 
+  const handleGetProductDetails = (id: string) => {
+    console.log(id, "id");
+    dispatch(getProductDetails(id));
+  };
+
   useEffect(() => {
     setSort("price-lowtohigh");
     setFilters(JSON.parse(sessionStorage.getItem("filters") || "{}"));
@@ -119,9 +129,15 @@ const ShoppingListing = () => {
     }
   }, [dispatch, filters, sort]);
 
-  console.log(products, "products");
+  useEffect(() => {
+    if (productDetails) {
+      setOpen(true);
+    }
+  }, [productDetails]);
 
-  console.log(filters, "filters");
+  // console.log(products, "products");
+  // console.log(filters, "filters");
+  console.log(productDetails, "productDetails");
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
@@ -166,7 +182,11 @@ const ShoppingListing = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
           {products && products.length > 0 ? (
             products.map((product: Product) => (
-              <ShoppingProductTile product={product} key={product._id} />
+              <ShoppingProductTile
+                product={product}
+                key={product._id}
+                handleGetProductDetails={handleGetProductDetails}
+              />
             ))
           ) : (
             <div className="flex items-center justify-center h-full">
@@ -175,6 +195,11 @@ const ShoppingListing = () => {
           )}
         </div>
       </div>
+      <ProductDetailsDialog
+        open={open}
+        setOpen={setOpen}
+        productDetails={productDetails}
+      />
     </div>
   );
 };
