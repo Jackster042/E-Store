@@ -8,6 +8,8 @@ const app = express();
 const authRoutes = require("./routes/auth/auth-routes");
 const adminRoutes = require("./routes/admin/productRoutes");
 const shopRoutes = require("./routes/shop/productRoutes");
+const cartRoutes = require("./routes/cart/cartRoutes");
+
 // MIDDLEWARES
 app.use(
   cors({
@@ -40,6 +42,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/admin/products", adminRoutes);
 app.use("/api/shop/products", shopRoutes);
+app.use("/api/shop/cart", cartRoutes);
 
 // 404 HANDLER
 app.use("*", (req, res, next) => {
