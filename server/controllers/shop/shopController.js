@@ -33,7 +33,7 @@ exports.getFilteredProducts = async (req, res, next) => {
     }
 
     const products = await ProductModel.find(filters).sort(sort);
-    console.log(products, "products from GET FILTERED PRODUCTS - BACKEND");
+    // console.log(products, "products from GET FILTERED PRODUCTS - BACKEND");
     res.status(200).json({
       success: true,
       products,

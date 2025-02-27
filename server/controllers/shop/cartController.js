@@ -105,8 +105,6 @@ exports.getCart = async (req, res, next) => {
         items: populateCartItems,
       },
     });
-
-    res.send("Hello from getCart - BACKEND");
   } catch (error) {
     console.error(error, "error from getCart - BACKEND");
     res.status(500).json({
