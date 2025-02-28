@@ -24,6 +24,7 @@ import ShoppingProductTile from "@/components/shopping-view/product-tile";
 import { sortOptions } from "@/config";
 import { useSearchParams } from "react-router-dom";
 import ProductDetailsDialog from "@/components/shopping-view/product-details";
+import { addToCart, getCart } from "@/store/shop/cart-slice";
 
 interface Product {
   _id: string;
@@ -70,6 +71,9 @@ const ShoppingListing = () => {
   const { products, productDetails } = useSelector(
     (state: RootState) => state.shopProductStore
   );
+  const { user } = useSelector((state: RootState) => state.authStore);
+  // console.log(user, "user");
+  // const { items } = useSelector((state: RootState) => state.shoppingCartStore);
 
   const handleSort = (value: string | undefined) => {
     setSort(value);
@@ -105,6 +109,25 @@ const ShoppingListing = () => {
     dispatch(getProductDetails(id));
   };
 
+  const handleAddToCart = (id: string) => {
+    console.log(id, "id from HANDLE ADD TO CART");
+    console.log(user, "user in handleAddToCart");
+
+    if (!user || !user._id) {
+      console.error("User not logged in or user ID is missing");
+      alert("Please log in to add items to cart");
+      return;
+    }
+
+    dispatch(addToCart({ userId: user._id, productId: id, quantity: 1 })).then(
+      (data) => {
+        if (data?.payload?.success) {
+          dispatch(getCart(user._id));
+        }
+      }
+    );
+  };
+
   useEffect(() => {
     setSort("price-lowtohigh");
     setFilters(JSON.parse(sessionStorage.getItem("filters") || "{}"));
@@ -137,7 +160,8 @@ const ShoppingListing = () => {
 
   // console.log(products, "products");
   // console.log(filters, "filters");
-  console.log(productDetails, "productDetails");
+  // console.log(productDetails, "productDetails");
+  // console.log(items, "items from cart");
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
@@ -186,6 +210,7 @@ const ShoppingListing = () => {
                 product={product}
                 key={product._id}
                 handleGetProductDetails={handleGetProductDetails}
+                handleAddToCart={handleAddToCart}
               />
             ))
           ) : (

@@ -34,7 +34,7 @@ export const addToCart = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await axios.post(`${API_URL}/api/sop/cart/add`, {
+      const response = await axios.post(`${API_URL}/api/shop/cart/add`, {
         userId,
         productId,
         quantity,
@@ -57,7 +57,9 @@ export const getCart = createAsyncThunk(
   "cart/getCart",
   async (userId: string, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${API_URL}/api/sop/cart/get/${userId}`);
+      const response = await axios.get(
+        `${API_URL}/api/shop/cart/get/${userId}`
+      );
       console.log(response.data, "response from GET CART - FRONTEND");
       return response.data;
     } catch (error) {

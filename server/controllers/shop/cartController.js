@@ -19,7 +19,7 @@ exports.addToCart = async (req, res, next) => {
         .status(400)
         .json({ success: false, message: "Product not found!" });
 
-    const cart = await CartModel.findOne({ userId });
+    let cart = await CartModel.findOne({ userId });
 
     if (!cart) {
       cart = new CartModel({
@@ -35,7 +35,7 @@ exports.addToCart = async (req, res, next) => {
     if (existingItemIndex === -1) {
       cart.items.push({ productId, quantity });
     } else {
-      cart.items[existingItemIndex].quantity = +quantity;
+      cart.items[existingItemIndex].quantity += quantity;
     }
 
     await cart.save();
@@ -56,7 +56,7 @@ exports.addToCart = async (req, res, next) => {
 
 exports.getCart = async (req, res, next) => {
   try {
-    const { userId } = req.body;
+    const { userId } = req.params;
 
     if (!userId) {
       return res.status(400).json({

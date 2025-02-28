@@ -1,5 +1,6 @@
 // React
 import { Link, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 // Icons
 import { HousePlug, LogOut, Menu, ShoppingCart, User } from "lucide-react";
@@ -23,8 +24,26 @@ import { RootState } from "@/store/store";
 import { logoutUser } from "@/store/auth-slice";
 import { AppDispatch } from "@/store/store";
 
+// Add interface for cart response
+interface CartResponse {
+  items: Array<{
+    productId: {
+      _id: string;
+      image: string;
+      title: string;
+      price: number;
+    };
+    quantity: number;
+    _id: string;
+  }>;
+}
+
 // Config
 import { shoppingViewHeaderMenuItems } from "@/config";
+import UserCartItemsContainer from "./cart-items-container";
+import { useState } from "react";
+import UserCartWrapper from "./cart-wrapper";
+import { getCart } from "@/store/shop/cart-slice";
 
 const MenuItems = () => {
   return (
@@ -44,6 +63,12 @@ const MenuItems = () => {
 
 const HeaderRightContent = () => {
   const { user } = useSelector((state: RootState) => state.authStore);
+  const { items } = useSelector((state: RootState) => state.shoppingCartStore);
+
+  // Cast items to CartResponse
+  const cartData = items as unknown as CartResponse;
+
+  const [openCartSheet, setOpenCartSheet] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
@@ -51,13 +76,32 @@ const HeaderRightContent = () => {
     dispatch(logoutUser());
   };
 
+  useEffect(() => {
+    dispatch(getCart(user?._id));
+  }, [dispatch]);
+
+  console.log(items, "items from header");
+
   return (
     <div className="flex lg:items-center lg:flex-row flex-col gap-4">
       {/* CART BUTTON */}
-      <Button variant="outline" size="icon">
-        <ShoppingCart className="h-6 w-6" />
-        <span className="sr-only">user cart</span>
-      </Button>
+      <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => setOpenCartSheet(true)}
+        >
+          <ShoppingCart className="h-6 w-6" />
+          <span className="sr-only">user cart</span>
+        </Button>
+        <UserCartWrapper
+          items={
+            cartData && cartData.items && cartData.items.length > 0
+              ? cartData.items
+              : []
+          }
+        />
+      </Sheet>
       {/* USER DROPDOWN MENU */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>

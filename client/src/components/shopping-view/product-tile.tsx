@@ -18,11 +18,13 @@ interface Product {
 interface ShoppingProductTileProps {
   product: Product;
   handleGetProductDetails: (id: string) => void;
+  handleAddToCart: (id: string) => void;
 }
 
 const ShoppingProductTile = ({
   product,
   handleGetProductDetails,
+  handleAddToCart,
 }: ShoppingProductTileProps) => {
   return (
     <Card className="w-full max-w-sm mx-auto">
@@ -72,10 +74,15 @@ const ShoppingProductTile = ({
           </div>
         </CardContent>
         {/* ADD TO CART BUTTON */}
-        <CardFooter>
-          <Button className="w-full">Add to Cart</Button>
-        </CardFooter>
       </div>
+      <CardFooter>
+        <Button
+          onClick={() => handleAddToCart(product?._id)}
+          className="w-full"
+        >
+          Add to Cart
+        </Button>
+      </CardFooter>
     </Card>
   );
 };
