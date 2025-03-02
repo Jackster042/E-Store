@@ -95,6 +95,7 @@ const AuthRegister = () => {
         setFormData={setFormdata}
         onSubmit={onSubmit}
         buttonText={"Sign Up"}
+        isBtnDisabled={false}
       />
     </div>
   );

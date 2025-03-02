@@ -7,16 +7,8 @@ import {
 import { Button } from "../ui/button";
 import UserCartItemsContainer from "./cart-items-container";
 
-interface CartItem {
-  productId: {
-    _id: string;
-    image: string;
-    title: string;
-    price: number;
-  };
-  quantity: number;
-  _id: string;
-}
+import { CartItem } from "../../types";
+
 const UserCartWrapper = ({ items }: { items: CartItem[] }) => {
   // console.log(items, "items from cart wrapper");
 

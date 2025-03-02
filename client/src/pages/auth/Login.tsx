@@ -96,6 +96,7 @@ const AuthLogin = () => {
         setFormData={setFormdata}
         onSubmit={onSubmit}
         buttonText={"Sign In"}
+        isBtnDisabled={false}
       />
     </div>
   );

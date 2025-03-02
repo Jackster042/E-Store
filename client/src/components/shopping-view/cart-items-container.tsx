@@ -8,18 +8,7 @@ import { removeFromCart, updateQuantity } from "@/store/shop/cart-slice";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { toast } from "@/hooks/use-toast";
-
-interface CartItem {
-  productId: {
-    _id: string;
-    image: string;
-    title: string;
-    price: number;
-    salePrice: number;
-  };
-  quantity: number;
-  _id: string;
-}
+import { CartItem } from "../../types";
 
 const UserCartItemsContainer = ({ items }: { items: CartItem }) => {
   // console.log(item, "item from cart items container");

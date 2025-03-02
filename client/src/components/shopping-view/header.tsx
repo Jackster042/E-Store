@@ -40,7 +40,6 @@ interface CartResponse {
 
 // Config
 import { shoppingViewHeaderMenuItems } from "@/config";
-import UserCartItemsContainer from "./cart-items-container";
 import { useState } from "react";
 import UserCartWrapper from "./cart-wrapper";
 import { getCart } from "@/store/shop/cart-slice";

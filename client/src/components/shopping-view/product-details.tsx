@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { RootState, AppDispatch } from "@/store/store";
 import { toast } from "@/hooks/use-toast";
+import { setProductDetails } from "@/store/shop/product-slice";
 
 interface ProductDetailsDialogProps {
   open: boolean;
@@ -53,8 +54,13 @@ const ProductDetailsDialog = ({
     );
   };
 
+  const handleCloseDialog = () => {
+    dispatch(setProductDetails());
+    setOpen(false);
+  };
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={handleCloseDialog}>
       <DialogTitle>Product Details</DialogTitle>
       <DialogContent className="grid grid-cols-2 gap-8 sm:p-12 max-w-[90vw] sm:max-w-[80vw] lg:max-w-[70vw]">
         <div className="relative overflow-hidden rounded-lg">
