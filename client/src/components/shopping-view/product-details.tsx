@@ -4,6 +4,12 @@ import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Separator } from "../ui/separator";
 import { Input } from "../ui/input";
+import { getCart } from "@/store/shop/cart-slice";
+import { addToCart } from "@/store/shop/cart-slice";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { RootState, AppDispatch } from "@/store/store";
+import { toast } from "@/hooks/use-toast";
 
 interface ProductDetailsDialogProps {
   open: boolean;
@@ -16,6 +22,37 @@ const ProductDetailsDialog = ({
   setOpen,
   productDetails,
 }: ProductDetailsDialogProps) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { user } = useSelector((state: RootState) => state.authStore);
+
+  const handleAddToCart = (id: string) => {
+    // console.log(id, "id from HANDLE ADD TO CART");
+    // console.log(user, "user in handleAddToCart");
+
+    if (!user || !user._id) {
+      console.error("User not logged in or user ID is missing");
+      alert("Please log in to add items to cart");
+      return;
+    }
+
+    dispatch(addToCart({ userId: user._id, productId: id, quantity: 1 })).then(
+      (data) => {
+        if (data?.payload?.success) {
+          dispatch(getCart(user._id));
+          toast({
+            title: "Item added to cart",
+            description: "You can view your cart in the cart page",
+          });
+        } else {
+          toast({
+            title: "Item not added to cart",
+            description: "Please try again",
+          });
+        }
+      }
+    );
+  };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTitle>Product Details</DialogTitle>
@@ -61,7 +98,12 @@ const ProductDetailsDialog = ({
             <span className="text-muted-foreground">(4.5)</span>
           </div>
           <div className="mb-5 mt-5">
-            <Button className="w-full mt-5">Add to Cart</Button>
+            <Button
+              className="w-full mt-5"
+              onClick={() => handleAddToCart(productDetails?._id)}
+            >
+              Add to Cart
+            </Button>
           </div>
           <Separator />
           <div className="max-h-[300px] overflow-auto">

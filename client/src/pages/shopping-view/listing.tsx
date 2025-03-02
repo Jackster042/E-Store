@@ -25,7 +25,7 @@ import { sortOptions } from "@/config";
 import { useSearchParams } from "react-router-dom";
 import ProductDetailsDialog from "@/components/shopping-view/product-details";
 import { addToCart, getCart } from "@/store/shop/cart-slice";
-
+import { useToast } from "@/hooks/use-toast";
 interface Product {
   _id: string;
   image: string;
@@ -66,6 +66,7 @@ const ShoppingListing = () => {
   const [sort, setSort] = useState<string | undefined>(undefined);
   const [searchParams, setSearchParams] = useSearchParams();
   const [open, setOpen] = useState(false);
+  const { toast } = useToast();
 
   const dispatch = useDispatch<AppDispatch>();
   const { products, productDetails } = useSelector(
@@ -123,6 +124,15 @@ const ShoppingListing = () => {
       (data) => {
         if (data?.payload?.success) {
           dispatch(getCart(user._id));
+          toast({
+            title: "Item added to cart",
+            description: "You can view your cart in the cart page",
+          });
+        } else {
+          toast({
+            title: "Item not added to cart",
+            description: "Please try again",
+          });
         }
       }
     );

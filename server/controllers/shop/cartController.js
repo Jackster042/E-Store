@@ -182,7 +182,8 @@ exports.updateQuantity = async (req, res, next) => {
 
 exports.removeFromCart = async (req, res, next) => {
   try {
-    const { userId, productId } = req.body;
+    const { userId, productId } = req.params;
+    console.log(userId, productId, "userId and productId");
     if (!userId || !productId) {
       return res.status(400).json({
         success: false,
@@ -202,6 +203,11 @@ exports.removeFromCart = async (req, res, next) => {
       (item) => item.productId.toString() !== productId
     );
     await cart.save();
+
+    await cart.populate({
+      path: "items.productId",
+      select: "image title price",
+    });
 
     const populateCartItems = cart.items.map((item) => ({
       productId: item.productId ? item.productId._id : null,

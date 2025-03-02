@@ -7,7 +7,6 @@ import {
 import { Button } from "../ui/button";
 import UserCartItemsContainer from "./cart-items-container";
 
-// Updated interface to match the structure from MongoDB
 interface CartItem {
   productId: {
     _id: string;
@@ -18,9 +17,22 @@ interface CartItem {
   quantity: number;
   _id: string;
 }
-
 const UserCartWrapper = ({ items }: { items: CartItem[] }) => {
-  console.log(items, "items from cart wrapper");
+  // console.log(items, "items from cart wrapper");
+
+  const totalCartAmount =
+    items && items.length > 0
+      ? items.reduce(
+          (acc, item) =>
+            acc +
+            (item?.salePrice && item?.salePrice > 0
+              ? item?.salePrice
+              : item?.price) *
+              item?.quantity,
+          0
+        )
+      : null;
+
   return (
     <SheetContent>
       <SheetHeader>
@@ -30,7 +42,7 @@ const UserCartWrapper = ({ items }: { items: CartItem[] }) => {
         {/* RENDER ITEMS */}
         {items && items.length > 0
           ? items.map((item) => (
-              <UserCartItemsContainer key={item._id} item={item} />
+              <UserCartItemsContainer key={item._id} items={item} />
             ))
           : "No items in cart"}
       </div>
@@ -38,7 +50,9 @@ const UserCartWrapper = ({ items }: { items: CartItem[] }) => {
         {/* RENDER TOTAL */}
         <div className="flex justify-between">
           <span className="font-bold">Total</span>
-          <span className="font-bold">$1000</span>
+          <span className="font-bold">
+            ${(totalCartAmount || 0).toFixed(2)}
+          </span>
         </div>
         <Button className="w-full mt-6">Checkout</Button>
       </div>
