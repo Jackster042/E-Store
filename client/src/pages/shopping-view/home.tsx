@@ -6,11 +6,89 @@ import image3 from "../../assets/banner-2.webp";
 import image4 from "../../assets/banner-3.webp";
 
 import { Button } from "@/components/ui/button";
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ShirtIcon,
+  Shirt,
+  CloudLightning,
+  BabyIcon,
+  WatchIcon,
+  UmbrellaIcon,
+} from "lucide-react";
+
+import { Card, CardContent } from "@/components/ui/card";
+import { useEffect, useState } from "react";
+import { AppDispatch, RootState } from "@/store/store";
+
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getFilteredProducts,
+  setProductDetails,
+} from "@/store/shop/product-slice";
+import ShoppingProductTile from "@/components/shopping-view/product-tile";
+import { addToCart } from "@/store/shop/cart-slice";
+import { toast } from "@/hooks/use-toast";
+
+interface Category {
+  id: string;
+  label: string;
+  icon: React.ElementType;
+}
+
+interface Product {
+  _id: string;
+  image: string;
+  title: string;
+  description: string;
+  price: number;
+}
+// interface ShoppingProductTileProps {
+//   product: Product;
+//   handleGetProductDetails: (id: string) => void;
+//   handleAddToCart: (id: string) => void;
+// }
 
 const images = [image1, image2, image3, image4];
 
+const categories: Category[] = [
+  { id: "men", label: "Men", icon: ShirtIcon },
+  { id: "women", label: "Women", icon: CloudLightning },
+  { id: "kids", label: "Kids", icon: BabyIcon },
+  { id: "accessories", label: "Accessories", icon: WatchIcon },
+  { id: "footwear", label: "Footwear", icon: UmbrellaIcon },
+];
+
 const ShoppingHome = () => {
+  // SLIDER STATE
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const { products } = useSelector(
+    (state: RootState) => state.shopProductStore
+  );
+  const dispatch = useDispatch<AppDispatch>();
+
+  // TODO: ADD ON HOVER STOP SLIDE
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prevSlide) => (prevSlide + 1) % images.length);
+    }, 4000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  // TODO: BUG WITH RERENDERING WHEN SLIDES CHANGE
+  useEffect(() => {
+    dispatch(
+      getFilteredProducts({
+        filterParams: {},
+        sortParams: "price-lowtohigh",
+      })
+    );
+  }, []);
+
+  console.log(products, "products");
+
   return (
     <div className="flex flex-col  min-h-screen">
       <div className="relative w-full h-[600px] overflow-hidden">
@@ -19,10 +97,18 @@ const ShoppingHome = () => {
             key={index}
             src={image}
             alt={`Home Image ${index + 1}`}
-            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000"
+            // onMouseEnter={() => setIsHovered(true)}
+            className={`${
+              index === currentSlide ? "opacity-100" : "opacity-0"
+            } absolute inset-0 w-full h-full object-cover transition-opacity duration-1000`}
           />
         ))}
         <Button
+          onClick={() =>
+            setCurrentSlide(
+              (prevSlide) => (prevSlide - 1 + images.length) % images.length
+            )
+          }
           variant="outline"
           className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/80"
           size="icon"
@@ -30,6 +116,9 @@ const ShoppingHome = () => {
           <ChevronLeftIcon className="w-4 h-4" />
         </Button>
         <Button
+          onClick={() =>
+            setCurrentSlide((prevSlide) => (prevSlide + 1) % images.length)
+          }
           variant="outline"
           className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/80"
           size="icon"
@@ -43,6 +132,42 @@ const ShoppingHome = () => {
           <h2 className="text-3xl font-bold text-center mb-8">
             Shop by category
           </h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {categories.map((categoryItem) => (
+              <Card className="cursor-pointer hover:shadow-lg transition-shadow">
+                <CardContent className="flex flex-col items-center justify-center p-6">
+                  <categoryItem.icon className="w-10 h-10 mb-4 text-primary" />
+                  <span className="text-sm font-bold">
+                    {categoryItem.label}
+                  </span>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+      {/* PRODUCTS SECTION */}
+
+      <section className="py-12">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-8">
+            Featured Products
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {products && products.length > 0 ? (
+            products.map((productItem) => (
+              <ShoppingProductTile
+                product={productItem}
+                handleGetProductDetails={() => {}}
+                handleAddToCart={() => {}}
+              />
+            ))
+          ) : (
+            <div>
+              <p>No products found</p>
+            </div>
+          )}
         </div>
       </section>
     </div>
