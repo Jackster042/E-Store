@@ -10,11 +10,16 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   ShirtIcon,
-  Shirt,
   CloudLightning,
   BabyIcon,
   WatchIcon,
   UmbrellaIcon,
+  Bitcoin,
+  Blend,
+  Blinds,
+  Bone,
+  Bolt,
+  Cherry,
 } from "lucide-react";
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -24,11 +29,14 @@ import { AppDispatch, RootState } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getFilteredProducts,
-  setProductDetails,
+  getProductDetails,
 } from "@/store/shop/product-slice";
 import ShoppingProductTile from "@/components/shopping-view/product-tile";
-import { addToCart } from "@/store/shop/cart-slice";
-import { toast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
+import { addToCart, getCart } from "@/store/shop/cart-slice";
+import { useToast } from "@/hooks/use-toast";
+import ProductDetailsDialog from "@/components/shopping-view/product-details";
+// ICONS
 
 interface Category {
   id: string;
@@ -36,18 +44,11 @@ interface Category {
   icon: React.ElementType;
 }
 
-interface Product {
-  _id: string;
-  image: string;
-  title: string;
-  description: string;
-  price: number;
+interface Brand {
+  id: string;
+  label: string;
+  icon: React.ElementType;
 }
-// interface ShoppingProductTileProps {
-//   product: Product;
-//   handleGetProductDetails: (id: string) => void;
-//   handleAddToCart: (id: string) => void;
-// }
 
 const images = [image1, image2, image3, image4];
 
@@ -59,14 +60,73 @@ const categories: Category[] = [
   { id: "footwear", label: "Footwear", icon: UmbrellaIcon },
 ];
 
+const brand: Brand[] = [
+  { id: "nike", label: "Nike", icon: Bitcoin },
+  { id: "adidas", label: "Adidas", icon: Blend },
+  { id: "puma", label: "Puma", icon: Blinds },
+  { id: "levi", label: "Levi's", icon: Bone },
+  { id: "zara", label: "Zara", icon: Bolt },
+  { id: "h&m", label: "H&M", icon: Cherry },
+];
+
 const ShoppingHome = () => {
   // SLIDER STATE
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [open, setOpen] = useState(false);
 
-  const { products } = useSelector(
+  // STORE
+  const { products, productDetails } = useSelector(
     (state: RootState) => state.shopProductStore
   );
+  const { user } = useSelector((state: RootState) => state.authStore);
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleNavigateToListingPage = (
+    getCurrentItem: Category | Brand,
+    section: "category" | "brand"
+  ) => {
+    sessionStorage.removeItem("filters");
+    const filteredItems = {
+      [section]: [getCurrentItem.id],
+    };
+    sessionStorage.setItem("filters", JSON.stringify(filteredItems));
+    navigate(`/shop/listing`);
+  };
+
+  const handleGetProductDetails = (id: string) => {
+    console.log(id, "id");
+    dispatch(getProductDetails(id));
+  };
+
+  const handleAddToCart = (id: string) => {
+    // console.log(id, "id from HANDLE ADD TO CART");
+    // console.log(user, "user in handleAddToCart");
+
+    if (!user || !user._id) {
+      console.error("User not logged in or user ID is missing");
+      alert("Please log in to add items to cart");
+      return;
+    }
+
+    dispatch(addToCart({ userId: user._id, productId: id, quantity: 1 })).then(
+      (data) => {
+        if (data?.payload?.success) {
+          dispatch(getCart(user._id));
+          toast({
+            title: "Item added to cart",
+            description: "You can view your cart in the cart page",
+          });
+        } else {
+          toast({
+            title: "Item not added to cart",
+            description: "Please try again",
+          });
+        }
+      }
+    );
+  };
 
   // TODO: ADD ON HOVER STOP SLIDE
   useEffect(() => {
@@ -86,6 +146,12 @@ const ShoppingHome = () => {
       })
     );
   }, []);
+
+  useEffect(() => {
+    if (productDetails) {
+      setOpen(true);
+    }
+  }, [productDetails]);
 
   console.log(products, "products");
 
@@ -130,16 +196,40 @@ const ShoppingHome = () => {
       <section className="py-12 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8">
-            Shop by category
+            Shop by Category
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {categories.map((categoryItem) => (
-              <Card className="cursor-pointer hover:shadow-lg transition-shadow">
+              <Card
+                className="cursor-pointer hover:shadow-lg transition-shadow"
+                onClick={() =>
+                  handleNavigateToListingPage(categoryItem, "category")
+                }
+              >
                 <CardContent className="flex flex-col items-center justify-center p-6">
                   <categoryItem.icon className="w-10 h-10 mb-4 text-primary" />
                   <span className="text-sm font-bold">
                     {categoryItem.label}
                   </span>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+      {/* BRANDS SECTION */}
+      <section className="py-12 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-8">Shop by Brand</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {brand.map((brandItem) => (
+              <Card
+                className="cursor-pointer hover:shadow-lg transition-shadow"
+                onClick={() => handleNavigateToListingPage(brandItem, "brand")}
+              >
+                <CardContent className="flex flex-col items-center justify-center p-6">
+                  <brandItem.icon className="w-10 h-10 mb-4 text-primary" />
+                  <span className="text-sm font-bold">{brandItem.label}</span>
                 </CardContent>
               </Card>
             ))}
@@ -159,8 +249,8 @@ const ShoppingHome = () => {
             products.map((productItem) => (
               <ShoppingProductTile
                 product={productItem}
-                handleGetProductDetails={() => {}}
-                handleAddToCart={() => {}}
+                handleGetProductDetails={handleGetProductDetails}
+                handleAddToCart={handleAddToCart}
               />
             ))
           ) : (
@@ -170,6 +260,11 @@ const ShoppingHome = () => {
           )}
         </div>
       </section>
+      <ProductDetailsDialog
+        open={open}
+        setOpen={setOpen}
+        productDetails={productDetails}
+      />
     </div>
   );
 };

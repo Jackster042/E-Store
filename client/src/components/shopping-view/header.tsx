@@ -43,18 +43,35 @@ import { shoppingViewHeaderMenuItems } from "@/config";
 import { useState } from "react";
 import UserCartWrapper from "./cart-wrapper";
 import { getCart } from "@/store/shop/cart-slice";
+import { Label } from "../ui/label";
 
+// TODO: BUG WHEN CLICK ON MENU ITEMS ONE AFTER ANOTHER THE FILTER DOESN'T APPLY
 const MenuItems = () => {
+  const navigate = useNavigate();
+
+  const handleNavigate = (getCurrentMenuItem: any) => {
+    sessionStorage.removeItem("filters");
+    const currentFilter =
+      getCurrentMenuItem.id !== "home"
+        ? {
+            category: [getCurrentMenuItem.id],
+          }
+        : null;
+    sessionStorage.setItem("filters", JSON.stringify(currentFilter));
+    navigate(getCurrentMenuItem.path);
+  };
+
   return (
     <nav className="flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row">
       {shoppingViewHeaderMenuItems.map((menuItem) => (
-        <Link
-          to={menuItem.path}
+        <Label
+          // to={menuItem.path}
+          onClick={() => handleNavigate(menuItem)}
           key={menuItem.id}
           className="text-sm font-medium text-muted-foreground hover:text-foreground"
         >
           <span>{menuItem.label}</span>
-        </Link>
+        </Label>
       ))}
     </nav>
   );
