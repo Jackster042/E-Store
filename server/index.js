@@ -9,6 +9,7 @@ const authRoutes = require("./routes/auth/auth-routes");
 const adminRoutes = require("./routes/admin/productRoutes");
 const shopRoutes = require("./routes/shop/productRoutes");
 const cartRoutes = require("./routes/cart/cartRoutes");
+// const addressRoutes = require("./routes/address/addressRoutes");
 
 // MIDDLEWARES
 app.use(
@@ -43,6 +44,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/admin/products", adminRoutes);
 app.use("/api/shop/products", shopRoutes);
 app.use("/api/shop/cart", cartRoutes);
+// app.use("/api/shop/address", addressRoutes);
 
 // 404 HANDLER
 app.use("*", (req, res, next) => {
