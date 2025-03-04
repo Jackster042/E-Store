@@ -1,3 +1,5 @@
+const AddressModel = require("../../models/AddressModel");
+
 exports.addAddress = async (req, res, next) => {
   try {
     const { userId, address, city, pincode, notes, phone } = req.body;
@@ -20,7 +22,7 @@ exports.addAddress = async (req, res, next) => {
 
     await newAddress.save();
 
-    return res.status(200).json({
+    return res.status(201).json({
       success: true,
       message: "Address added successfully",
       data: newAddress,
@@ -47,7 +49,7 @@ exports.fetchAllAddress = async (req, res, next) => {
       "addressList from fetchAllAddress controller BACKEND"
     );
 
-    return res.status(200).json({
+    return res.status(201).json({
       success: true,
       message: "All addresses fetched successfully",
       data: addressList,
@@ -86,7 +88,7 @@ exports.editAddress = async (req, res, next) => {
         .status(404)
         .json({ success: false, message: "Address not found" });
 
-    return res.status(200).json({
+    return res.status(201).json({
       success: true,
       message: "Address updated successfully",
       data: updatedAddress,
@@ -119,7 +121,7 @@ exports.deleteAddress = async (req, res, next) => {
         .status(404)
         .json({ success: false, message: "Address not found" });
 
-    return res.status(200).json({
+    return res.status(201).json({
       success: true,
       message: "Address deleted successfully",
     });

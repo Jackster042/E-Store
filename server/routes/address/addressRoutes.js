@@ -5,7 +5,7 @@ const router = Router();
 
 router.post("/add", addressController.addAddress);
 router.get("/get/:userId", addressController.fetchAllAddress);
-router.put("/update/:userId/:addressId", addressController.updateAddress);
+router.put("/update/:userId/:addressId", addressController.editAddress);
 router.delete("/delete/:userId/:addressId", addressController.deleteAddress);
 
 module.exports = router;
