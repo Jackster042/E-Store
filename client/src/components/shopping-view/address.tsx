@@ -49,27 +49,55 @@ const Address = () => {
   const handleManageAddress = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(formData);
-    dispatch(
-      addAddress({
-        ...formData,
-        userId: user?._id,
-      })
-    ).then((data) => {
-      console.log(data);
-      if (data?.payload?.success === true) {
-        dispatch(fetchAllData(user?._id));
-        setFormData(initialFormdata);
-        toast({
-          title: "Address added successfully",
-          description: "Address added successfully",
+
+    if (addressList.length >= 3 && currentEditedId === null) {
+      setFormData(initialFormdata);
+      toast({
+        title: "You can only have 3 addresses",
+        description: "You can only have 3 addresses",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    currentEditedId !== null
+      ? dispatch(
+          editAddress({
+            userId: user?._id,
+            addressId: currentEditedId,
+            formData: formData,
+          })
+        ).then((data) => {
+          console.log(data);
+          dispatch(fetchAllData(user?._id));
+          setFormData(initialFormdata);
+          setCurrentEditedId(null);
+          toast({
+            title: "Address updated successfully",
+            description: "Address updated successfully",
+          });
+        })
+      : dispatch(
+          addAddress({
+            ...formData,
+            userId: user?._id,
+          })
+        ).then((data) => {
+          console.log(data);
+          if (data?.payload?.success === true) {
+            dispatch(fetchAllData(user?._id));
+            setFormData(initialFormdata);
+            toast({
+              title: "Address added successfully",
+              description: "Address added successfully",
+            });
+          } else {
+            toast({
+              title: "Address not added",
+              description: "Address not added",
+            });
+          }
         });
-      } else {
-        toast({
-          title: "Address not added",
-          description: "Address not added",
-        });
-      }
-    });
   };
 
   function isFormValid() {
@@ -136,7 +164,9 @@ const Address = () => {
           : "No address found"}
       </div>
       <CardHeader>
-        <CardTitle>Add new address</CardTitle>
+        <CardTitle>
+          {currentEditedId !== null ? "Edit Address" : "Add New Address"}
+        </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
         <CommonForm
@@ -145,7 +175,7 @@ const Address = () => {
           setFormData={setFormData}
           onSubmit={handleManageAddress}
           isBtnDisabled={!isFormValid()}
-          buttonText="Add Address"
+          buttonText={currentEditedId !== null ? "Edit Address" : "Add Address"}
         />
       </CardContent>
     </Card>
