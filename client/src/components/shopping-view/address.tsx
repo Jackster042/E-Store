@@ -1,9 +1,19 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
+import { RootState, AppDispatch } from "@/store/store";
 
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
 import CommonForm from "../common/form";
 import { addressFormControls } from "@/config";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  addAddress,
+  deleteAddress,
+  editAddress,
+  fetchAllData,
+} from "@/store/shop/address-slice";
+import { toast } from "@/hooks/use-toast";
+import AddressCard from "./address-card";
 
 interface FormControl {
   label: string;
@@ -28,11 +38,38 @@ const initialFormdata: FormData = {
   notes: "",
 };
 const Address = () => {
-  const [formData, setFormDate] = useState<FormData>(initialFormdata);
+  const [formData, setFormData] = useState<FormData>(initialFormdata);
+  const [currentEditedId, setCurrentEditedId] = useState<string | null>(null);
+
+  const { user } = useSelector((state: RootState) => state.authStore);
+  const { addressList } = useSelector((state: RootState) => state.addressStore);
+  // console.log(user, "user in address");
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleManageAddress = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(formData);
+    dispatch(
+      addAddress({
+        ...formData,
+        userId: user?._id,
+      })
+    ).then((data) => {
+      console.log(data);
+      if (data?.payload?.success === true) {
+        dispatch(fetchAllData(user?._id));
+        setFormData(initialFormdata);
+        toast({
+          title: "Address added successfully",
+          description: "Address added successfully",
+        });
+      } else {
+        toast({
+          title: "Address not added",
+          description: "Address not added",
+        });
+      }
+    });
   };
 
   function isFormValid() {
@@ -46,9 +83,58 @@ const Address = () => {
     return isValid;
   }
 
+  const handleEdit = (id: string) => {
+    console.log(id, "id in handleEdit");
+    setCurrentEditedId(id);
+    setFormData(addressList.find((item) => item._id === id));
+  };
+
+  const handleDelete = (id: string) => {
+    console.log(id, "id in handleDelete");
+    dispatch(
+      deleteAddress({
+        userId: user?._id,
+        addressId: id,
+      })
+    ).then((data) => {
+      console.log(data);
+      if (data?.payload?.success === true) {
+        dispatch(fetchAllData(user?._id));
+        toast({
+          title: "Address deleted successfully",
+          description: "Address deleted successfully",
+        });
+      } else {
+        toast({
+          title: "Address not deleted",
+          description: "Address not deleted",
+        });
+      }
+    });
+  };
+
+  useEffect(() => {
+    dispatch(fetchAllData(user?._id));
+  }, [dispatch, user?._id]);
+
+  console.log(addressList, "addressList in address");
+
   return (
     <Card>
-      <div>Address</div>
+      <div className="mb-5 p-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+        {addressList && addressList.length > 0
+          ? addressList.map((singleAddressItem) => (
+              <AddressCard
+                key={singleAddressItem._id}
+                addressInfo={singleAddressItem}
+                handleDelete={handleDelete}
+                handleEdit={handleEdit}
+                // setCurrentEditedId={setCurrentEditedId}
+                // setFormData={setFormData}
+              />
+            ))
+          : "No address found"}
+      </div>
       <CardHeader>
         <CardTitle>Add new address</CardTitle>
       </CardHeader>
@@ -56,7 +142,7 @@ const Address = () => {
         <CommonForm
           formControls={addressFormControls as FormControl[]}
           formData={formData}
-          setFormData={setFormDate}
+          setFormData={setFormData}
           onSubmit={handleManageAddress}
           isBtnDisabled={!isFormValid()}
           buttonText="Add Address"

@@ -145,11 +145,11 @@ const addressSlice = createSlice({
     builder.addCase(addAddress.fulfilled, (state, action) => {
       console.log(action.payload, "action.payload from addAddress FRONTEND");
       state.isLoading = false;
-      state.addressList = action.payload.data;
+      // state.addressList = action.payload.data;
     });
     builder.addCase(addAddress.rejected, (state, action) => {
       state.isLoading = false;
-      state.addressList = [];
+      // state.addressList = [];
       state.error =
         (action.payload as AuthError)?.message || "An error occurred";
     });
