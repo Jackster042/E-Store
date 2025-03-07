@@ -8,9 +8,18 @@ import { Button } from "../ui/button";
 import UserCartItemsContainer from "./cart-items-container";
 
 import { CartItem } from "../../types";
+import { useNavigate } from "react-router-dom";
 
-const UserCartWrapper = ({ items }: { items: CartItem[] }) => {
+const UserCartWrapper = ({
+  items,
+  setOpenCartSheet,
+}: {
+  items: CartItem[];
+  setOpenCartSheet: (open: boolean) => void;
+}) => {
   // console.log(items, "items from cart wrapper");
+
+  const navigate = useNavigate();
 
   const totalCartAmount =
     items && items.length > 0
@@ -46,7 +55,15 @@ const UserCartWrapper = ({ items }: { items: CartItem[] }) => {
             ${(totalCartAmount || 0).toFixed(2)}
           </span>
         </div>
-        <Button className="w-full mt-6">Checkout</Button>
+        <Button
+          className="w-full mt-6"
+          onClick={() => {
+            setOpenCartSheet(false);
+            navigate("/shop/checkout");
+          }}
+        >
+          Checkout
+        </Button>
       </div>
     </SheetContent>
   );

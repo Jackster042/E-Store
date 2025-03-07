@@ -113,6 +113,7 @@ const HeaderRightContent = () => {
           <span className="sr-only">user cart</span>
         </Button>
         <UserCartWrapper
+          setOpenCartSheet={setOpenCartSheet}
           items={
             cartData && cartData.items && cartData.items.length > 0
               ? cartData.items
