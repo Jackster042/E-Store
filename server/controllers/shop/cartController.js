@@ -57,6 +57,7 @@ exports.addToCart = async (req, res, next) => {
 exports.getCart = async (req, res, next) => {
   try {
     const { userId } = req.params;
+    console.log(userId, "userId from getCart - BACKEND");
 
     if (!userId) {
       return res.status(400).json({

@@ -63,13 +63,13 @@ const Address = () => {
     currentEditedId !== null
       ? dispatch(
           editAddress({
-            userId: user?._id,
+            userId: user?.id,
             addressId: currentEditedId,
             formData: formData,
           })
         ).then((data) => {
           console.log(data);
-          dispatch(fetchAllData(user?._id));
+          dispatch(fetchAllData(user?.id));
           setFormData(initialFormdata);
           setCurrentEditedId(null);
           toast({
@@ -85,7 +85,7 @@ const Address = () => {
         ).then((data) => {
           console.log(data);
           if (data?.payload?.success === true) {
-            dispatch(fetchAllData(user?._id));
+            dispatch(fetchAllData(user?.id));
             setFormData(initialFormdata);
             toast({
               title: "Address added successfully",
@@ -99,17 +99,6 @@ const Address = () => {
           }
         });
   };
-
-  function isFormValid() {
-    console.log("Form Data:", formData);
-    const isValid = Object.keys(formData).every((key) => {
-      const value = formData[key as keyof FormData];
-      console.log(`Field ${key}:`, value);
-      return value !== null && value !== "";
-    });
-    console.log("Is Valid:", isValid);
-    return isValid;
-  }
 
   const handleEdit = (id: string) => {
     console.log(id, "id in handleEdit");
@@ -127,7 +116,7 @@ const Address = () => {
     ).then((data) => {
       console.log(data);
       if (data?.payload?.success === true) {
-        dispatch(fetchAllData(user?._id));
+        dispatch(fetchAllData(user?.id));
         toast({
           title: "Address deleted successfully",
           description: "Address deleted successfully",
@@ -141,11 +130,23 @@ const Address = () => {
     });
   };
 
-  useEffect(() => {
-    dispatch(fetchAllData(user?._id));
-  }, [dispatch, user?._id]);
+  function isFormValid() {
+    console.log("Form Data:", formData);
+    const isValid = Object.keys(formData).every((key) => {
+      const value = formData[key as keyof FormData];
+      console.log(`Field ${key}:`, value);
+      return value !== null && value !== "";
+    });
+    console.log("Is Valid:", isValid);
+    return isValid;
+  }
 
-  console.log(addressList, "addressList in address");
+  useEffect(() => {
+    dispatch(fetchAllData(user.id));
+  }, [dispatch]);
+
+  console.log(user, "user in address");
+  // console.log(addressList, "addressList in address");
 
   return (
     <Card>

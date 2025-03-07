@@ -18,7 +18,7 @@ const UserCartItemsContainer = ({ items }: { items: CartItem }) => {
   const handleCartItemDelete = (item: CartItem) => {
     console.log(user, "user from cart items container DELETE");
     console.log(item, "item from cart items container DELETE");
-    dispatch(removeFromCart({ userId: user?._id, productId: item?.productId }));
+    dispatch(removeFromCart({ userId: user?.id, productId: item?.productId }));
   };
 
   const handleUpdateQuantity = ({
@@ -35,7 +35,7 @@ const UserCartItemsContainer = ({ items }: { items: CartItem }) => {
     // );
     dispatch(
       updateQuantity({
-        userId: user?._id,
+        userId: user?.id,
         productId: items?.productId,
         quantity:
           typeOfAction === "plus" ? items?.quantity + 1 : items?.quantity - 1,

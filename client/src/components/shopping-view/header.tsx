@@ -92,11 +92,13 @@ const HeaderRightContent = () => {
     dispatch(logoutUser());
   };
 
-  useEffect(() => {
-    dispatch(getCart(user?._id));
-  }, [dispatch]);
+  console.log(user, "user from header");
 
-  console.log(items, "items from header");
+  useEffect(() => {
+    dispatch(getCart(user.id));
+  }, [dispatch, user.id]);
+
+  // console.log(items, "items from header");
 
   return (
     <div className="flex lg:items-center lg:flex-row flex-col gap-4">

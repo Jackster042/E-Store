@@ -84,7 +84,7 @@ exports.login = async (req, res, next) => {
         .json({ success: false, message: "Invalid credentials" });
 
     const payload = {
-      _id: user._id,
+      id: user._id,
       role: user.role,
       email: user.email,
       userName: user.userName,
