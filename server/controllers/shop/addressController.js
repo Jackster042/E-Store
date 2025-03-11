@@ -18,7 +18,7 @@ exports.addAddress = async (req, res, next) => {
       notes,
     });
 
-    console.log(newAddress, "newAddress from addAddress controller BACKEND");
+    // console.log(newAddress, "newAddress from addAddress controller BACKEND");
 
     await newAddress.save();
 
@@ -38,7 +38,7 @@ exports.addAddress = async (req, res, next) => {
 exports.fetchAllAddress = async (req, res, next) => {
   try {
     const { userId } = req.params;
-    console.log(userId, "userId from fetchAllAddress controller BACKEND");
+    // console.log(userId, "userId from fetchAllAddress controller BACKEND");
     if (!userId)
       return res
         .status(400)

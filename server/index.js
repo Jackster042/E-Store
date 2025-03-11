@@ -7,8 +7,10 @@ const app = express();
 // ROUTES
 const authRoutes = require("./routes/auth/auth-routes");
 const adminRoutes = require("./routes/admin/productRoutes");
-const shopRoutes = require("./routes/shop/productRoutes");
+
 const cartRoutes = require("./routes/cart/cartRoutes");
+const shopRoutes = require("./routes/shop/productRoutes");
+const orderRoutes = require("./routes/shop/orderRoutes");
 const addressRoutes = require("./routes/address/addressRoutes");
 
 // MIDDLEWARES
@@ -42,9 +44,11 @@ app.get("/", (req, res) => {
 // TODO: ADD ROUTES HERE
 app.use("/api/auth", authRoutes);
 app.use("/api/admin/products", adminRoutes);
+
 app.use("/api/shop/products", shopRoutes);
 app.use("/api/shop/cart", cartRoutes);
 app.use("/api/shop/address", addressRoutes);
+app.use("/api/shop/order", orderRoutes);
 
 // 404 HANDLER
 app.use("*", (req, res, next) => {
