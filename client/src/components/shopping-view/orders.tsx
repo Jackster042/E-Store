@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { Card, CardTitle, CardHeader, CardContent } from "../ui/card";
 import {
   Table,
@@ -10,13 +10,19 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "../ui/button";
+import { Dialog } from "../ui/dialog";
+import ShoppingOrderDetailsView from "./order-details";
 
 const ShoppingOrders = () => {
+  const [openOrderDetails, setOpenOrderDetails] = useState(false);
+
   return (
     <Fragment>
       <Card>
         <CardHeader>
-          <CardTitle>Order History</CardTitle>
+          <CardTitle className="text-2xl font-semibold">
+            Order History
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
@@ -39,7 +45,15 @@ const ShoppingOrders = () => {
                 <TableCell>Paid</TableCell>
                 <TableCell>$250.00</TableCell>
                 <TableCell>
-                  <Button>View Details</Button>
+                  <Dialog
+                    open={openOrderDetails}
+                    onOpenChange={setOpenOrderDetails}
+                  >
+                    <Button onClick={() => setOpenOrderDetails(true)}>
+                      View Details
+                    </Button>
+                    <ShoppingOrderDetailsView />
+                  </Dialog>
                 </TableCell>
               </TableRow>
             </TableBody>
