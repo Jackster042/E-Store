@@ -14,13 +14,22 @@ const AddressCard = ({
   addressInfo,
   handleDelete,
   handleEdit,
+  setCurrentSelectedAddress,
 }: {
   addressInfo: Address;
   handleDelete: (id: string) => void;
   handleEdit: (id: string) => void;
+  setCurrentSelectedAddress: (address: Address) => void;
 }) => {
   return (
-    <Card>
+    <Card
+      onClick={
+        setCurrentSelectedAddress
+          ? () => setCurrentSelectedAddress(addressInfo)
+          : undefined
+      }
+      className="cursor-pointer"
+    >
       <CardContent className="grid gap-4 p-4">
         <Label>Address: {addressInfo.address}</Label>
         <Label>City: {addressInfo.city}</Label>

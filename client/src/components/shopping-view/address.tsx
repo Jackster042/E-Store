@@ -37,7 +37,11 @@ const initialFormdata: FormData = {
   phone: "",
   notes: "",
 };
-const Address = () => {
+const Address = ({
+  setCurrentSelectedAddress,
+}: {
+  setCurrentSelectedAddress: (address: any) => void;
+}) => {
   const [formData, setFormData] = useState<FormData>(initialFormdata);
   const [currentEditedId, setCurrentEditedId] = useState<string | null>(null);
 
@@ -158,8 +162,7 @@ const Address = () => {
                 addressInfo={singleAddressItem}
                 handleDelete={handleDelete}
                 handleEdit={handleEdit}
-                // setCurrentEditedId={setCurrentEditedId}
-                // setFormData={setFormData}
+                setCurrentSelectedAddress={setCurrentSelectedAddress}
               />
             ))
           : "No address found"}

@@ -26,25 +26,25 @@ exports.createOrder = async (req, res) => {
       payerId,
     } = req.body;
 
-    if (
-      !userId ||
-      !cartId ||
-      !cartItems ||
-      !addressInfo ||
-      !orderStatus ||
-      !paymentMethod ||
-      !paymentStatus ||
-      !totalAmount ||
-      !orderDate ||
-      !orderUpdateDate ||
-      !paymentId ||
-      !payerId
-    ) {
-      return res.status(400).json({
-        success: false,
-        message: "Missing required fields",
-      });
-    }
+    // if (
+    //   !userId ||
+    //   !cartId ||
+    //   !cartItems ||
+    //   !addressInfo ||
+    //   !orderStatus ||
+    //   !paymentMethod ||
+    //   !paymentStatus ||
+    //   !totalAmount ||
+    //   !orderDate ||
+    //   !orderUpdateDate ||
+    //   !paymentId ||
+    //   !payerId
+    // ) {
+    //   return res.status(400).json({
+    //     success: false,
+    //     message: "Missing required fields",
+    //   });
+    // }
 
     const create_payment_json = {
       intent: "sale",
@@ -75,7 +75,7 @@ exports.createOrder = async (req, res) => {
       ],
     };
 
-    paypal.payments.create(create_payment_json, async (error, paymentInfo) => {
+    paypal.payment.create(create_payment_json, async (error, paymentInfo) => {
       if (error) {
         console.error(error, "error from CREATE PAYMENT - BACKEND");
         return res.status(500).json({

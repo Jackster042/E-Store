@@ -67,3 +67,4 @@ mongodb.log
 *.swp
 *.swo
 .next
+.qodo
