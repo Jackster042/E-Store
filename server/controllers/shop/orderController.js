@@ -1,5 +1,7 @@
 const paypal = require("../../utils/paypal");
 const OrderModel = require("../../models/OrderModel");
+const ProductModel = require("../../models/ProductModels");
+const CartModel = require("../../models/CartModel");
 
 exports.createOrder = async (req, res) => {
   try {
@@ -52,8 +54,8 @@ exports.createOrder = async (req, res) => {
         payment_method: "paypal",
       },
       redirect_urls: {
-        return_url: "http://localhost:3000/shop/paypal-return",
-        cancel_url: "http://localhost:3000/shop/paypal-cancel",
+        return_url: "http://localhost:5173/shop/paypal-return",
+        cancel_url: "http://localhost:5173/shop/paypal-cancel",
       },
       transactions: [
         {
@@ -125,6 +127,47 @@ exports.createOrder = async (req, res) => {
 
 exports.capturePayment = async (req, res) => {
   try {
+    const { orderId, paymentId, payerId } = req.body;
+
+    const order = await OrderModel.findById(orderId);
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found",
+      });
+    }
+
+    order.paymentId = paymentId;
+    order.payerId = payerId;
+    order.paymentStatus = "completed";
+    order.orderStatus = "completed";
+    orderUpdateDate = new Date();
+
+    // UPDATE STOCK QUANTITY IN THE DATABASE AFTER THE PAYMENT IS CAPTURED
+    for (let item of order.cartItems) {
+      let product = await ProductModel.findById(item.productId);
+
+      if (!product) {
+        return res.status(404).json({
+          success: false,
+          message: `Product not found`,
+        });
+      }
+
+      product.totalStock -= item.quantity;
+      await product.save();
+    }
+
+    const getCartId = order.cartId;
+    await CartModel.findByIdAndDelete(getCartId);
+
+    await order.save();
+
+    return res.json({
+      success: true,
+      message: "Payment captured successfully",
+      data: order,
+    });
   } catch (error) {
     console.error(error, "error from CAPTURE PAYMENT - BACKEND");
     return res.status(500).json({

@@ -19,6 +19,8 @@ import ShoppingListing from "./pages/shopping-view/listing";
 import ShoppingCheckout from "./pages/shopping-view/checkout";
 import ShoppingAccount from "./pages/shopping-view/account";
 import ShoppingHome from "./pages/shopping-view/home";
+import PayPalSuccess from "./pages/shopping-view/paypal-success";
+import PayPalReturn from "./pages/shopping-view/paypal-return";
 
 // NOT FOUND
 import NotFound from "./pages/not-found";
@@ -101,6 +103,8 @@ const App = () => {
         { path: "listing", element: <ShoppingListing /> },
         { path: "checkout", element: <ShoppingCheckout /> },
         { path: "account", element: <ShoppingAccount /> },
+        { path: "paypal-return", element: <PayPalReturn /> },
+        { path: "paypal-success", element: <PayPalSuccess /> },
       ],
     },
     {

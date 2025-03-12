@@ -48,6 +48,39 @@ export const createNewOrder = createAsyncThunk(
   }
 );
 
+// CAPTURE PAYMENT
+export const capturePayment = createAsyncThunk(
+  "order/capturePayment",
+  async (
+    {
+      orderId,
+      paymentId,
+      payerId,
+    }: { orderId: string; paymentId: string; payerId: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await axios.post(`${API_URL}/api/shop/order/capture`, {
+        orderId,
+        paymentId,
+        payerId,
+      });
+      console.log(
+        response.data,
+        "response.data from CAPTURE PAYMENT - FRONTEND"
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error, "error from CAPTURE PAYMENT - FRONTEND");
+      return rejectWithValue({
+        message: (error as AxiosError).message,
+        code: (error as AxiosError).code,
+        response: (error as AxiosError).response?.data,
+      });
+    }
+  }
+);
+
 const orderSlice = createSlice({
   name: "shoppingOrderSlice",
   initialState,
@@ -60,6 +93,10 @@ const orderSlice = createSlice({
       state.loading = false;
       state.approvalURL = action.payload.approvalURL;
       state.orderId = action.payload.orderId;
+      sessionStorage.setItem(
+        "currentOrderId",
+        JSON.stringify(action.payload.orderId)
+      );
     });
     builder.addCase(createNewOrder.rejected, (state, action) => {
       state.loading = false;
