@@ -25,7 +25,7 @@ const ShoppingCheckout = () => {
   const dispatch = useDispatch<AppDispatch>();
   // console.log(items, "items from checkout");
   // console.log(user, "user from checkout");
-  console.log(currentSelectedAddress, "currentSelectedAddress from checkout");
+  // console.log(currentSelectedAddress, "currentSelectedAddress from checkout");
 
   const totalCartAmount =
     items && items.items && items.items.length > 0
@@ -41,6 +41,22 @@ const ShoppingCheckout = () => {
       : null;
 
   const handleInitiatePaypalPayment = () => {
+    if (items.length === 0) {
+      toast({
+        title: "Your cart is empty. Please add items to proceed",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!currentSelectedAddress) {
+      toast({
+        title: "Please select an address to proceed",
+        variant: "destructive",
+      });
+      return;
+    }
+
     const orderData = {
       userId: user.id,
       cartId: items._id,
@@ -104,7 +120,10 @@ const ShoppingCheckout = () => {
         {/* CHECKOUT BODY */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-5 p-5">
           {/* ADDRESS */}
-          <Address setCurrentSelectedAddress={setCurrentSelectedAddress} />
+          <Address
+            selectedId={setCurrentSelectedAddress}
+            setCurrentSelectedAddress={setCurrentSelectedAddress}
+          />
           {/* CART ITEMS */}
           <div className="flex flex-col gap-4">
             {items && items.items && items.items.length > 0 ? (
@@ -131,7 +150,7 @@ const ShoppingCheckout = () => {
               <Button
                 className="w-full mt-6"
                 onClick={handleInitiatePaypalPayment}
-                disabled={!currentSelectedAddress}
+                // disabled={!currentSelectedAddress || !totalCartAmount}
               >
                 Continue to PayPal
               </Button>

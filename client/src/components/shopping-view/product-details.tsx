@@ -30,16 +30,16 @@ const ProductDetailsDialog = ({
     // console.log(id, "id from HANDLE ADD TO CART");
     // console.log(user, "user in handleAddToCart");
 
-    if (!user || !user._id) {
+    if (!user || !user.id) {
       console.error("User not logged in or user ID is missing");
       alert("Please log in to add items to cart");
       return;
     }
 
-    dispatch(addToCart({ userId: user._id, productId: id, quantity: 1 })).then(
+    dispatch(addToCart({ userId: user.id, productId: id, quantity: 1 })).then(
       (data) => {
         if (data?.payload?.success) {
-          dispatch(getCart(user._id));
+          dispatch(getCart(user.id));
           toast({
             title: "Item added to cart",
             description: "You can view your cart in the cart page",

@@ -39,11 +39,14 @@ const initialFormdata: FormData = {
 };
 const Address = ({
   setCurrentSelectedAddress,
+  selectedId,
 }: {
   setCurrentSelectedAddress: (address: any) => void;
+  selectedId: (id: string) => void;
 }) => {
   const [formData, setFormData] = useState<FormData>(initialFormdata);
   const [currentEditedId, setCurrentEditedId] = useState<string | null>(null);
+  const [selectedAddressId, setSelectedAddressId] = useState<string>("");
 
   const { user } = useSelector((state: RootState) => state.authStore);
   const { addressList } = useSelector((state: RootState) => state.addressStore);
@@ -134,6 +137,12 @@ const Address = ({
     });
   };
 
+  const handleSelectAddress = (address: any) => {
+    setSelectedAddressId(address._id);
+    selectedId(address._id);
+    setCurrentSelectedAddress(address);
+  };
+
   function isFormValid() {
     console.log("Form Data:", formData);
     const isValid = Object.keys(formData).every((key) => {
@@ -162,7 +171,8 @@ const Address = ({
                 addressInfo={singleAddressItem}
                 handleDelete={handleDelete}
                 handleEdit={handleEdit}
-                setCurrentSelectedAddress={setCurrentSelectedAddress}
+                selectedId={selectedAddressId}
+                setCurrentSelectedAddress={handleSelectAddress}
               />
             ))
           : "No address found"}
