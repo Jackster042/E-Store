@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { Card, CardTitle, CardHeader, CardContent } from "../ui/card";
 import {
   Table,
@@ -21,7 +21,11 @@ import {
 import ShoppingOrderDetailsView from "./order-details";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
-import { getAllOrdersByUser, getOrderDetails } from "@/store/order-slice";
+import {
+  getAllOrdersByUser,
+  getOrderDetails,
+  resetOrderDetails,
+} from "@/store/order-slice";
 import { Badge } from "../ui/badge";
 
 const ShoppingOrders = () => {
@@ -32,6 +36,7 @@ const ShoppingOrders = () => {
   );
 
   const dispatch = useDispatch<AppDispatch>();
+  // const dialogRef = useRef<HTMLDivElement>(null);
 
   const handleFetchOrderDetails = (getId: string) => {
     dispatch(getOrderDetails(getId));
@@ -83,9 +88,9 @@ const ShoppingOrders = () => {
                       <TableCell>
                         <Badge
                           className={`py-1 px-3 ${
-                            orderItem?.orderStatus === "confirmed"
+                            orderItem?.orderStatus === "completed"
                               ? "bg-green-500"
-                              : orderItem?.orderStatus === "rejected"
+                              : orderItem?.orderStatus === "cancelled"
                               ? "bg-red-600"
                               : "bg-black"
                           }`}
@@ -99,18 +104,16 @@ const ShoppingOrders = () => {
                           open={openOrderDetails}
                           onOpenChange={() => {
                             setOpenOrderDetails(false);
-                            // dispatch(resetOrderDetails());
+                            dispatch(resetOrderDetails());
                           }}
                         >
-                          <DialogTrigger asChild>
-                            <Button
-                              onClick={() =>
-                                handleFetchOrderDetails(orderItem?._id)
-                              }
-                            >
-                              View Details
-                            </Button>
-                          </DialogTrigger>
+                          <Button
+                            onClick={() =>
+                              handleFetchOrderDetails(orderItem?._id)
+                            }
+                          >
+                            View Details
+                          </Button>
 
                           <DialogContent>
                             <DialogTitle>Order Details</DialogTitle>
