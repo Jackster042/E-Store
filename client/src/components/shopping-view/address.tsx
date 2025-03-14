@@ -41,9 +41,9 @@ const Address = ({
   setCurrentSelectedAddress,
   selectedId,
 }: {
-  setCurrentSelectedAddress: (address: any) => void;
-  selectedId: (id: string) => void;
-}) => {
+  setCurrentSelectedAddress?: (address: any) => void;
+  selectedId?: (id: string) => void;
+} = {}) => {
   const [formData, setFormData] = useState<FormData>(initialFormdata);
   const [currentEditedId, setCurrentEditedId] = useState<string | null>(null);
   const [selectedAddressId, setSelectedAddressId] = useState<string>("");
@@ -139,8 +139,8 @@ const Address = ({
 
   const handleSelectAddress = (address: any) => {
     setSelectedAddressId(address._id);
-    selectedId(address._id);
-    setCurrentSelectedAddress(address);
+    if (selectedId) selectedId(address._id);
+    if (setCurrentSelectedAddress) setCurrentSelectedAddress(address);
   };
 
   function isFormValid() {

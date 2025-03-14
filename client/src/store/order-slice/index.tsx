@@ -10,6 +10,8 @@ interface AuthError {
 interface OrderState {
   approvalURL: string | null;
   orderId: any[] | null;
+  orderList: any[] | null;
+  orderDetails: any | null;
   loading: boolean;
   error: string | null;
 }
@@ -17,6 +19,8 @@ interface OrderState {
 const initialState: OrderState = {
   approvalURL: null,
   orderId: null,
+  orderList: [],
+  orderDetails: null,
   loading: false,
   error: null,
 };
@@ -81,11 +85,58 @@ export const capturePayment = createAsyncThunk(
   }
 );
 
+export const getAllOrdersByUser = createAsyncThunk(
+  "order/getAllOrdersByUser",
+  async (userId: string, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${API_URL}/api/shop/order/list/${userId}`
+      );
+      console.log(
+        response.data,
+        "response.data from GET ALL ORDERS BY USER - FRONTEND"
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error, "error from GET ALL ORDERS BY USER - FRONTEND");
+      return rejectWithValue({
+        message: (error as AxiosError).message,
+        code: (error as AxiosError).code,
+        response: (error as AxiosError).response?.data,
+      });
+    }
+  }
+);
+
+export const getOrderDetails = createAsyncThunk(
+  "order/getOrderDetails",
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${API_URL}/api/shop/order/details/${id}`
+      );
+      console.log(
+        response.data,
+        "response.data from GET ORDER DETAILS - FRONTEND"
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error, "error from GET ORDER DETAILS - FRONTEND");
+      return rejectWithValue({
+        message: (error as AxiosError).message,
+        code: (error as AxiosError).code,
+        response: (error as AxiosError).response?.data,
+      });
+    }
+  }
+);
+
 const orderSlice = createSlice({
   name: "shoppingOrderSlice",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    // CREATE NEW ORDER
     builder.addCase(createNewOrder.pending, (state, action) => {
       state.loading = true;
     });
@@ -102,6 +153,34 @@ const orderSlice = createSlice({
       state.loading = false;
       state.approvalURL = null;
       state.orderId = null;
+      state.error =
+        (action.payload as AuthError)?.message || "An error occurred";
+    });
+    // GET ALL ORDERS BY USER
+    builder.addCase(getAllOrdersByUser.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(getAllOrdersByUser.fulfilled, (state, action) => {
+      state.loading = false;
+      state.orderList = action.payload.data;
+    });
+    builder.addCase(getAllOrdersByUser.rejected, (state, action) => {
+      state.loading = false;
+      state.orderList = [];
+      state.error =
+        (action.payload as AuthError)?.message || "An error occurred";
+    });
+    // GET ORDER DETAILS
+    builder.addCase(getOrderDetails.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(getOrderDetails.fulfilled, (state, action) => {
+      state.loading = false;
+      state.orderDetails = action.payload.data;
+    });
+    builder.addCase(getOrderDetails.rejected, (state, action) => {
+      state.loading = false;
+      state.orderDetails = null;
       state.error =
         (action.payload as AuthError)?.message || "An error occurred";
     });

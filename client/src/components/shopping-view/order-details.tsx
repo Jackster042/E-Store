@@ -2,26 +2,27 @@ import { Label } from "@radix-ui/react-label";
 import { Separator } from "@/components/ui/separator";
 import { DialogContent } from "@/components/ui/dialog";
 
-const ShoppingOrderDetailsView = () => {
+const ShoppingOrderDetailsView = ({ orderDetails }: { orderDetails: any }) => {
+  console.log(orderDetails, "orderDetails");
   return (
     <DialogContent className="sm:max-w-[600px]">
       <div className="grid gap-6 p-2">
         <div className="grid gap-2">
           <div className="flex mt-6 items-center justify-between">
             <p className="font-medium">Order ID</p>
-            <Label>INV001</Label>
+            <Label>{orderDetails?._id}</Label>
           </div>
           <div className="flex mt-6 items-center justify-between">
             <p className="font-medium">Order Date</p>
-            <Label>12/04/2024</Label>
+            <Label>{orderDetails?.orderDate}</Label>
           </div>
           <div className="flex mt-6 items-center justify-between">
             <p className="font-medium">Order Status</p>
-            <Label>Paid</Label>
+            <Label>{orderDetails?.orderStatus}</Label>
           </div>
           <div className="flex mt-6 items-center justify-between">
             <p className="font-medium">Order Price</p>
-            <Label>$250.00</Label>
+            <Label>{orderDetails?.totalAmount}</Label>
           </div>
         </div>
         <Separator />
@@ -40,12 +41,12 @@ const ShoppingOrderDetailsView = () => {
           <div className="grid gap-2">
             <div className="font-medium">Shipping Details</div>
             <div className="grid gap-0.5 text-sm text-muted-foreground">
-              <span>Address: John Doe</span>
-              <span>Address: 123 Main St, Anytown, USA</span>
-              <span>City: Anytown, USA</span>
-              <span>Pincode: 1234567890</span>
-              <span>Phone: 1234567890</span>
-              <span>Notes: This is a note</span>
+              <span>Address: {orderDetails?.shippingAddress?.address}</span>
+              <span>Address: {orderDetails?.shippingAddress?.city}</span>
+              <span>City: {orderDetails?.shippingAddress?.state}</span>
+              <span>Pincode: {orderDetails?.shippingAddress?.zipCode}</span>
+              <span>Phone: {orderDetails?.shippingAddress?.phone}</span>
+              <span>Notes: {orderDetails?.shippingAddress?.notes}</span>
             </div>
           </div>
         </div>

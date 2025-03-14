@@ -177,3 +177,54 @@ exports.capturePayment = async (req, res) => {
     });
   }
 };
+
+exports.getAllOrdersByUser = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const orders = await OrderModel.find({ userId });
+    console.log(orders, "orders from GET ALL ORDERS BY USER - BACKEND");
+    if (!orders.length) {
+      return res.status(404).json({
+        success: false,
+        message: "No orders found",
+      });
+    }
+    return res.json({
+      success: true,
+      message: "Orders fetched successfully",
+      data: orders,
+    });
+  } catch (error) {
+    console.error(error, "error from GET ALL ORDERS BY USER - BACKEND");
+    return res.status(500).json({
+      success: false,
+      message: "Error from GET ALL ORDERS BY USER - BACKEND",
+      error: error.message,
+    });
+  }
+};
+
+exports.getOrderDetails = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const order = await OrderModel.findById(id);
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found",
+      });
+    }
+    return res.json({
+      success: true,
+      message: "Order details fetched successfully",
+      data: order,
+    });
+  } catch (error) {
+    console.error(error, "error from GET ALL ORDERS BY USER - BACKEND");
+    return res.status(500).json({
+      success: false,
+      message: "Error from GET ALL ORDERS BY USER - BACKEND",
+      error: error.message,
+    });
+  }
+};
