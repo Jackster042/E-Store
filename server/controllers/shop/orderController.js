@@ -139,7 +139,7 @@ exports.capturePayment = async (req, res) => {
 
     order.paymentId = paymentId;
     order.payerId = payerId;
-    order.paymentStatus = "completed";
+    order.paymentStatus = "paid";
     order.orderStatus = "completed";
     orderUpdateDate = new Date();
 
