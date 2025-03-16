@@ -7,6 +7,7 @@ const app = express();
 // ROUTES
 const authRoutes = require("./routes/auth/auth-routes");
 const adminRoutes = require("./routes/admin/productRoutes");
+const adminOrderRoutes = require("./routes/admin/orderRoutes");
 
 const cartRoutes = require("./routes/cart/cartRoutes");
 const shopRoutes = require("./routes/shop/productRoutes");
@@ -44,6 +45,7 @@ app.get("/", (req, res) => {
 // TODO: ADD ROUTES HERE
 app.use("/api/auth", authRoutes);
 app.use("/api/admin/products", adminRoutes);
+app.use("/api/admin/orders", adminRoutes);
 
 app.use("/api/shop/products", shopRoutes);
 app.use("/api/shop/cart", cartRoutes);
