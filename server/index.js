@@ -45,7 +45,7 @@ app.get("/", (req, res) => {
 // TODO: ADD ROUTES HERE
 app.use("/api/auth", authRoutes);
 app.use("/api/admin/products", adminRoutes);
-app.use("/api/admin/orders", adminRoutes);
+app.use("/api/admin/orders", adminOrderRoutes);
 
 app.use("/api/shop/products", shopRoutes);
 app.use("/api/shop/cart", cartRoutes);
