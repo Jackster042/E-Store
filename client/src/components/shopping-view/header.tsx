@@ -1,5 +1,10 @@
 // React
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import { useEffect } from "react";
 
 // Icons
@@ -48,25 +53,38 @@ import { Label } from "../ui/label";
 // TODO: BUG WHEN CLICK ON MENU ITEMS ONE AFTER ANOTHER THE FILTER DOESN'T APPLY
 const MenuItems = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const handleNavigate = (getCurrentMenuItem: any) => {
+  function handleNavigate(getCurrentMenuItem: any) {
     sessionStorage.removeItem("filters");
     const currentFilter =
-      getCurrentMenuItem.id !== "home"
+      getCurrentMenuItem.id !== "home" &&
+      getCurrentMenuItem.id !== "products" &&
+      getCurrentMenuItem.id !== "search"
         ? {
             category: [getCurrentMenuItem.id],
           }
-        : null;
+        : ""; // TODO: CHECK REASON FOR NULL NOT WORKING
+
+    console.log(currentFilter, "currentFilter from HEADER MENU ITEMS");
+
     sessionStorage.setItem("filters", JSON.stringify(currentFilter));
-    navigate(getCurrentMenuItem.path);
-  };
+
+    location.pathname.includes("listing") && currentFilter !== null
+      ? setSearchParams(
+          new URLSearchParams(`?category=${getCurrentMenuItem.id}`)
+        )
+      : navigate(getCurrentMenuItem.path);
+  }
 
   return (
     <nav className="flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row">
       {shoppingViewHeaderMenuItems.map((menuItem) => (
         <Label
-          // to={menuItem.path}
-          onClick={() => handleNavigate(menuItem)}
+          onClick={() => {
+            handleNavigate(menuItem);
+          }}
           key={menuItem.id}
           className="text-sm font-medium text-muted-foreground hover:text-foreground"
         >

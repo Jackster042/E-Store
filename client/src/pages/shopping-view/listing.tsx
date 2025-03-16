@@ -73,8 +73,9 @@ const ShoppingListing = () => {
     (state: RootState) => state.shopProductStore
   );
   const { user } = useSelector((state: RootState) => state.authStore);
-  // console.log(user, "user");
-  // const { items } = useSelector((state: RootState) => state.shoppingCartStore);
+  const { items } = useSelector((state: RootState) => state.shoppingCartStore);
+
+  const categorySearchParam = searchParams.get("category");
 
   const handleSort = (value: string | undefined) => {
     setSort(value);
@@ -141,7 +142,7 @@ const ShoppingListing = () => {
   useEffect(() => {
     setSort("price-lowtohigh");
     setFilters(JSON.parse(sessionStorage.getItem("filters") || "{}"));
-  }, []);
+  }, [categorySearchParam]);
 
   useEffect(() => {
     if (filters && Object.keys(filters).length > 0) {
@@ -152,15 +153,11 @@ const ShoppingListing = () => {
   }, [filters]);
 
   useEffect(() => {
-    if (filters && sort) {
+    if (filters !== null && sort !== null)
       dispatch(
-        getFilteredProducts({
-          filterParams: filters,
-          sortParams: sort,
-        })
+        getFilteredProducts({ filterParams: filters, sortParams: sort })
       );
-    }
-  }, [dispatch, filters, sort]);
+  }, [dispatch, sort, filters]);
 
   useEffect(() => {
     if (productDetails) {
@@ -168,9 +165,9 @@ const ShoppingListing = () => {
     }
   }, [productDetails]);
 
-  // console.log(products, "products");
-  // console.log(filters, "filters");
-  // console.log(productDetails, "productDetails");
+  console.log(products, "products from LISTING PAGE");
+  // console.log(filters, "filters from LISTING PAGE");
+  // console.log(productDetails, "productDetails from LISTING PAGE");
   // console.log(items, "items from cart");
 
   return (

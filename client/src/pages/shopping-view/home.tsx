@@ -153,7 +153,7 @@ const ShoppingHome = () => {
     }
   }, [productDetails]);
 
-  console.log(products, "products");
+  console.log(products, "products from HOME PAGE");
 
   return (
     <div className="flex flex-col  min-h-screen">

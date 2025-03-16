@@ -41,7 +41,14 @@ const ProductFilter = ({
                       onCheckedChange={() =>
                         handleFilter(keyItem, options.id || "")
                       }
-                      checked={filters[keyItem]?.includes(options.id)}
+                      // TODO: CHECK REASON FOR THIS NOT WORKING AND LATER OPTION IS WORKING
+                      // checked={filters[keyItem]?.includes(options.id)}
+                      checked={
+                        filters &&
+                        Object.keys(filters).length > 0 &&
+                        filters[keyItem] &&
+                        filters[keyItem].indexOf(options.id) > -1
+                      }
                     />
                     <span className="text-sm">{options.label}</span>
                   </Label>
