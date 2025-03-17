@@ -13,12 +13,13 @@ interface Product {
   salePrice: number;
   category: string;
   brand: string;
+  totalStock: number;
 }
 
 interface ShoppingProductTileProps {
   product: Product;
   handleGetProductDetails: (id: string) => void;
-  handleAddToCart: (id: string) => void;
+  handleAddToCart: (id: string, totalStock: number) => void;
 }
 
 const ShoppingProductTile = ({
@@ -26,6 +27,7 @@ const ShoppingProductTile = ({
   handleGetProductDetails,
   handleAddToCart,
 }: ShoppingProductTileProps) => {
+  // console.log(product, "product from product tile");
   return (
     <Card className="w-full max-w-sm mx-auto">
       <div onClick={() => handleGetProductDetails(product?._id)}>
@@ -35,8 +37,18 @@ const ShoppingProductTile = ({
             alt={product?.title}
             className="w-full h-[300px] object-cover rounded-t-lg"
           />
-          {product?.salePrice > 0 ? (
-            <Badge className="absolute top-2 right-2">Sale</Badge>
+          {product?.totalStock === 0 ? (
+            <Badge className="absolute top-2 right-2 bg-red-500 text-white">
+              Out of Stock
+            </Badge>
+          ) : product?.totalStock < 10 ? (
+            <Badge className="absolute top-2 right-2 bg-red-500 text-white">
+              Only {product?.totalStock} left
+            </Badge>
+          ) : product?.salePrice > 0 ? (
+            <Badge className="absolute top-2 right-2 bg-red-500 text-white">
+              Sale
+            </Badge>
           ) : null}
         </div>
         <CardContent className="p-4">
@@ -64,11 +76,11 @@ const ShoppingProductTile = ({
                   : "text-lg font-semibold"
               }`}
             >
-              {product?.price}
+              ${product?.price}
             </span>
             {product?.salePrice > 0 ? (
               <span className="text-muted-foreground text-sm">
-                {product?.salePrice}
+                ${product?.salePrice}
               </span>
             ) : null}
           </div>
@@ -76,12 +88,18 @@ const ShoppingProductTile = ({
         {/* ADD TO CART BUTTON */}
       </div>
       <CardFooter>
-        <Button
-          onClick={() => handleAddToCart(product?._id)}
-          className="w-full"
-        >
-          Add to Cart
-        </Button>
+        {product?.totalStock === 0 ? (
+          <Button className="w-full" disabled>
+            Out of Stock
+          </Button>
+        ) : (
+          <Button
+            onClick={() => handleAddToCart(product?._id, product?.totalStock)}
+            className="w-full"
+          >
+            Add to Cart
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );

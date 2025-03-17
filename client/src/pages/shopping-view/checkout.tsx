@@ -18,7 +18,7 @@ const ShoppingCheckout = () => {
   const [isPaymentStarted, setIsPaymentStarted] = useState<boolean>(false);
 
   const { approvalURL } = useSelector((state: any) => state.orderStore);
-  const { items } = useSelector((state: any) => state.shoppingCartStore);
+  const { cartItems } = useSelector((state: any) => state.shoppingCartStore);
   const { user } = useSelector((state: any) => state.authStore);
 
   const navigate = useNavigate();
@@ -28,8 +28,8 @@ const ShoppingCheckout = () => {
   // console.log(currentSelectedAddress, "currentSelectedAddress from checkout");
 
   const totalCartAmount =
-    items && items.items && items.items.length > 0
-      ? items.items.reduce(
+    cartItems && cartItems.items && cartItems.items.length > 0
+      ? cartItems.items.reduce(
           (acc: number, item: any) =>
             acc +
             (item?.salePrice && item?.salePrice > 0
@@ -41,7 +41,7 @@ const ShoppingCheckout = () => {
       : null;
 
   const handleInitiatePaypalPayment = () => {
-    if (items.length === 0) {
+    if (cartItems.length === 0) {
       toast({
         title: "Your cart is empty. Please add items to proceed",
         variant: "destructive",
@@ -59,8 +59,8 @@ const ShoppingCheckout = () => {
 
     const orderData = {
       userId: user.id,
-      cartId: items._id,
-      cartItems: items.items.map((item: any) => ({
+      cartId: cartItems._id,
+      cartItems: cartItems.items.map((item: any) => ({
         productId: item.productId,
         title: item.title,
         image: item.image,
@@ -126,8 +126,8 @@ const ShoppingCheckout = () => {
           />
           {/* CART ITEMS */}
           <div className="flex flex-col gap-4">
-            {items && items.items && items.items.length > 0 ? (
-              items.items.map((item: any) => (
+            {cartItems && cartItems.items && cartItems.items.length > 0 ? (
+              cartItems.items.map((item: any) => (
                 <UserCartItemsContainer key={item._id} items={item} />
               ))
             ) : (

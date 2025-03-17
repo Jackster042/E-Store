@@ -128,10 +128,12 @@ const MenuItems = () => {
 
 const HeaderRightContent = () => {
   const { user } = useSelector((state: RootState) => state.authStore);
-  const { items } = useSelector((state: RootState) => state.shoppingCartStore);
+  const { cartItems } = useSelector(
+    (state: RootState) => state.shoppingCartStore
+  );
 
   // Cast items to CartResponse
-  const cartData = items as unknown as CartResponse;
+  const cartData = cartItems as unknown as CartResponse;
 
   const [openCartSheet, setOpenCartSheet] = useState(false);
   const navigate = useNavigate();

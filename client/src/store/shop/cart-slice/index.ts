@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 
 interface CartState {
-  items: any[];
+  cartItems: any[];
   isLoading: boolean;
   error: string | null;
 }
@@ -14,7 +14,7 @@ interface AuthError {
 }
 
 const initialState: CartState = {
-  items: [],
+  cartItems: [],
   isLoading: false,
   error: null,
 };
@@ -139,11 +139,11 @@ const shopCartSlice = createSlice({
     builder.addCase(addToCart.fulfilled, (state, action) => {
       console.log(action.payload, "action.payload from ADD TO CART - REDUX");
       state.isLoading = false;
-      state.items = action.payload.data;
+      state.cartItems = action.payload.data;
     });
     builder.addCase(addToCart.rejected, (state, action) => {
       state.isLoading = false;
-      state.items = [];
+      state.cartItems = [];
       state.error =
         (action.payload as AuthError)?.message || "An error occurred";
     });
@@ -154,11 +154,11 @@ const shopCartSlice = createSlice({
     });
     builder.addCase(getCart.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.items = action.payload.data;
+      state.cartItems = action.payload.data;
     });
     builder.addCase(getCart.rejected, (state, action) => {
       state.isLoading = false;
-      state.items = [];
+      state.cartItems = [];
       state.error =
         (action.payload as AuthError)?.message || "An error occurred";
     });
@@ -169,11 +169,11 @@ const shopCartSlice = createSlice({
     });
     builder.addCase(updateQuantity.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.items = action.payload.data;
+      state.cartItems = action.payload.data;
     });
     builder.addCase(updateQuantity.rejected, (state, action) => {
       state.isLoading = false;
-      state.items = [];
+      state.cartItems = [];
       state.error =
         (action.payload as AuthError)?.message || "An error occurred";
     });
@@ -184,11 +184,11 @@ const shopCartSlice = createSlice({
     });
     builder.addCase(removeFromCart.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.items = action.payload.data;
+      state.cartItems = action.payload.data;
     });
     builder.addCase(removeFromCart.rejected, (state, action) => {
       state.isLoading = false;
-      state.items = [];
+      state.cartItems = [];
       state.error =
         (action.payload as AuthError)?.message || "An error occurred";
     });

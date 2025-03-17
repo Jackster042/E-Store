@@ -14,6 +14,12 @@ const UserCartItemsContainer = ({ items }: { items: CartItem }) => {
   // console.log(item, "item from cart items container");
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.authStore);
+  const { cartItems } = useSelector(
+    (state: RootState) => state.shoppingCartStore
+  );
+  const { products, productDetails } = useSelector(
+    (state: RootState) => state.shopProductStore
+  );
 
   const handleCartItemDelete = (item: CartItem) => {
     console.log(user, "user from cart items container DELETE");
@@ -24,15 +30,47 @@ const UserCartItemsContainer = ({ items }: { items: CartItem }) => {
   const handleUpdateQuantity = ({
     items,
     typeOfAction,
+    totalStock,
   }: {
     items: CartItem;
     typeOfAction: "plus" | "minus";
+    totalStock: number;
   }) => {
     // console.log(items, "items from cart items container UPDATE QUANTITY");
     // console.log(
     //   typeOfAction,
     //   "type of action from cart items container UPDATE QUANTITY"
     // );
+
+    if (typeOfAction === "plus") {
+      let getCartItems = cartItems?.items || [];
+      if (getCartItems.length) {
+        const indexOfCurrentCartItem = getCartItems.findIndex(
+          (item: any) => item.productId === items?.productId
+        );
+
+        const getCurrentProductIndex = products.findIndex(
+          (product: any) => product._id === items?.productId
+        );
+        const getTotalStock = products[getCurrentProductIndex]?.totalStock;
+        console.log(
+          getTotalStock,
+          "get total stock from cart items container UPDATE QUANTITY"
+        );
+
+        if (indexOfCurrentCartItem > -1) {
+          const getQuantity = getCartItems[indexOfCurrentCartItem].quantity;
+          if (getQuantity + 1 > getTotalStock) {
+            toast({
+              title: `Only ${getTotalStock} can be added to cart`,
+              variant: "destructive",
+            });
+            return;
+          }
+        }
+      }
+    }
+
     dispatch(
       updateQuantity({
         userId: user?.id,

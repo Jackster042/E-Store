@@ -35,6 +35,7 @@ interface Product {
   category: string;
   brand: string;
   salePrice: number;
+  totalStock: number;
 }
 
 const createUrlQueryString = (filters: Record<string, string[]>): string => {
@@ -73,7 +74,9 @@ const ShoppingListing = () => {
     (state: RootState) => state.shopProductStore
   );
   const { user } = useSelector((state: RootState) => state.authStore);
-  const { items } = useSelector((state: RootState) => state.shoppingCartStore);
+  const { cartItems } = useSelector(
+    (state: RootState) => state.shoppingCartStore
+  );
 
   const categorySearchParam = searchParams.get("category");
 
@@ -112,7 +115,7 @@ const ShoppingListing = () => {
     dispatch(getProductDetails(id));
   };
 
-  const handleAddToCart = (id: string) => {
+  const handleAddToCart = (id: string, totalStock: number) => {
     console.log(id, "id from HANDLE ADD TO CART");
     console.log(user, "user in handleAddToCart");
 
@@ -120,6 +123,25 @@ const ShoppingListing = () => {
       console.error("User not logged in or user ID is missing");
       alert("Please log in to add items to cart");
       return;
+    }
+
+    // console.log(items, "items in handleAddToCart");
+    const getCartItems = cartItems?.items || [];
+    if (getCartItems.length) {
+      const indexOfCurrentItem = getCartItems.findIndex(
+        (item: any) => item.productId === id
+      );
+
+      if (indexOfCurrentItem > -1) {
+        const getQuantity = getCartItems[indexOfCurrentItem].quantity;
+        if (getQuantity + 1 > totalStock) {
+          toast({
+            title: `Only ${totalStock} can be added to cart`,
+            variant: "destructive",
+          });
+          return;
+        }
+      }
     }
 
     dispatch(addToCart({ userId: user.id, productId: id, quantity: 1 })).then(
