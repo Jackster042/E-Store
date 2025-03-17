@@ -78,6 +78,7 @@ const ShoppingListing = () => {
   const categorySearchParam = searchParams.get("category");
 
   const handleSort = (value: string | undefined) => {
+    console.log(value, "value from handleSort");
     setSort(value);
   };
 
@@ -147,7 +148,7 @@ const ShoppingListing = () => {
   useEffect(() => {
     if (filters && Object.keys(filters).length > 0) {
       const queryString = createUrlQueryString(filters);
-      console.log(queryString, "createQueryString");
+      // console.log(queryString, "createQueryString");
       setSearchParams(new URLSearchParams(queryString));
     }
   }, [filters]);

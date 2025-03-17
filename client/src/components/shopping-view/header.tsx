@@ -49,38 +49,69 @@ import { useState } from "react";
 import UserCartWrapper from "./cart-wrapper";
 import { getCart } from "@/store/shop/cart-slice";
 import { Label } from "../ui/label";
+import { getFilteredProducts } from "@/store/shop/product-slice";
 
 // TODO: BUG WHEN CLICK ON MENU ITEMS ONE AFTER ANOTHER THE FILTER DOESN'T APPLY
 const MenuItems = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
+  const dispatch = useDispatch<AppDispatch>();
 
   function handleNavigate(getCurrentMenuItem: any) {
+    // For home link, just navigate
+    if (getCurrentMenuItem.id === "home") {
+      navigate(getCurrentMenuItem.path);
+      return;
+    }
+
+    // For products link, ensure we clear filters and force a new API call
+    if (getCurrentMenuItem.id === "products") {
+      sessionStorage.removeItem("filters");
+      if (location.pathname.includes("listing")) {
+        dispatch(
+          getFilteredProducts({
+            filterParams: {},
+            sortParams: "price-lowtohigh",
+          })
+        );
+        setSearchParams(new URLSearchParams());
+      } else {
+        navigate(getCurrentMenuItem.path);
+      }
+      return;
+    }
+
+    // For other links (categories)
     sessionStorage.removeItem("filters");
     const currentFilter =
-      getCurrentMenuItem.id !== "home" &&
-      getCurrentMenuItem.id !== "products" &&
       getCurrentMenuItem.id !== "search"
         ? {
             category: [getCurrentMenuItem.id],
           }
-        : ""; // TODO: CHECK REASON FOR NULL NOT WORKING
+        : null;
 
-    console.log(currentFilter, "currentFilter from HEADER MENU ITEMS");
+    if (currentFilter) {
+      sessionStorage.setItem("filters", JSON.stringify(currentFilter));
+    }
 
-    sessionStorage.setItem("filters", JSON.stringify(currentFilter));
-
-    location.pathname.includes("listing") && currentFilter !== null
-      ? setSearchParams(
+    if (location.pathname.includes("listing")) {
+      if (currentFilter) {
+        setSearchParams(
           new URLSearchParams(`?category=${getCurrentMenuItem.id}`)
-        )
-      : navigate(getCurrentMenuItem.path);
+        );
+      } else {
+        setSearchParams(new URLSearchParams());
+      }
+    } else {
+      navigate(getCurrentMenuItem.path);
+    }
   }
 
   return (
     <nav className="flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row">
       {shoppingViewHeaderMenuItems.map((menuItem) => (
+        // console.log(menuItem, "menuItem from header"),
         <Label
           onClick={() => {
             handleNavigate(menuItem);
@@ -110,7 +141,7 @@ const HeaderRightContent = () => {
     dispatch(logoutUser());
   };
 
-  console.log(user, "user from header");
+  // console.log(user, "user from header");
 
   useEffect(() => {
     dispatch(getCart(user.id));
@@ -168,13 +199,13 @@ const HeaderRightContent = () => {
 };
 
 const ShoppingHeader = () => {
-  const { isAuthenticated, user } = useSelector(
-    (state: RootState) => state.authStore
-  );
+  // const { isAuthenticated, user } = useSelector(
+  //   (state: RootState) => state.authStore
+  // );
 
   // Log the user object directly
-  console.log(`Result of isAuthenticated: ${isAuthenticated}`);
-  console.log(user); // Log the user object directly
+  // console.log(`Result of isAuthenticated: ${isAuthenticated}`);
+  // console.log(user); // Log the user object directly
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
