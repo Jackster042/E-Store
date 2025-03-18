@@ -64,6 +64,10 @@ const MenuItems = () => {
       navigate(getCurrentMenuItem.path);
       return;
     }
+    if (getCurrentMenuItem.id === "search") {
+      navigate(getCurrentMenuItem.path);
+      return;
+    }
 
     // For products link, ensure we clear filters and force a new API call
     if (getCurrentMenuItem.id === "products") {
