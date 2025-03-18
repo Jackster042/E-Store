@@ -1,3 +1,5 @@
+const ProductModel = require("../../models/ProductModels");
+
 exports.searchProducts = async (req, res) => {
   try {
     const { keyword } = req.params;

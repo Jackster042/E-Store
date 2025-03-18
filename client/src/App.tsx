@@ -21,6 +21,7 @@ import ShoppingAccount from "./pages/shopping-view/account";
 import ShoppingHome from "./pages/shopping-view/home";
 import PayPalSuccess from "./pages/shopping-view/paypal-success";
 import PayPalReturn from "./pages/shopping-view/paypal-return";
+import SearchProducts from "./pages/shopping-view/search";
 
 // NOT FOUND
 import NotFound from "./pages/not-found";
@@ -105,6 +106,7 @@ const App = () => {
         { path: "account", element: <ShoppingAccount /> },
         { path: "paypal-return", element: <PayPalReturn /> },
         { path: "paypal-success", element: <PayPalSuccess /> },
+        { path: "search", element: <SearchProducts /> },
       ],
     },
     {

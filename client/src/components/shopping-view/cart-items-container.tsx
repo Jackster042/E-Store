@@ -49,13 +49,20 @@ const UserCartItemsContainer = ({ items }: { items: CartItem }) => {
           (item: any) => item.productId === items?.productId
         );
 
+        console.log(
+          indexOfCurrentCartItem,
+          "index of current cart item from cart items container UPDATE QUANTITY"
+        );
+
         const getCurrentProductIndex = products.findIndex(
           (product: any) => product._id === items?.productId
         );
-        const getTotalStock = products[getCurrentProductIndex]?.totalStock;
+        const getTotalStock = products[getCurrentProductIndex].totalStock;
+
         console.log(
+          getCurrentProductIndex,
           getTotalStock,
-          "get total stock from cart items container UPDATE QUANTITY"
+          "getTotalStock from cart items container UPDATE QUANTITY"
         );
 
         if (indexOfCurrentCartItem > -1) {
@@ -92,6 +99,8 @@ const UserCartItemsContainer = ({ items }: { items: CartItem }) => {
       }
     });
   };
+
+  console.log(products, "products from CART ITEMS CONTAINER");
 
   return (
     <div className="flex items-center space-x-4">
