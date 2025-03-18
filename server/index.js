@@ -13,6 +13,7 @@ const cartRoutes = require("./routes/cart/cartRoutes");
 const shopRoutes = require("./routes/shop/productRoutes");
 const orderRoutes = require("./routes/shop/orderRoutes");
 const addressRoutes = require("./routes/address/addressRoutes");
+const searchRoutes = require("./routes/shop/searchRoutes");
 
 // MIDDLEWARES
 app.use(
@@ -51,6 +52,7 @@ app.use("/api/shop/products", shopRoutes);
 app.use("/api/shop/cart", cartRoutes);
 app.use("/api/shop/address", addressRoutes);
 app.use("/api/shop/order", orderRoutes);
+app.use("/api/shop/search", searchRoutes);
 
 // 404 HANDLER
 app.use("*", (req, res, next) => {
