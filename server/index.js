@@ -14,6 +14,7 @@ const shopRoutes = require("./routes/shop/productRoutes");
 const orderRoutes = require("./routes/shop/orderRoutes");
 const addressRoutes = require("./routes/address/addressRoutes");
 const searchRoutes = require("./routes/shop/searchRoutes");
+const reviewRoutes = require("./routes/shop/reviewRoutes");
 
 // MIDDLEWARES
 app.use(
@@ -53,6 +54,7 @@ app.use("/api/shop/cart", cartRoutes);
 app.use("/api/shop/address", addressRoutes);
 app.use("/api/shop/order", orderRoutes);
 app.use("/api/shop/search", searchRoutes);
+app.use("/api/shop/review", reviewRoutes);
 
 // 404 HANDLER
 app.use("*", (req, res, next) => {

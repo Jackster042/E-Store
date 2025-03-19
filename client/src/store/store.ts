@@ -7,6 +7,7 @@ import addressSlice from "./shop/address-slice";
 import orderSlice from "./order-slice";
 import adminOrderSlice from "./admin/order-slice";
 import searchSlice from "./shop/search-slice";
+import reviewSlice from "./shop/review-slice";
 
 // ROOT STATE TYPE
 export interface RootState {
@@ -18,6 +19,7 @@ export interface RootState {
   addressStore: ReturnType<typeof addressSlice>;
   orderStore: ReturnType<typeof orderSlice>;
   searchStore: ReturnType<typeof searchSlice>;
+  reviewStore: ReturnType<typeof reviewSlice>;
 }
 
 // console.log(authSlice, "authSlice");
@@ -32,6 +34,7 @@ const store = configureStore({
     addressStore: addressSlice,
     orderStore: orderSlice,
     adminOrderStore: adminOrderSlice,
+    reviewStore: reviewSlice,
   },
 });
 
