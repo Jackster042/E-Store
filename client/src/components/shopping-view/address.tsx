@@ -87,7 +87,7 @@ const Address = ({
       : dispatch(
           addAddress({
             ...formData,
-            userId: user?._id,
+            userId: user?.id,
           })
         ).then((data) => {
           console.log(data);
@@ -117,7 +117,7 @@ const Address = ({
     console.log(id, "id in handleDelete");
     dispatch(
       deleteAddress({
-        userId: user?._id,
+        userId: user?.id,
         addressId: id,
       })
     ).then((data) => {

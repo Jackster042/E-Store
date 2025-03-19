@@ -106,6 +106,8 @@ const ShoppingCheckout = () => {
     window.location.href = approvalURL;
   }
 
+  console.log(user, "user from CHECKOUT");
+
   return (
     <Fragment>
       <div className="flex flex-col">

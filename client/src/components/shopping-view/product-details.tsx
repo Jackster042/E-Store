@@ -1,16 +1,23 @@
-import { StarIcon } from "lucide-react";
-import { Avatar, AvatarFallback } from "../ui/avatar";
-import { Button } from "../ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
-import { Separator } from "../ui/separator";
+// UI
 import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { Separator } from "../ui/separator";
+import { Avatar, AvatarFallback } from "../ui/avatar";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { toast, useToast } from "@/hooks/use-toast";
+import { Star, StarIcon } from "lucide-react";
+
+// STORE
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getCart } from "@/store/shop/cart-slice";
 import { addToCart } from "@/store/shop/cart-slice";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
 import { RootState, AppDispatch } from "@/store/store";
-import { toast } from "@/hooks/use-toast";
 import { setProductDetails } from "@/store/shop/product-slice";
+import { useEffect, useState } from "react";
+import { addReview, getReviews } from "@/store/shop/review-slice";
+import StarRatingComponent from "../common/star-rating";
+import { Label } from "../ui/label";
 
 interface ProductDetailsDialogProps {
   open: boolean;
@@ -23,12 +30,25 @@ const ProductDetailsDialog = ({
   setOpen,
   productDetails,
 }: ProductDetailsDialogProps) => {
-  const dispatch = useDispatch<AppDispatch>();
+  const [reviewMsg, setReviewMsg] = useState("");
+  const [rating, setRating] = useState(0);
+
   const { user } = useSelector((state: RootState) => state.authStore);
   const { cartItems } = useSelector(
     (state: RootState) => state.shoppingCartStore
   );
+  const { reviews } = useSelector((state: RootState) => state.reviewStore);
 
+  const dispatch = useDispatch<AppDispatch>();
+  const { toast } = useToast();
+
+  // HANDLE RATING CHANGE
+  const handleRatingChange = (getRating: number) => {
+    console.log(getRating, "getRating from HANDLE RATING CHANGE");
+    setRating(getRating);
+  };
+
+  // HANDLE ADD TO CART
   const handleAddToCart = (id: string, totalStock: number) => {
     // console.log(id, "id from HANDLE ADD TO CART");
     // console.log(user, "user in handleAddToCart");
@@ -78,7 +98,55 @@ const ProductDetailsDialog = ({
   const handleCloseDialog = () => {
     dispatch(setProductDetails());
     setOpen(false);
+    setReviewMsg("");
+    setRating(0);
   };
+
+  // HANDLE ADD REVIEW
+  const handleAddReview = () => {
+    dispatch(
+      addReview({
+        productId: productDetails?._id,
+        userId: user?.id,
+        reviewMessage: reviewMsg,
+        reviewValue: rating,
+        userName: user?.userName,
+      })
+    ).then((data) => {
+      console.log(data, "data from ADD REVIEW");
+      if (data?.payload?.success) {
+        setRating(0);
+        setReviewMsg("");
+        dispatch(getReviews(productDetails?._id));
+        toast({
+          title: "Review added successfully",
+          description: "You can view your review in the review page",
+        });
+      } else {
+        toast({
+          title: "Review not added",
+          description: "Please try again",
+        });
+      }
+    });
+  };
+
+  // AVERAGE REVIEW RATING
+  const averageReviewRating =
+    reviews && reviews?.length > 0
+      ? reviews.reduce((sum, reviewItem) => sum + reviewItem?.reviewValue, 0) /
+        reviews.length
+      : 0;
+
+  console.log(averageReviewRating, "averageReviewRating from PRODUCT DETAILS");
+
+  useEffect(() => {
+    if (productDetails !== null) dispatch(getReviews(productDetails?._id));
+  }, [productDetails]);
+
+  // console.log(productDetails, "productDetails from ADD REVIEW");
+  console.log(reviews, "reviews from ADD REVIEW");
+  // console.log(user, "user from ADD REVIEW");
 
   return (
     <Dialog open={open} onOpenChange={handleCloseDialog}>
@@ -115,14 +183,15 @@ const ProductDetailsDialog = ({
             ) : null}
           </div>
           <div className="flex items-center gap-2 mt-2">
-            <div className="flex items-center gap-1">
-              <StarIcon className="w-4 h-4 fill-primary" />
-              <StarIcon className="w-4 h-4 fill-primary" />
-              <StarIcon className="w-4 h-4 fill-primary" />
-              <StarIcon className="w-4 h-4 fill-primary" />
-              <StarIcon className="w-4 h-4 fill-primary" />
+            <div className="flex items-center gap-0.5">
+              <StarRatingComponent
+                rating={averageReviewRating}
+                handleRatingChange={() => {}}
+              />
             </div>
-            <span className="text-muted-foreground">(4.5)</span>
+            <span className="text-muted-foreground">
+              {averageReviewRating.toFixed(2)}
+            </span>
           </div>
           <div className="mb-5 mt-5">
             {productDetails?.totalStock === 0 ? (
@@ -147,27 +216,61 @@ const ProductDetailsDialog = ({
           <div className="max-h-[300px] overflow-auto">
             <h2 className="text-xl font-bold mb-4">Reviews</h2>
             <div className="grid gap-6">
-              <div className="flex gap-4">
-                <Avatar className="w-10 h-10 border">
-                  <AvatarFallback>NS</AvatarFallback>
-                </Avatar>
-                <div className="grid ga-1">
-                  <div className="flex items-center gap-2">
-                    <h3 className="text-lg font-bold">Nevena Nevenic</h3>
+              {reviews && reviews.length > 0 ? (
+                reviews.map((reviewItem: any) => (
+                  <div className="flex gap-4">
+                    <Avatar className="w-10 h-10 border">
+                      <AvatarFallback>
+                        {reviewItem?.userName[0].toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="grid gap-1">
+                      <div className="flex items-center gap-2">
+                        <h3 className="font-bold">{reviewItem?.userName}</h3>
+                      </div>
+                      <div className="flex items-center gap-0.5">
+                        <StarRatingComponent
+                          rating={reviewItem?.reviewValue}
+                          handleRatingChange={() => {}}
+                        />
+                      </div>
+                      <p className="text-muted-foreground">
+                        {reviewItem?.reviewMessage}
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <StarIcon className="w-4 h-4 fill-primary" />
-                    <StarIcon className="w-4 h-4 fill-primary" />
-                    <StarIcon className="w-4 h-4 fill-primary" />
-                    <StarIcon className="w-4 h-4 fill-primary" />
-                    <StarIcon className="w-4 h-4 fill-primary" />
-                  </div>
-                  <p className="text-muted-foreground">Product is great!</p>
+                ))
+              ) : (
+                <div>
+                  <h1>No reviews yet</h1>
                 </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <Input type="text" placeholder="Add a review" />
-                <Button className="w-1/2">Add</Button>
+              )}
+
+              <div className="mt-10 flex-col flex gap-2">
+                <Label className="font-bold text-lg">Add a review</Label>
+                <div className="flex items-center gap-1">
+                  <StarRatingComponent
+                    rating={rating}
+                    handleRatingChange={handleRatingChange}
+                  />
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Input
+                    type="text"
+                    placeholder="Add a review"
+                    value={reviewMsg}
+                    name="reviewMsg"
+                    onChange={(e) => setReviewMsg(e.target.value)}
+                  />
+                  <Button
+                    className="w-1/2"
+                    onClick={handleAddReview}
+                    disabled={reviewMsg.trim() === ""}
+                  >
+                    Submit
+                  </Button>
+                </div>
               </div>
             </div>
           </div>

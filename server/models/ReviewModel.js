@@ -6,7 +6,7 @@ const ProductReviewSchema = new Schema(
     userId: String,
     userName: String,
     reviewMessage: String,
-    reviewValue: String,
+    reviewValue: Number,
   },
   {
     timestamps: true,
