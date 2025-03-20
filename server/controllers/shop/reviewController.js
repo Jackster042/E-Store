@@ -20,7 +20,7 @@ exports.addProductReview = async (req, res) => {
     });
     console.log(order, "order from ADD PRODUCT REVIEW");
     if (!order) {
-      return res.status(400).json({
+      return res.status(403).json({
         success: false,
         message: "You need to purchase product to review it.",
       });

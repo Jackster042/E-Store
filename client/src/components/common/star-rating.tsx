@@ -25,9 +25,7 @@ const StarRatingComponent = ({
           }
         >
           <StarIcon
-            className={`w-6 h-6 ${
-              star <= rating ? "fill-yellow-500" : "fill-black"
-            }`}
+            className={`${star <= rating ? "fill-yellow-500" : "fill-black"}`}
           />
         </Button>
       ))}

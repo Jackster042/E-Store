@@ -61,6 +61,14 @@ const App = () => {
   // ROUTER
   const router = createBrowserRouter([
     {
+      path: "/",
+      element: (
+        <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+          <AuthLayout />
+        </CheckAuth>
+      ),
+    },
+    {
       path: "/auth",
       element: (
         <CheckAuth isAuthenticated={isAuthenticated} user={user}>

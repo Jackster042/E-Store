@@ -154,7 +154,8 @@ const ShoppingCheckout = () => {
                 onClick={handleInitiatePaypalPayment}
                 // disabled={!currentSelectedAddress || !totalCartAmount}
               >
-                Continue to PayPal
+                {/* Continue to PayPal */}
+                {isPaymentStarted ? "Processing..." : "Continue to PayPal"}
               </Button>
             </div>
           </div>

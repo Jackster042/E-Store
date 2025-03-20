@@ -163,8 +163,12 @@ const HeaderRightContent = () => {
           variant="outline"
           size="icon"
           onClick={() => setOpenCartSheet(true)}
+          className="relative"
         >
           <ShoppingCart className="h-6 w-6" />
+          <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center">
+            {cartItems?.items.length || 0}
+          </span>
           <span className="sr-only">user cart</span>
         </Button>
         <UserCartWrapper
