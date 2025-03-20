@@ -16,6 +16,8 @@ const addressRoutes = require("./routes/address/addressRoutes");
 const searchRoutes = require("./routes/shop/searchRoutes");
 const reviewRoutes = require("./routes/shop/reviewRoutes");
 
+const featureRoutes = require("./routes/common/featureRoutes");
+
 // MIDDLEWARES
 app.use(
   cors({
@@ -55,6 +57,8 @@ app.use("/api/shop/address", addressRoutes);
 app.use("/api/shop/order", orderRoutes);
 app.use("/api/shop/search", searchRoutes);
 app.use("/api/shop/review", reviewRoutes);
+
+app.use("/api/common/feature", featureRoutes);
 
 // 404 HANDLER
 app.use("*", (req, res, next) => {
