@@ -1,4 +1,7 @@
+// REACT
 import { Fragment, useEffect, useRef, useState } from "react";
+
+// COMPONENTS
 import { Card, CardTitle, CardHeader, CardContent } from "../ui/card";
 import {
   Table,
@@ -18,15 +21,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import ShoppingOrderDetailsView from "./order-details";
+import { Badge } from "../ui/badge";
+
+// REDUX
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
+import ShoppingOrderDetailsView from "./order-details";
 import {
   getAllOrdersByUser,
   getOrderDetails,
   resetOrderDetails,
 } from "@/store/order-slice";
-import { Badge } from "../ui/badge";
 
 const ShoppingOrders = () => {
   const [openOrderDetails, setOpenOrderDetails] = useState(false);

@@ -1,7 +1,11 @@
+// REACT
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
+
+// COMPONENTS
 import AdminSidebar from "./sidebar";
 import AdminHeader from "./header";
-import { useState } from "react";
+
 const AdminLayout = () => {
   const [openSidebar, setOpenSidebar] = useState(false);
   return (

@@ -1,19 +1,26 @@
+// REACT
 import { FormEvent, useEffect, useState } from "react";
-import { RootState, AppDispatch } from "@/store/store";
 
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-
-import CommonForm from "../common/form";
-import { addressFormControls } from "@/config";
-import { useSelector, useDispatch } from "react-redux";
+// REDUX
 import {
   addAddress,
   deleteAddress,
   editAddress,
   fetchAllData,
 } from "@/store/shop/address-slice";
-import { toast } from "@/hooks/use-toast";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState, AppDispatch } from "@/store/store";
+
+// COMPONENTS
+import CommonForm from "../common/form";
 import AddressCard from "./address-card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+
+// CONFIG
+import { addressFormControls } from "@/config";
+
+// HOOKS
+import { toast } from "@/hooks/use-toast";
 
 interface FormControl {
   label: string;

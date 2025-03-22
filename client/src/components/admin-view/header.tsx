@@ -1,8 +1,13 @@
+// ICONS
 import { AlignJustify, LogOut } from "lucide-react";
+
+// COMPONENTS
 import { Button } from "../ui/button";
-import { logoutUser } from "@/store/auth-slice";
+
+// REDUX
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
+import { logoutUser } from "@/store/auth-slice";
 
 const AdminHeader = ({ setOpen }: { setOpen: (open: boolean) => void }) => {
   const dispatch = useDispatch<AppDispatch>();

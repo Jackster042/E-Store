@@ -1,14 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
-import authSlice from "./auth-slice";
-import adminProductSlice from "./admin/product-slice";
-import shopProductSlice from "./shop/product-slice";
-import shopCartSlice from "./shop/cart-slice";
-import addressSlice from "./shop/address-slice";
-import orderSlice from "./order-slice";
+
+//
 import adminOrderSlice from "./admin/order-slice";
+import adminProductSlice from "./admin/product-slice";
+import authSlice from "./auth-slice";
+import orderSlice from "./order-slice";
+import shopCartSlice from "./shop/cart-slice";
 import searchSlice from "./shop/search-slice";
 import reviewSlice from "./shop/review-slice";
 import commonSlice from "./shop/common-slice";
+import addressSlice from "./shop/address-slice";
+import shopProductSlice from "./shop/product-slice";
 
 // ROOT STATE TYPE
 export interface RootState {

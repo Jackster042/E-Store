@@ -1,5 +1,8 @@
+// CONFIG
 import { brandOptionsMap } from "@/config";
 import { categoryOptionsMap } from "@/config";
+
+// COMPONENTS
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardFooter } from "../ui/card";

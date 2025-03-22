@@ -1,5 +1,10 @@
+// REACT
+import { Fragment } from "react";
+
+// CONFIG
 import { filterOptions } from "@/config";
-import React, { Fragment } from "react";
+
+// COMPONENTS
 import { Label } from "../ui/label";
 import { Checkbox } from "../ui/checkbox";
 import { Separator } from "../ui/separator";

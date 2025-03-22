@@ -24,8 +24,6 @@ interface FormControl {
   }[];
 }
 
-// TYPES
-
 // FORM COMPONENT
 const CommonForm = ({
   isBtnDisabled,

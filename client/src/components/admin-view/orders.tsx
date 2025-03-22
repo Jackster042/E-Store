@@ -1,4 +1,9 @@
+// REACT
+import { useState } from "react";
 import { Fragment, useEffect } from "react";
+
+// COMPONENTS
+import { Badge } from "../ui/badge";
 import { Card, CardTitle, CardHeader, CardContent } from "../ui/card";
 import {
   Table,
@@ -9,15 +14,18 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
-import { Button } from "../ui/button";
-import { useState } from "react";
-import AdminOrderDetailsView from "./order-details";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogTitle,
 } from "../ui/dialog";
+import { Button } from "../ui/button";
+
+// COMPONENTS
+import AdminOrderDetailsView from "./order-details";
+
+// REDUX
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
 import {
@@ -25,7 +33,6 @@ import {
   getOrderDetailsForAdmin,
   resetOrderDetails,
 } from "@/store/admin/order-slice";
-import { Badge } from "../ui/badge";
 
 const AdminOrdersView = () => {
   const [openOrderDetails, setOpenOrderDetails] = useState(false);

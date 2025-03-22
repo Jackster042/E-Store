@@ -1,13 +1,17 @@
-import { PlusIcon, Trash, Trash2 } from "lucide-react";
-
-import { MinusIcon } from "lucide-react";
-import { Button } from "../ui/button";
+// REDUX
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
-import { removeFromCart, updateQuantity } from "@/store/shop/cart-slice";
-import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { useSelector } from "react-redux";
+import { removeFromCart, updateQuantity } from "@/store/shop/cart-slice";
+
+// HOOKS & UI
+import { PlusIcon, Trash } from "lucide-react";
+import { Button } from "../ui/button";
+import { MinusIcon } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+
+// TYPES
 import { CartItem } from "../../types";
 
 const UserCartItemsContainer = ({ items }: { items: CartItem }) => {

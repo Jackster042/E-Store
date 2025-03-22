@@ -1,9 +1,14 @@
+// REACT
 import { Label } from "@radix-ui/react-label";
+
+// COMPONENTS
 import { Separator } from "@/components/ui/separator";
 import { DialogContent } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+
+// REDUX
 import { useSelector } from "react-redux";
-import { use } from "react";
+
 const ShoppingOrderDetailsView = ({ orderDetails }: { orderDetails: any }) => {
   const { user } = useSelector((state: any) => state.authStore);
 

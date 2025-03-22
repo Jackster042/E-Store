@@ -36,6 +36,7 @@ import { useNavigate } from "react-router-dom";
 import { addToCart, getCart } from "@/store/shop/cart-slice";
 import { useToast } from "@/hooks/use-toast";
 import ProductDetailsDialog from "@/components/shopping-view/product-details";
+import { getFeatureImage } from "@/store/shop/common-slice";
 // ICONS
 
 interface Category {
@@ -79,6 +80,10 @@ const ShoppingHome = () => {
     (state: RootState) => state.shopProductStore
   );
   const { user } = useSelector((state: RootState) => state.authStore);
+  const { featureImageList } = useSelector(
+    (state: RootState) => state.commonStore
+  );
+
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -131,11 +136,11 @@ const ShoppingHome = () => {
   // TODO: ADD ON HOVER STOP SLIDE
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prevSlide) => (prevSlide + 1) % images.length);
+      setCurrentSlide((prevSlide) => (prevSlide + 1) % featureImageList.length);
     }, 4000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [featureImageList]);
 
   // TODO: BUG WITH RERENDERING WHEN SLIDES CHANGE
   useEffect(() => {
@@ -153,22 +158,32 @@ const ShoppingHome = () => {
     }
   }, [productDetails]);
 
+  useEffect(() => {
+    dispatch(getFeatureImage());
+  }, [dispatch]);
+
   console.log(products, "products from HOME PAGE");
 
   return (
     <div className="flex flex-col  min-h-screen">
       <div className="relative w-full h-[600px] overflow-hidden">
-        {images.map((image, index) => (
-          <img
-            key={index}
-            src={image}
-            alt={`Home Image ${index + 1}`}
-            // onMouseEnter={() => setIsHovered(true)}
-            className={`${
-              index === currentSlide ? "opacity-100" : "opacity-0"
-            } absolute inset-0 w-full h-full object-cover transition-opacity duration-1000`}
-          />
-        ))}
+        {featureImageList && featureImageList.length > 0 ? (
+          featureImageList.map((image, index) => (
+            <img
+              key={index}
+              src={image?.image}
+              alt={`Home Image ${index + 1}`}
+              // onMouseEnter={() => setIsHovered(true)}
+              className={`${
+                index === currentSlide ? "opacity-100" : "opacity-0"
+              } absolute inset-0 w-full h-full object-cover transition-opacity duration-1000`}
+            />
+          ))
+        ) : (
+          <div>
+            <p>No featured images found</p>
+          </div>
+        )}
         <Button
           onClick={() =>
             setCurrentSlide(

@@ -21,6 +21,7 @@ interface ProductImageUploadProps {
   imageLoadingState: boolean;
   setImageLoadingState: React.Dispatch<React.SetStateAction<boolean>>;
   isEditMode: boolean;
+  isCustomStyling: boolean;
 }
 
 const ProductImageUpload: React.FC<ProductImageUploadProps> = ({
@@ -31,6 +32,7 @@ const ProductImageUpload: React.FC<ProductImageUploadProps> = ({
   imageLoadingState,
   setImageLoadingState,
   isEditMode,
+  isCustomStyling = false,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -98,7 +100,9 @@ const ProductImageUpload: React.FC<ProductImageUploadProps> = ({
   }, [file]);
 
   return (
-    <section className="w-full max-w-md mx-auto">
+    <section
+      className={`w-full  mt-4 ${isCustomStyling ? "" : "max-w-md mx-auto"}`}
+    >
       <Label className="text-lg font-semibold mb-2 block">
         Upload Product Image
       </Label>

@@ -1,16 +1,23 @@
-import { DialogContent } from "../ui/dialog";
+// REACT
+import { useState, FormEvent } from "react";
+
+// COMPONENTS
+import { Badge } from "../ui/badge";
 import { Label } from "../ui/label";
+import { DialogContent } from "../ui/dialog";
 import { Separator } from "../ui/separator";
 import CommonForm from "../common/form";
-import { useState, FormEvent } from "react";
+
+// REDUX
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store/store";
-import { Badge } from "../ui/badge";
 import {
   updateOrderStatus,
   getAllOrdersForAdmin,
   getOrderDetailsForAdmin,
 } from "@/store/admin/order-slice";
+
+// HOOKS
 import { toast } from "@/hooks/use-toast";
 
 interface FormControl {

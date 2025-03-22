@@ -1,3 +1,10 @@
+// REACT
+import { Fragment, ReactNode } from "react";
+
+// ROUTER
+import { useNavigate } from "react-router-dom";
+
+// ICONS
 import {
   BadgeCheck,
   ChartNoAxesCombined,
@@ -5,19 +12,8 @@ import {
   ShoppingBasket,
 } from "lucide-react";
 
-import { Fragment, ReactNode } from "react";
-import { useNavigate } from "react-router-dom";
-
-import {
-  Sheet,
-  SheetTrigger,
-  SheetContent,
-  SheetClose,
-  SheetTitle,
-  SheetDescription,
-  SheetHeader,
-  SheetFooter,
-} from "../ui/sheet";
+// COMPONENTS
+import { Sheet, SheetContent, SheetTitle, SheetHeader } from "../ui/sheet";
 
 interface SidebarItem {
   id: string;

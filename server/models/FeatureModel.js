@@ -2,9 +2,7 @@ const { Schema, model } = require("mongoose");
 
 const FeatureSchema = new Schema(
   {
-    name: {
-      type: String,
-    },
+    image: String,
   },
   {
     timestamps: true,

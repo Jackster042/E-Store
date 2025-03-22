@@ -1,14 +1,13 @@
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
+// REACT
+import { useNavigate } from "react-router-dom";
+
+// COMPONENTS
+import { SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "../ui/button";
 import UserCartItemsContainer from "./cart-items-container";
 
+// TYPES
 import { CartItem } from "../../types";
-import { useNavigate } from "react-router-dom";
 
 const UserCartWrapper = ({
   items,
