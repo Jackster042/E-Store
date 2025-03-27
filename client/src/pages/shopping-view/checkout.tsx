@@ -1,13 +1,19 @@
+// REACT
 import { Fragment, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+// HOOKS
 import { toast } from "@/hooks/use-toast";
 
+// ASSETS
 import imgAccount from "../../assets/account.jpg";
 
+// COMPONENTS
 import { Button } from "@/components/ui/button";
 import Address from "@/components/shopping-view/address";
 import UserCartItemsContainer from "@/components/shopping-view/cart-items-container";
 
+// REDUX
 import { AppDispatch } from "@/store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { createNewOrder } from "@/store/order-slice";
@@ -23,9 +29,6 @@ const ShoppingCheckout = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  // console.log(items, "items from checkout");
-  // console.log(user, "user from checkout");
-  // console.log(currentSelectedAddress, "currentSelectedAddress from checkout");
 
   const totalCartAmount =
     cartItems && cartItems.items && cartItems.items.length > 0
@@ -85,13 +88,9 @@ const ShoppingCheckout = () => {
       payerId: "",
     };
 
-    // console.log(orderData, "orderData from checkout");
-
     dispatch(createNewOrder(orderData)).then((data) => {
-      console.log(data, "data from createNewOrder");
       if (data?.payload?.success) {
         setIsPaymentStarted(true);
-        // window.location.href = data?.payload?.approvalURL;
       } else {
         setIsPaymentStarted(false);
         toast({
@@ -105,8 +104,6 @@ const ShoppingCheckout = () => {
   if (approvalURL) {
     window.location.href = approvalURL;
   }
-
-  console.log(user, "user from CHECKOUT");
 
   return (
     <Fragment>
@@ -152,7 +149,6 @@ const ShoppingCheckout = () => {
               <Button
                 className="w-full mt-6"
                 onClick={handleInitiatePaypalPayment}
-                // disabled={!currentSelectedAddress || !totalCartAmount}
               >
                 {/* Continue to PayPal */}
                 {isPaymentStarted ? "Processing..." : "Continue to PayPal"}

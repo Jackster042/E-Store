@@ -16,8 +16,6 @@ const UserCartWrapper = ({
   items: CartItem[];
   setOpenCartSheet: (open: boolean) => void;
 }) => {
-  // console.log(items, "items from cart wrapper");
-
   const navigate = useNavigate();
 
   const totalCartAmount =

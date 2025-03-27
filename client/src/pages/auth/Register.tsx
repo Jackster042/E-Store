@@ -13,7 +13,7 @@ const initialState = {
   password: "",
 };
 
-// TODO: FIX EMPTY INPUT ERRORS
+// TODO: FIX RACE CONDITION FOR NAVIGATION WHEN REGISTER SUCCESS
 const AuthRegister = () => {
   const [formData, setFormdata] = useState(initialState);
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
@@ -21,10 +21,6 @@ const AuthRegister = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const location = useLocation();
-
-  // const { isAuthenticated, user } = useSelector(
-  //   (state: RootState) => state.authStore
-  // );
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -68,7 +64,7 @@ const AuthRegister = () => {
 
   // Monitor location changes for debugging
   React.useEffect(() => {
-    console.log("Current location:", location.pathname);
+    // console.log("Current location:", location.pathname);
   }, [location]);
 
   return (

@@ -51,7 +51,6 @@ import { getCart } from "@/store/shop/cart-slice";
 import { Label } from "../ui/label";
 import { getFilteredProducts } from "@/store/shop/product-slice";
 
-// TODO: BUG WHEN CLICK ON MENU ITEMS ONE AFTER ANOTHER THE FILTER DOESN'T APPLY
 const MenuItems = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -115,7 +114,6 @@ const MenuItems = () => {
   return (
     <nav className="flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row">
       {shoppingViewHeaderMenuItems.map((menuItem) => (
-        // console.log(menuItem, "menuItem from header"),
         <Label
           onClick={() => {
             handleNavigate(menuItem);
@@ -147,13 +145,9 @@ const HeaderRightContent = () => {
     dispatch(logoutUser());
   };
 
-  // console.log(user, "user from header");
-
   useEffect(() => {
     dispatch(getCart(user.id));
   }, [dispatch, user.id]);
-
-  // console.log(items, "items from header");
 
   return (
     <div className="flex lg:items-center lg:flex-row flex-col gap-4">
@@ -209,14 +203,6 @@ const HeaderRightContent = () => {
 };
 
 const ShoppingHeader = () => {
-  // const { isAuthenticated, user } = useSelector(
-  //   (state: RootState) => state.authStore
-  // );
-
-  // Log the user object directly
-  // console.log(`Result of isAuthenticated: ${isAuthenticated}`);
-  // console.log(user); // Log the user object directly
-
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
       <div className="flex h-16 items-center justify-between px-4 md:px-6">

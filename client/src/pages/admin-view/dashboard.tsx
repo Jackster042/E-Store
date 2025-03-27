@@ -26,7 +26,6 @@ const AdminDashboard = () => {
       dispatch(addFeatureImage(uploadedImageUrl))
         .unwrap()
         .then((data) => {
-          console.log(data, "data from ADD FEATURED IMAGE");
           if (data?.payload?.success) {
             dispatch(getFeatureImage());
             setImageFile(null);
@@ -42,9 +41,6 @@ const AdminDashboard = () => {
   useEffect(() => {
     dispatch(getFeatureImage());
   }, [dispatch]);
-
-  console.log(uploadedImageUrl, "uploadedImageUrl from DASHBOARD");
-  console.log(featureImageList, "featureImageList from DASHBOARD");
 
   return (
     <div>

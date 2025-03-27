@@ -12,8 +12,6 @@ import { useSelector } from "react-redux";
 const ShoppingOrderDetailsView = ({ orderDetails }: { orderDetails: any }) => {
   const { user } = useSelector((state: any) => state.authStore);
 
-  console.log(user, "user");
-  console.log(orderDetails, "orderDetails");
   return (
     <DialogContent className="sm:max-w-[600px]">
       <div className="grid gap-6 p-2">

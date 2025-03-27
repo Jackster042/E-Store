@@ -1,11 +1,25 @@
-// import images from assets
+// REACT
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import image1 from "../../assets/account.jpg";
-import image2 from "../../assets/banner-1.webp";
-import image3 from "../../assets/banner-2.webp";
-import image4 from "../../assets/banner-3.webp";
+// REDUX
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/store/store";
+import {
+  getFilteredProducts,
+  getProductDetails,
+} from "@/store/shop/product-slice";
+import { addToCart, getCart } from "@/store/shop/cart-slice";
+import { useToast } from "@/hooks/use-toast";
+import { getFeatureImage } from "@/store/shop/common-slice";
 
+// COMPONENTS
 import { Button } from "@/components/ui/button";
+import ShoppingProductTile from "@/components/shopping-view/product-tile";
+import ProductDetailsDialog from "@/components/shopping-view/product-details";
+
+// UI
+import { Card, CardContent } from "@/components/ui/card";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -22,22 +36,11 @@ import {
   Cherry,
 } from "lucide-react";
 
-import { Card, CardContent } from "@/components/ui/card";
-import { useEffect, useState } from "react";
-import { AppDispatch, RootState } from "@/store/store";
-
-import { useDispatch, useSelector } from "react-redux";
-import {
-  getFilteredProducts,
-  getProductDetails,
-} from "@/store/shop/product-slice";
-import ShoppingProductTile from "@/components/shopping-view/product-tile";
-import { useNavigate } from "react-router-dom";
-import { addToCart, getCart } from "@/store/shop/cart-slice";
-import { useToast } from "@/hooks/use-toast";
-import ProductDetailsDialog from "@/components/shopping-view/product-details";
-import { getFeatureImage } from "@/store/shop/common-slice";
-// ICONS
+// IMAGES
+import image1 from "../../assets/account.jpg";
+import image2 from "../../assets/banner-1.webp";
+import image3 from "../../assets/banner-2.webp";
+import image4 from "../../assets/banner-3.webp";
 
 interface Category {
   id: string;
@@ -101,14 +104,10 @@ const ShoppingHome = () => {
   };
 
   const handleGetProductDetails = (id: string) => {
-    console.log(id, "id");
     dispatch(getProductDetails(id));
   };
 
   const handleAddToCart = (id: string) => {
-    // console.log(id, "id from HANDLE ADD TO CART");
-    // console.log(user, "user in handleAddToCart");
-
     if (!user || !user.id) {
       console.error("User not logged in or user ID is missing");
       alert("Please log in to add items to cart");

@@ -44,7 +44,6 @@ const AdminOrdersView = () => {
 
   const handleFetchOrderDetails = (getId: string) => {
     dispatch(getOrderDetailsForAdmin(getId));
-    console.log(orderDetails, "orderDetails");
   };
 
   useEffect(() => {
@@ -56,8 +55,6 @@ const AdminOrdersView = () => {
       setOpenOrderDetails(true);
     }
   }, [orderDetails]);
-
-  console.log(orderList, "orderList");
 
   return (
     <Fragment>

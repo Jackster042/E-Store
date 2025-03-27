@@ -15,7 +15,6 @@ import { toast } from "@/hooks/use-toast";
 import { CartItem } from "../../types";
 
 const UserCartItemsContainer = ({ items }: { items: CartItem }) => {
-  // console.log(item, "item from cart items container");
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.authStore);
   const { cartItems } = useSelector(
@@ -26,8 +25,6 @@ const UserCartItemsContainer = ({ items }: { items: CartItem }) => {
   );
 
   const handleCartItemDelete = (item: CartItem) => {
-    console.log(user, "user from cart items container DELETE");
-    console.log(item, "item from cart items container DELETE");
     dispatch(removeFromCart({ userId: user?.id, productId: item?.productId }));
   };
 
@@ -40,12 +37,6 @@ const UserCartItemsContainer = ({ items }: { items: CartItem }) => {
     typeOfAction: "plus" | "minus";
     totalStock: number;
   }) => {
-    // console.log(items, "items from cart items container UPDATE QUANTITY");
-    // console.log(
-    //   typeOfAction,
-    //   "type of action from cart items container UPDATE QUANTITY"
-    // );
-
     if (typeOfAction === "plus") {
       let getCartItems = cartItems?.items || [];
       if (getCartItems.length) {
@@ -133,7 +124,6 @@ const UserCartItemsContainer = ({ items }: { items: CartItem }) => {
             variant="outline"
             size="icon"
             className="w-8 h-8 rounded-full"
-            // disabled={items?.quantity === 1}
             onClick={() =>
               handleUpdateQuantity({ items, typeOfAction: "plus" })
             }

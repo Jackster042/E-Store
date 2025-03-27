@@ -37,7 +37,6 @@ const ProductImageUpload: React.FC<ProductImageUploadProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files?.[0]);
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
       setFile(selectedFile);
@@ -52,7 +51,6 @@ const ProductImageUpload: React.FC<ProductImageUploadProps> = ({
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     const droppedFile = e.dataTransfer.files?.[0];
-    console.log(droppedFile, "file from drag and drop");
     if (droppedFile) {
       setFile(droppedFile);
     }
@@ -78,7 +76,6 @@ const ProductImageUpload: React.FC<ProductImageUploadProps> = ({
         "http://localhost:3000/api/admin/products/upload-image",
         data
       );
-      console.log(response, "response from uploadImageToCloudinary");
 
       if (response?.data?.success) {
         setUrl(response?.data?.result?.url);

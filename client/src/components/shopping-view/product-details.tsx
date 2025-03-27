@@ -3,9 +3,8 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { Avatar, AvatarFallback } from "../ui/avatar";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
-import { toast, useToast } from "@/hooks/use-toast";
-import { Star, StarIcon } from "lucide-react";
+import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
+import { useToast } from "@/hooks/use-toast";
 
 // STORE
 import { useSelector } from "react-redux";
@@ -44,15 +43,11 @@ const ProductDetailsDialog = ({
 
   // HANDLE RATING CHANGE
   const handleRatingChange = (getRating: number) => {
-    console.log(getRating, "getRating from HANDLE RATING CHANGE");
     setRating(getRating);
   };
 
   // HANDLE ADD TO CART
   const handleAddToCart = (id: string, totalStock: number) => {
-    // console.log(id, "id from HANDLE ADD TO CART");
-    // console.log(user, "user in handleAddToCart");
-
     if (!user || !user.id) {
       console.error("User not logged in or user ID is missing");
       alert("Please log in to add items to cart");
@@ -138,19 +133,12 @@ const ProductDetailsDialog = ({
         reviews.length
       : 0;
 
-  console.log(averageReviewRating, "averageReviewRating from PRODUCT DETAILS");
-
   useEffect(() => {
     if (productDetails !== null) dispatch(getReviews(productDetails?._id));
   }, [productDetails]);
 
-  // console.log(productDetails, "productDetails from ADD REVIEW");
-  console.log(reviews, "reviews from ADD REVIEW");
-  // console.log(user, "user from ADD REVIEW");
-
   return (
     <Dialog open={open} onOpenChange={handleCloseDialog}>
-      <DialogTitle>Product Details</DialogTitle>
       <DialogContent className="grid grid-cols-2 gap-8 sm:p-12 max-w-[90vw] sm:max-w-[80vw] lg:max-w-[70vw]">
         <div className="relative overflow-hidden rounded-lg">
           <img

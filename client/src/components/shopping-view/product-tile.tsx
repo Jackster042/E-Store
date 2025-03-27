@@ -30,7 +30,6 @@ const ShoppingProductTile = ({
   handleGetProductDetails,
   handleAddToCart,
 }: ShoppingProductTileProps) => {
-  // console.log(product, "product from product tile");
   return (
     <Card className="w-full max-w-sm mx-auto">
       <div onClick={() => handleGetProductDetails(product?._id)}>
@@ -64,7 +63,6 @@ const ShoppingProductTile = ({
                   product?.category as keyof typeof categoryOptionsMap
                 ]
               }
-              {/* {product?.category} */}
             </span>
             <span className="text-muted-foreground text-sm ">
               {brandOptionsMap[product?.brand as keyof typeof brandOptionsMap]}

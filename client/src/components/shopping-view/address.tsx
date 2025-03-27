@@ -57,12 +57,10 @@ const Address = ({
 
   const { user } = useSelector((state: RootState) => state.authStore);
   const { addressList } = useSelector((state: RootState) => state.addressStore);
-  // console.log(user, "user in address");
   const dispatch = useDispatch<AppDispatch>();
 
   const handleManageAddress = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
 
     if (addressList.length >= 3 && currentEditedId === null) {
       setFormData(initialFormdata);
@@ -82,7 +80,6 @@ const Address = ({
             formData: formData,
           })
         ).then((data) => {
-          console.log(data);
           dispatch(fetchAllData(user?.id));
           setFormData(initialFormdata);
           setCurrentEditedId(null);
@@ -97,7 +94,6 @@ const Address = ({
             userId: user?.id,
           })
         ).then((data) => {
-          console.log(data);
           if (data?.payload?.success === true) {
             dispatch(fetchAllData(user?.id));
             setFormData(initialFormdata);
@@ -115,20 +111,17 @@ const Address = ({
   };
 
   const handleEdit = (id: string) => {
-    console.log(id, "id in handleEdit");
     setCurrentEditedId(id);
     setFormData(addressList.find((item) => item._id === id));
   };
 
   const handleDelete = (id: string) => {
-    console.log(id, "id in handleDelete");
     dispatch(
       deleteAddress({
         userId: user?.id,
         addressId: id,
       })
     ).then((data) => {
-      console.log(data);
       if (data?.payload?.success === true) {
         dispatch(fetchAllData(user?.id));
         toast({
@@ -151,22 +144,16 @@ const Address = ({
   };
 
   function isFormValid() {
-    console.log("Form Data:", formData);
     const isValid = Object.keys(formData).every((key) => {
       const value = formData[key as keyof FormData];
-      console.log(`Field ${key}:`, value);
       return value !== null && value !== "";
     });
-    console.log("Is Valid:", isValid);
     return isValid;
   }
 
   useEffect(() => {
     dispatch(fetchAllData(user.id));
   }, [dispatch]);
-
-  console.log(user, "user in address");
-  // console.log(addressList, "addressList in address");
 
   return (
     <Card>

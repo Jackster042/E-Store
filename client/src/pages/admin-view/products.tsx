@@ -63,7 +63,6 @@ const AdminProducts = () => {
 
     if (currentEditedId !== null) {
       dispatch(editProduct({ formData, id: currentEditedId })).then((data) => {
-        console.log(data, "data from edit product");
         if (data?.payload?.success) {
           toast({
             title: "Product Updated Successfully",
@@ -134,8 +133,6 @@ const AdminProducts = () => {
     dispatch(getAllProducts());
   }, [dispatch]);
 
-  console.log("Products:", products);
-
   return (
     <Fragment>
       {/* BUTTON TO ADD PRODUCT */}
@@ -152,7 +149,6 @@ const AdminProducts = () => {
       <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
         {products && products.length > 0 ? (
           products.map((product) => {
-            // console.log("Rendering product:", product);
             return (
               <AdminProductTile
                 product={product}

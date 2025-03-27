@@ -1,5 +1,5 @@
 // REACT
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 // COMPONENTS
 import { Card, CardTitle, CardHeader, CardContent } from "../ui/card";
@@ -17,9 +17,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogOverlay,
   DialogTitle,
-  DialogTrigger,
 } from "../ui/dialog";
 import { Badge } from "../ui/badge";
 
@@ -41,11 +39,9 @@ const ShoppingOrders = () => {
   );
 
   const dispatch = useDispatch<AppDispatch>();
-  // const dialogRef = useRef<HTMLDivElement>(null);
 
   const handleFetchOrderDetails = (getId: string) => {
     dispatch(getOrderDetails(getId));
-    console.log(orderDetails, "orderDetails");
   };
 
   useEffect(() => {
@@ -57,8 +53,6 @@ const ShoppingOrders = () => {
       setOpenOrderDetails(true);
     }
   }, [orderDetails]);
-
-  console.log(orderList, "orderList");
 
   return (
     <Fragment>

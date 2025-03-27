@@ -23,7 +23,6 @@ const initialState = {
   password: "",
 };
 
-// TODO: FIX EMPTY INPUT ERRORS
 const AuthLogin = () => {
   const [formData, setFormdata] = useState(initialState);
   const dispatch = useDispatch<AppDispatch>();
@@ -61,7 +60,7 @@ const AuthLogin = () => {
 
   React.useEffect(() => {
     if (isAuthenticated && user) {
-      console.log("Auth state updated, user:", user);
+      // console.log("Auth state updated, user:", user);
       const targetPath =
         user.role === "admin" ? "/admin/dashboard" : "/shop/home";
       navigate(targetPath, { replace: true });
@@ -69,7 +68,7 @@ const AuthLogin = () => {
   }, [isAuthenticated, user, navigate]);
 
   React.useEffect(() => {
-    console.log("Location changed to:", location.pathname);
+    // console.log("Location changed to:", location.pathname);
   }, [location]);
 
   return (

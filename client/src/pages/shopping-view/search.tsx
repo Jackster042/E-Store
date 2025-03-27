@@ -39,21 +39,16 @@ const SearchProducts = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const handleGetProductDetails = (getCurrentProductId: string) => {
-    console.log(getCurrentProductId, "product details from search page");
     dispatch(getProductDetails(getCurrentProductId));
   };
 
   const handleAddToCart = (id: string, totalStock: number) => {
-    console.log(id, "id from HANDLE ADD TO CART");
-    console.log(user, "user in handleAddToCart");
-
     if (!user || !user.id) {
       console.error("User not logged in or user ID is missing");
       alert("Please log in to add items to cart");
       return;
     }
 
-    // console.log(items, "items in handleAddToCart");
     const getCartItems = cartItems?.items || [];
     if (getCartItems.length) {
       const indexOfCurrentItem = getCartItems.findIndex(
@@ -107,10 +102,6 @@ const SearchProducts = () => {
       setOpenDetailsDialog(true);
     }
   }, [productDetails]);
-
-  //   console.log(searchResults, "searchResults from SEARCH PAGE");
-  console.log(cartItems, "cartItems from SEARCH PAGE");
-  console.log(user, "user from SEARCH PAGE");
 
   return (
     <Fragment>

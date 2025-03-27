@@ -9,7 +9,7 @@ import {
 } from "@/store/shop/product-slice";
 
 // COMPONENTS
-import ProductFilter, { Filter } from "@/components/shopping-view/filter";
+import ProductFilter from "@/components/shopping-view/filter";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -39,17 +39,6 @@ interface Product {
 }
 
 const createUrlQueryString = (filters: Record<string, string[]>): string => {
-  // const queryString = new URLSearchParams();
-  // // console.log(queryString, "queryString");
-
-  // for (const [key, values] of Object.entries(filters)) {
-  //   values.forEach((value) => {
-  //     queryString.append(key, value);
-  //   });
-  // }
-
-  // return queryString.toString(); // Return the query string
-
   const queryString: string[] = [];
 
   for (const [key, values] of Object.entries(filters)) {
@@ -81,14 +70,11 @@ const ShoppingListing = () => {
   const categorySearchParam = searchParams.get("category");
 
   const handleSort = (value: string | undefined) => {
-    console.log(value, "value from handleSort");
     setSort(value);
   };
 
   const handleFilter = (getSectionId: string, getOptionId: string) => {
     if (!getOptionId) return;
-
-    console.log(getSectionId, getOptionId, "getSectionId, getOptionId");
 
     // CHECK IF THE CURRENT INDEX OF CURRENT SECTION IS PRESENT
     let copyFilters: Record<string, string[]> = { ...filters };
@@ -105,27 +91,21 @@ const ShoppingListing = () => {
       }
     }
 
-    console.log(copyFilters, "copyFilters");
     setFilters(copyFilters);
     sessionStorage.setItem("filters", JSON.stringify(copyFilters));
   };
 
   const handleGetProductDetails = (id: string) => {
-    console.log(id, "id");
     dispatch(getProductDetails(id));
   };
 
   const handleAddToCart = (id: string, totalStock: number) => {
-    console.log(id, "id from HANDLE ADD TO CART");
-    console.log(user, "user in handleAddToCart");
-
     if (!user || !user.id) {
       console.error("User not logged in or user ID is missing");
       alert("Please log in to add items to cart");
       return;
     }
 
-    // console.log(items, "items in handleAddToCart");
     const getCartItems = cartItems?.items || [];
     if (getCartItems.length) {
       const indexOfCurrentItem = getCartItems.findIndex(
@@ -170,7 +150,6 @@ const ShoppingListing = () => {
   useEffect(() => {
     if (filters && Object.keys(filters).length > 0) {
       const queryString = createUrlQueryString(filters);
-      // console.log(queryString, "createQueryString");
       setSearchParams(new URLSearchParams(queryString));
     }
   }, [filters]);
@@ -187,11 +166,6 @@ const ShoppingListing = () => {
       setOpen(true);
     }
   }, [productDetails]);
-
-  console.log(products, "products from LISTING PAGE");
-  // console.log(filters, "filters from LISTING PAGE");
-  // console.log(productDetails, "productDetails from LISTING PAGE");
-  // console.log(items, "items from cart");
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">

@@ -58,14 +58,12 @@ const AdminOrderDetailsView = ({ orderDetails }: { orderDetails: any }) => {
 
   const handleUpdateStatus = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData, "formData");
     dispatch(
       updateOrderStatus({
         id: orderDetails?._id,
         orderStatus: formData.status,
       })
     ).then((data) => {
-      console.log(data, "data from updateOrderStatus");
       if (data?.payload?.success) {
         dispatch(getOrderDetailsForAdmin(orderDetails?._id));
         dispatch(getAllOrdersForAdmin());
@@ -77,7 +75,6 @@ const AdminOrderDetailsView = ({ orderDetails }: { orderDetails: any }) => {
       }
     });
   };
-  console.log(orderDetails, "orderDetails");
 
   return (
     <DialogContent className="sm:max-w-[600px]">
