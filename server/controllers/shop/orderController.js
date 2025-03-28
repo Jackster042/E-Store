@@ -5,13 +5,13 @@ const CartModel = require("../../models/CartModel");
 
 exports.createOrder = async (req, res) => {
   try {
-    // TODO: ORDER STATUS & PAYMENT STATUS NEED TO BE PENDING IN THIS PHASE
-    // TODO: IN THIS PART WE SAVE THE ORDER IN THE DATABASE, BUT ITS NOT COMPLETED YET
-    // TODO: WE NEED TO RETURN THE APPROVAL URL TO THE FRONTEND
-    // TODO: THE FRONTEND WILL REDIRECT THE USER TO THE PAYPAL PAGE
-    // TODO: AFTER THE USER PAID, THE USER WILL BE REDIRECTED TO THE RETURN URL
-    // TODO: WE NEED TO CAPTURE THE PAYMENT IN A DIFFERENT CONTROLLER
-    // TODO: WE NEED TO UPDATE THE ORDER STATUS AND PAYMENT STATUS IN THE DATABASE
+    /* ORDER STATUS & PAYMENT STATUS NEED TO BE PENDING IN THIS PHASE
+         IN THIS PART WE SAVE THE ORDER IN THE DATABASE, BUT ITS NOT COMPLETED YET
+         WE NEED TO RETURN THE APPROVAL URL TO THE FRONTEND
+         THE FRONTEND WILL REDIRECT THE USER TO THE PAYPAL PAGE
+         AFTER THE USER PAID, THE USER WILL BE REDIRECTED TO THE RETURN URL
+         WE NEED TO CAPTURE THE PAYMENT IN A DIFFERENT CONTROLLER
+         WE NEED TO UPDATE THE ORDER STATUS AND PAYMENT STATUS IN THE DATABASE */
 
     const {
       userId,
@@ -27,26 +27,6 @@ exports.createOrder = async (req, res) => {
       paymentId,
       payerId,
     } = req.body;
-
-    // if (
-    //   !userId ||
-    //   !cartId ||
-    //   !cartItems ||
-    //   !addressInfo ||
-    //   !orderStatus ||
-    //   !paymentMethod ||
-    //   !paymentStatus ||
-    //   !totalAmount ||
-    //   !orderDate ||
-    //   !orderUpdateDate ||
-    //   !paymentId ||
-    //   !payerId
-    // ) {
-    //   return res.status(400).json({
-    //     success: false,
-    //     message: "Missing required fields",
-    //   });
-    // }
 
     const create_payment_json = {
       intent: "sale",
@@ -182,7 +162,6 @@ exports.getAllOrdersByUser = async (req, res) => {
   try {
     const { userId } = req.params;
     const orders = await OrderModel.find({ userId });
-    console.log(orders, "orders from GET ALL ORDERS BY USER - BACKEND");
     if (!orders.length) {
       return res.status(404).json({
         success: false,

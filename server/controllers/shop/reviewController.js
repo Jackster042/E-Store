@@ -18,7 +18,6 @@ exports.addProductReview = async (req, res) => {
       userId,
       "cartItems.productId": productId,
     });
-    console.log(order, "order from ADD PRODUCT REVIEW");
     if (!order) {
       return res.status(403).json({
         success: false,

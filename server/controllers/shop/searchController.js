@@ -11,7 +11,6 @@ exports.searchProducts = async (req, res) => {
     }
 
     const regEx = new RegExp(keyword, "i"); // i for case insensitive
-    // console.log(regEx, "regEx");
 
     const createSearchQuery = {
       $or: [

@@ -18,8 +18,6 @@ exports.addAddress = async (req, res, next) => {
       notes,
     });
 
-    // console.log(newAddress, "newAddress from addAddress controller BACKEND");
-
     await newAddress.save();
 
     return res.status(201).json({
@@ -38,17 +36,12 @@ exports.addAddress = async (req, res, next) => {
 exports.fetchAllAddress = async (req, res, next) => {
   try {
     const { userId } = req.params;
-    // console.log(userId, "userId from fetchAllAddress controller BACKEND");
     if (!userId)
       return res
         .status(400)
         .json({ success: false, message: "User ID is required" });
 
     const addressList = await AddressModel.find({ userId });
-    // console.log(
-    //   addressList,
-    //   "addressList from fetchAllAddress controller BACKEND"
-    // );
 
     return res.status(201).json({
       success: true,

@@ -4,15 +4,13 @@ const jwt = require("jsonwebtoken");
 const UserModel = require("../../models/UserModel");
 const { JWT_SECRET, JWT_OPTIONS } = require("../../config/env.config.js");
 const SALT = 12;
-// TODO: THIS WILL MOST LIKELY BE TRANSFERRED IN USER MODEL
+// TODO: THIS WILL MOST LIKELY BE TRANSFERRED IN USER MODEL IN V2
 
 //  REGISTER USER
 exports.register = async (req, res, next) => {
-  //   console.log(req.body, "req.body REGISTER");
   const { email, password, userName } = req.body;
   try {
     const user = await UserModel.findOne({ email });
-    console.log(user, "user");
 
     if (user)
       return res.status(400).json({
@@ -55,8 +53,6 @@ exports.register = async (req, res, next) => {
 
 //  LOGIN USER
 exports.login = async (req, res, next) => {
-  //   console.log(req.body, "req.body LOGIN");
-  //   const { email, password } = req.body;
   try {
     if (!req.body.email || !req.body.password) {
       return res
@@ -67,7 +63,6 @@ exports.login = async (req, res, next) => {
     const user = await UserModel.findOne({ email: req.body.email }).select(
       "+password"
     );
-    // console.log(user, "user from LOGIN");
     if (!user)
       return res
         .status(400)
@@ -77,7 +72,6 @@ exports.login = async (req, res, next) => {
       req.body.password,
       user.password
     );
-    console.log("Is valid", isCorrectPassword);
     if (!isCorrectPassword)
       return res
         .status(401)
@@ -90,13 +84,9 @@ exports.login = async (req, res, next) => {
       userName: user.userName,
     };
 
-    // console.log(payload, "payload");
-
     const token = jwt.sign(payload, JWT_SECRET, JWT_OPTIONS);
-    // console.log(token, "token");
 
     const { password, __v, ...userData } = user._doc;
-    // console.log(userData, "userData");
 
     res
       .cookie("token", token, {

@@ -3,7 +3,6 @@ const OrderModel = require("../../models/OrderModel");
 exports.getAllOrdersOfAllUsers = async (req, res) => {
   try {
     const orders = await OrderModel.find({});
-    console.log(orders, "orders from GET ALL ORDERS OF ALL USERS");
     if (!orders) {
       return res.status(404).json({
         success: false,

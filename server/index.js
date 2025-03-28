@@ -31,10 +31,6 @@ app.use(
       "Expires",
       "Pragma",
     ],
-    // maxAge: 86400,
-    // optionsSuccessStatus: 204,
-    // exposedHeaders: ["Set-Cookie"],
-    // maxAge: 86400,
   })
 );
 app.use(express.json());

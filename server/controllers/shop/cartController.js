@@ -57,7 +57,6 @@ exports.addToCart = async (req, res, next) => {
 exports.getCart = async (req, res, next) => {
   try {
     const { userId } = req.params;
-    // console.log(userId, "userId from getCart - BACKEND");
 
     if (!userId) {
       return res.status(400).json({
@@ -82,7 +81,6 @@ exports.getCart = async (req, res, next) => {
     const validateItems = cart.items.filter(
       (productItem) => productItem.productId
     );
-    // console.log(validateItems, "validateItems");
 
     if (validateItems.length < cart.items.length) {
       cart.items = validateItems;
@@ -184,7 +182,6 @@ exports.updateQuantity = async (req, res, next) => {
 exports.removeFromCart = async (req, res, next) => {
   try {
     const { userId, productId } = req.params;
-    // console.log(userId, productId, "userId and productId");
     if (!userId || !productId) {
       return res.status(400).json({
         success: false,
@@ -227,8 +224,6 @@ exports.removeFromCart = async (req, res, next) => {
         items: populateCartItems,
       },
     });
-
-    res.send("Hello from removeFromCart - BACKEND");
   } catch (error) {
     console.error(error, "error from removeFromCart - BACKEND");
     res.status(500).json({

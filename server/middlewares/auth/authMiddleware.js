@@ -11,13 +11,9 @@ const authMiddleware = async (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    console.log(decoded, "decoded from middleware");
     req.user = decoded;
 
-    console.log(req.user, "req.user from middleware");
-
     const freshUser = await UserModel.findById(req.user._id);
-    // console.log(freshUser, "freshUser from middleware");
 
     next();
   } catch (error) {
