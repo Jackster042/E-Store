@@ -105,7 +105,7 @@ const SearchProducts = () => {
 
   return (
     <Fragment>
-      <div className="container mx-auto py-8 px-4 md:px-6">
+      <div className="container mx-auto min-h-[calc(100vh-10rem)] py-8 px-4 md:px-6">
         <div className="flex justify-center mb-8">
           <div className="flex items-center w-full lg:w-3/4">
             <Input
@@ -121,7 +121,9 @@ const SearchProducts = () => {
           </div>
         </div>
         {!searchResults.length ? (
-          <h1 className="text-5xl font-extrabold">No result found!</h1>
+          <div className="flex flex-col items-center justify-center">
+            <h1 className="text-5xl font-extrabold">No result found!</h1>
+          </div>
         ) : null}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {searchResults.map((item) => (

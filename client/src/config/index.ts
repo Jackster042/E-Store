@@ -250,3 +250,58 @@ export const addressFormControls = [
     placeholder: "Enter any additional notes",
   },
 ];
+
+export const footerLinks = [
+  {
+    title: "Legal",
+    links: [
+      { label: "Privacy Policy", url: "/privacy" },
+      { label: "Terms of Service", url: "/terms" },
+      { label: "Refund Policy", url: "/refunds" },
+      { label: "Shipping Policy", url: "/shipping" },
+      { label: "Return Policy", url: "/returns" },
+      { label: "Cookie Policy", url: "/cookie" },
+    ],
+  },
+  {
+    title: "About Us",
+    links: [
+      { label: "Our Story", url: "/about" },
+      { label: "Careers", url: "/careers" },
+      { label: "Blog", url: "/blog" },
+      { label: "Contact Us", url: "/contact" },
+      { label: "FAQ", url: "/faq" },
+    ],
+  },
+  {
+    title: "Contact Us",
+    links: [
+      { label: "Support", url: "/support" },
+      { label: "Email", url: "mailto:support@example.com" },
+      { label: "Live Chat", url: "/chat" },
+      { label: "Phone", url: "/phone" },
+      { label: "Address", url: "/address" },
+    ],
+  },
+  {
+    title: "Categories",
+    links: [
+      { label: "Men", url: "/categories/men" },
+      { label: "Women", url: "/categories/women" },
+      { label: "Kids", url: "/categories/kids" },
+      { label: "Accessories", url: "/categories/accessories" },
+      { label: "Footwear", url: "/categories/footwear" },
+    ],
+  },
+  {
+    title: "Brands",
+    links: [
+      { label: "Nike", url: "/brands/nike" },
+      { label: "Adidas", url: "/brands/adidas" },
+      { label: "Puma", url: "/brands/puma" },
+      { label: "Levi's", url: "/brands/levis" },
+      { label: "Zara", url: "/brands/zara" },
+      { label: "H&M", url: "/brands/h&m" },
+    ],
+  },
+];

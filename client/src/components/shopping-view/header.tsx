@@ -8,7 +8,7 @@ import {
 import { useEffect } from "react";
 
 // Icons
-import { HousePlug, LogOut, Menu, ShoppingCart, User } from "lucide-react";
+import { Flower, LogOut, Menu, ShoppingCart, User } from "lucide-react";
 
 // UI
 import { Button } from "@/components/ui/button";
@@ -150,7 +150,7 @@ const HeaderRightContent = () => {
   }, [dispatch, user.id]);
 
   return (
-    <div className="flex lg:items-center lg:flex-row flex-col gap-4">
+    <div className="flex lg:items-center lg:flex-row flex-col gap-4 cursor-pointer">
       {/* CART BUTTON */}
       <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
         <Button
@@ -208,8 +208,8 @@ const ShoppingHeader = () => {
       <div className="flex h-16 items-center justify-between px-4 md:px-6">
         {/* LEFT SIDE - LOGO */}
         <Link to="/shop/home" className="flex items-center gap-2">
-          <HousePlug className="h-6 w-6" />
-          <span className="font-bold">E Store</span>
+          <Flower className="h-6 w-6" />
+          <span className="font-bold">Elora</span>
         </Link>
 
         {/* SHEET */}

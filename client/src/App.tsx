@@ -37,7 +37,6 @@ import { RootState } from "./store/store";
 import { checkAuth } from "./store/auth-slice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "./store/store";
-
 const App = () => {
   const dispatch = useDispatch<AppDispatch>();
   // USER
