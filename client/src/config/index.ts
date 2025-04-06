@@ -283,25 +283,4 @@ export const footerLinks = [
       { label: "Address", url: "/address" },
     ],
   },
-  {
-    title: "Categories",
-    links: [
-      { label: "Men", url: "/categories/men" },
-      { label: "Women", url: "/categories/women" },
-      { label: "Kids", url: "/categories/kids" },
-      { label: "Accessories", url: "/categories/accessories" },
-      { label: "Footwear", url: "/categories/footwear" },
-    ],
-  },
-  {
-    title: "Brands",
-    links: [
-      { label: "Nike", url: "/brands/nike" },
-      { label: "Adidas", url: "/brands/adidas" },
-      { label: "Puma", url: "/brands/puma" },
-      { label: "Levi's", url: "/brands/levis" },
-      { label: "Zara", url: "/brands/zara" },
-      { label: "H&M", url: "/brands/h&m" },
-    ],
-  },
 ];
