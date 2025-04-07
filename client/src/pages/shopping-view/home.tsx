@@ -100,7 +100,9 @@ const ShoppingHome = () => {
       [section]: [getCurrentItem.id],
     };
     sessionStorage.setItem("filters", JSON.stringify(filteredItems));
-    navigate(`/shop/listing`);
+    setTimeout(() => {
+      navigate(`/shop/listing`);
+    }, 50);
   };
 
   const handleGetProductDetails = (id: string) => {
@@ -164,7 +166,15 @@ const ShoppingHome = () => {
   console.log(products, "products from HOME PAGE");
 
   return (
-    <div className="flex flex-col  min-h-screen">
+    <div
+      className="flex flex-col  min-h-screen"
+      // onClick={() => {
+      //   window.scrollTo({
+      //     top: 0,
+      //     behavior: "smooth",
+      //   });
+      // }}
+    >
       <div className="relative w-full h-[600px] overflow-hidden">
         {featureImageList && featureImageList.length > 0 ? (
           featureImageList.map((image, index) => (
@@ -216,9 +226,13 @@ const ShoppingHome = () => {
             {categories.map((categoryItem) => (
               <Card
                 className="cursor-pointer hover:shadow-lg transition-shadow"
-                onClick={() =>
-                  handleNavigateToListingPage(categoryItem, "category")
-                }
+                onClick={() => {
+                  window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                  });
+                  handleNavigateToListingPage(categoryItem, "category");
+                }}
               >
                 <CardContent className="flex flex-col items-center justify-center p-6">
                   <categoryItem.icon className="w-10 h-10 mb-4 text-primary" />
@@ -239,7 +253,13 @@ const ShoppingHome = () => {
             {brand.map((brandItem) => (
               <Card
                 className="cursor-pointer hover:shadow-lg transition-shadow"
-                onClick={() => handleNavigateToListingPage(brandItem, "brand")}
+                onClick={() => {
+                  window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                  });
+                  handleNavigateToListingPage(brandItem, "brand");
+                }}
               >
                 <CardContent className="flex flex-col items-center justify-center p-6">
                   <brandItem.icon className="w-10 h-10 mb-4 text-primary" />

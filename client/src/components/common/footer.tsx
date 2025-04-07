@@ -1,7 +1,14 @@
 import React, { useEffect } from "react";
 import { footerLinks } from "@/config";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { Facebook, Flower, Instagram, Twitter, Youtube } from "lucide-react";
+import {
+  Facebook,
+  Flower,
+  Instagram,
+  SquareArrowUp,
+  Twitter,
+  Youtube,
+} from "lucide-react";
 import { Separator } from "../ui/separator";
 import {
   getFilteredProducts,
@@ -110,12 +117,21 @@ const footer = () => {
           <span className="font-bold text-3xl">Elora</span>
         </Link>
 
-        <div className="flex items-center gap-6">
+        <div className="hidden md:flex lg:flex xl:flex items-center gap-10">
           {socialLinks.map((link) => (
             <Link to={link.url} key={link.label}>
               {link.icon}
             </Link>
           ))}
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-gray-500 hidden md:block lg:block xl:block">
+            Back to top
+          </span>
+          <SquareArrowUp
+            className="h-8 w-8 cursor-pointer ml-4 hover:bg-gray-200 rounded-lg p-1"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          />
         </div>
       </div>
 
@@ -160,6 +176,13 @@ const footer = () => {
             </ul>
           </div>
         ))}
+        <div className="flex md:hidden lg:hidden xl:hidden gap-10 mt-10">
+          {socialLinks.map((link) => (
+            <Link to={link.url} key={link.label}>
+              {link.icon}
+            </Link>
+          ))}
+        </div>
       </div>
 
       <Separator className="w-full my-4" />
