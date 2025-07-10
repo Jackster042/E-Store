@@ -1,6 +1,6 @@
 // REACT
 import { Fragment, useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 // UTILS
 import { toast } from "@/hooks/use-toast";
@@ -9,6 +9,7 @@ import { toast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 import ShoppingProductTile from "@/components/shopping-view/product-tile";
 import ProductDetailsDialog from "@/components/shopping-view/product-details";
+import { Separator } from "@/components/ui/separator";
 
 // REDUX
 import { AppDispatch, RootState } from "@/store/store";
@@ -19,6 +20,7 @@ import {
 } from "@/store/shop/search-slice";
 import { getProductDetails } from "@/store/shop/product-slice";
 import { addToCart, getCart } from "@/store/shop/cart-slice";
+import { Button } from "@/components/ui/button";
 
 const SearchProducts = () => {
   const [keyword, setKeyword] = useState("");
@@ -123,6 +125,42 @@ const SearchProducts = () => {
         {!searchResults.length ? (
           <div className="flex flex-col items-center justify-center">
             <h1 className="text-5xl font-extrabold">No result found!</h1>
+            <div className="flex flex-col items-center justify-center pt-56">
+              <p className="text-2xl font-semibold">Need help?</p>
+              <span className="gap-8">
+                <Link to="/shop/listing" className=" text-blue-500">
+                  Visit our help section
+                </Link>{" "}
+                or{" "}
+                <Link to="/contact" className=" text-blue-500">
+                  contact us
+                </Link>
+              </span>
+            </div>
+            <Separator className="w-full mt-8" />
+            <div className="flex flex-col items-center justify-center gap-5 mt-4">
+              <h3 className="text-2xl font-thin">
+                See personalized recommendations
+              </h3>
+              <Button className="w-full rounded-md text-black bg-yellow-300 hover:bg-yellow-400 hover:text-white cursor-pointer mb-5">
+                Shop now
+              </Button>
+            </div>
+            <Separator className="w-full mb-4" />
+            <div className="flex flex-row justify-between items-center gap-40">
+              <span className="text-sm font-italic">
+                <i>
+                  After viewing product detail pages, look here to find an easy
+                  way to navigate back to pages you are interested in.
+                </i>
+              </span>
+              <Link
+                to="/shop/listing"
+                className="text-sm underline text-blue-500"
+              >
+                View or edit your browsing history
+              </Link>
+            </div>
           </div>
         ) : null}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

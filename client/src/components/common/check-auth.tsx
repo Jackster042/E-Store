@@ -7,7 +7,6 @@ interface CheckAuthProps {
 
 function CheckAuth({ isAuthenticated, user, children }: CheckAuthProps) {
   const location = useLocation();
-  // console.log("CheckAuth:", { path: location.pathname, isAuthenticated, user });
 
   // Allow the auth pages to render during the authentication process
   if (location.pathname.includes("/auth/")) {

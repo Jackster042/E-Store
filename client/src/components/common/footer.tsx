@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { footerLinks } from "@/config";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import {
@@ -10,21 +10,9 @@ import {
   Youtube,
 } from "lucide-react";
 import { Separator } from "../ui/separator";
-import {
-  getFilteredProducts,
-  getProductDetails,
-} from "@/store/shop/product-slice";
+import { getFilteredProducts } from "@/store/shop/product-slice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "@/store/store";
-interface FooterLink {
-  label: string;
-  url: string;
-}
-
-interface FooterSection {
-  title: string;
-  links: FooterLink[];
-}
 
 const socialLinks = [
   {
@@ -83,9 +71,6 @@ const footer = () => {
     const filteredItems = {
       [section]: [footerLink],
     };
-    console.log(location.pathname, " location.pathname from FOOTER");
-    console.log(footerLink, " footerLink from FOOTER");
-    console.log(filteredItems, " filteredItems from FOOTER");
     sessionStorage.setItem("filters", JSON.stringify(filteredItems));
     navigate(`/shop/listing`);
   };
@@ -104,7 +89,7 @@ const footer = () => {
   }, [products]);
 
   return (
-    <div className="flex flex-col items-center justify-center w-full h-auto bg-gray-100">
+    <div className="flex flex-col items-center justify-center w-full min-h-[300px] bg-gray-100">
       <Separator className="w-full" />
 
       <div className="flex justify-between w-full max-w-7xl mx-auto px-4 mt-10">
