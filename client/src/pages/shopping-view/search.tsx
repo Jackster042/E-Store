@@ -28,7 +28,7 @@ const SearchProducts = () => {
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
 
   const { user } = useSelector((state: RootState) => state.authStore);
-  const { cartItems } = useSelector(
+  const { cartItems }: { cartItems: any } = useSelector(
     (state: RootState) => state.shoppingCartStore
   );
   const { products, productDetails } = useSelector(
