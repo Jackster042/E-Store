@@ -10,7 +10,6 @@ if (!API_URL) {
 // Configure axios defaults
 axios.defaults.baseURL = API_URL;
 axios.defaults.withCredentials = true;
-axios.defaults.headers.common['Cache-Control'] = 'no-cache';
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 // Optional: Add request interceptor
