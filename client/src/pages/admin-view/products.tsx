@@ -182,6 +182,7 @@ const AdminProducts = () => {
             </SheetTitle>
           </SheetHeader>
           <ProductImageUpload
+              isCustomStyling={true}
             file={imageFile}
             setFile={setImageFile}
             url={uploadedImageUrl}

@@ -29,7 +29,6 @@ import { RootState } from "@/store/store";
 import { logoutUser } from "@/store/auth-slice";
 import { AppDispatch } from "@/store/store";
 
-// Add interface for cart response
 interface CartResponse {
   items: Array<{
     productId: {
@@ -37,11 +36,13 @@ interface CartResponse {
       image: string;
       title: string;
       price: number;
+      salePrice?: number; // Make this optional to match your CartItem type
     };
     quantity: number;
     _id: string;
   }>;
 }
+
 
 // Config
 import { shoppingViewHeaderMenuItems } from "@/config";
@@ -54,7 +55,7 @@ import { getFilteredProducts } from "@/store/shop/product-slice";
 const MenuItems = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [ setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
   const dispatch = useDispatch<AppDispatch>();
 
   function handleNavigate(getCurrentMenuItem: any) {
@@ -133,11 +134,8 @@ const MenuItems = () => {
 const HeaderRightContent = () => {
   const { user } = useSelector((state: RootState) => state.authStore);
   const { cartItems } = useSelector(
-    (state: RootState) => state.shoppingCartStore
-  );
-
-  // Cast items to CartResponse
-  const cartData = cartItems as unknown as CartResponse;
+      (state: RootState) => state.shoppingCartStore
+  ) as unknown as { cartItems: CartResponse }; // Add type assertion here
 
   const [openCartSheet, setOpenCartSheet] = useState(false);
   const navigate = useNavigate();
@@ -150,6 +148,18 @@ const HeaderRightContent = () => {
   useEffect(() => {
     dispatch(getCart(user.id));
   }, [dispatch, user.id]);
+
+  // Transform cart items to match CartItem type
+  const transformedCartItems = cartItems?.items?.map(item => ({
+    image: item.productId.image,
+    title: item.productId.title,
+    price: item.productId.price,
+    salePrice: item.productId.salePrice || 0, // Default to 0 if salePrice doesn't exist
+    productId: item.productId._id,
+    quantity: item.quantity,
+    _id: item._id
+  })) || [];
+
 
   return (
     <div className="flex lg:items-center lg:flex-row flex-col gap-4 cursor-pointer">
@@ -169,11 +179,7 @@ const HeaderRightContent = () => {
         </Button>
         <UserCartWrapper
           setOpenCartSheet={setOpenCartSheet}
-          items={
-            cartData && cartData.items && cartData.items.length > 0
-              ? cartData.items
-              : []
-          }
+          items={transformedCartItems}
         />
       </Sheet>
       {/* USER DROPDOWN MENU */}

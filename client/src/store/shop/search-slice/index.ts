@@ -49,7 +49,7 @@ const searchSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getSearchResults.pending, (state, action) => {
+    builder.addCase(getSearchResults.pending, (state) => {
       state.isLoading = true;
     });
     builder.addCase(getSearchResults.fulfilled, (state, action) => {

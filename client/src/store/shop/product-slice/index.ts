@@ -84,7 +84,7 @@ const ShopProductSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getFilteredProducts.pending, (state, action) => {
+    builder.addCase(getFilteredProducts.pending, (state) => {
       state.isLoading = true;
     });
     builder.addCase(getFilteredProducts.fulfilled, (state, action) => {
@@ -97,7 +97,7 @@ const ShopProductSlice = createSlice({
       state.error =
         (action.payload as AuthError)?.message || "An error occurred";
     });
-    builder.addCase(getProductDetails.pending, (state, action) => {
+    builder.addCase(getProductDetails.pending, (state) => {
       state.isLoading = true;
     });
     builder.addCase(getProductDetails.fulfilled, (state, action) => {

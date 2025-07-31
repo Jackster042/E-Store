@@ -141,7 +141,7 @@ const orderSlice = createSlice({
   },
   extraReducers: (builder) => {
     // CREATE NEW ORDER
-    builder.addCase(createNewOrder.pending, (state, action) => {
+    builder.addCase(createNewOrder.pending, (state) => {
       state.loading = true;
     });
     builder.addCase(createNewOrder.fulfilled, (state, action) => {
@@ -161,7 +161,7 @@ const orderSlice = createSlice({
         (action.payload as AuthError)?.message || "An error occurred";
     });
     // GET ALL ORDERS BY USER
-    builder.addCase(getAllOrdersByUser.pending, (state, action) => {
+    builder.addCase(getAllOrdersByUser.pending, (state) => {
       state.loading = true;
     });
     builder.addCase(getAllOrdersByUser.fulfilled, (state, action) => {
@@ -175,7 +175,7 @@ const orderSlice = createSlice({
         (action.payload as AuthError)?.message || "An error occurred";
     });
     // GET ORDER DETAILS
-    builder.addCase(getOrderDetails.pending, (state, action) => {
+    builder.addCase(getOrderDetails.pending, (state) => {
       state.loading = true;
     });
     builder.addCase(getOrderDetails.fulfilled, (state, action) => {

@@ -24,14 +24,14 @@ import { Button } from "@/components/ui/button";
 
 const SearchProducts = () => {
   const [keyword, setKeyword] = useState("");
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [  ,setSearchParams] = useSearchParams();
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
 
   const { user } = useSelector((state: RootState) => state.authStore);
   const { cartItems }: { cartItems: any } = useSelector(
     (state: RootState) => state.shoppingCartStore
   );
-  const { products, productDetails } = useSelector(
+  const { productDetails } = useSelector(
     (state: RootState) => state.shopProductStore
   );
   const { searchResults } = useSelector(

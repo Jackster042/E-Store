@@ -139,7 +139,7 @@ const addressSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     // ADD ADDRESS
-    builder.addCase(addAddress.pending, (state, action) => {
+    builder.addCase(addAddress.pending, (state) => {
       state.isLoading = true;
     });
     builder.addCase(addAddress.fulfilled, (state, action) => {
@@ -155,7 +155,7 @@ const addressSlice = createSlice({
     });
 
     // FETCH ALL ADDRESS
-    builder.addCase(fetchAllData.pending, (state, action) => {
+    builder.addCase(fetchAllData.pending, (state) => {
       state.isLoading = true;
     });
     builder.addCase(fetchAllData.fulfilled, (state, action) => {
@@ -170,7 +170,7 @@ const addressSlice = createSlice({
     });
 
     // EDIT ADDRESS
-    builder.addCase(editAddress.pending, (state, action) => {
+    builder.addCase(editAddress.pending, (state) => {
       state.isLoading = true;
     });
     builder.addCase(editAddress.fulfilled, (state, action) => {
@@ -185,7 +185,7 @@ const addressSlice = createSlice({
     });
 
     // DELETE ADDRESS
-    builder.addCase(deleteAddress.pending, (state, action) => {
+    builder.addCase(deleteAddress.pending, (state) => {
       state.isLoading = true;
     });
     builder.addCase(deleteAddress.fulfilled, (state, action) => {

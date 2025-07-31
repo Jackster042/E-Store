@@ -133,7 +133,7 @@ const shopCartSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     // ADD TO CART
-    builder.addCase(addToCart.pending, (state, action) => {
+    builder.addCase(addToCart.pending, (state) => {
       state.isLoading = true;
     });
     builder.addCase(addToCart.fulfilled, (state, action) => {
@@ -149,7 +149,7 @@ const shopCartSlice = createSlice({
     });
 
     // GET CART
-    builder.addCase(getCart.pending, (state, action) => {
+    builder.addCase(getCart.pending, (state) => {
       state.isLoading = true;
     });
     builder.addCase(getCart.fulfilled, (state, action) => {
@@ -164,7 +164,7 @@ const shopCartSlice = createSlice({
     });
 
     // UPDATE QUANTITY
-    builder.addCase(updateQuantity.pending, (state, action) => {
+    builder.addCase(updateQuantity.pending, (state) => {
       state.isLoading = true;
     });
     builder.addCase(updateQuantity.fulfilled, (state, action) => {
@@ -179,7 +179,7 @@ const shopCartSlice = createSlice({
     });
 
     // REMOVE FROM CART
-    builder.addCase(removeFromCart.pending, (state, action) => {
+    builder.addCase(removeFromCart.pending, (state) => {
       state.isLoading = true;
     });
     builder.addCase(removeFromCart.fulfilled, (state, action) => {

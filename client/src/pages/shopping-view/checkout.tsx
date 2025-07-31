@@ -1,6 +1,5 @@
 // REACT
 import { Fragment, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 // HOOKS
 import { toast } from "@/hooks/use-toast";
@@ -27,7 +26,6 @@ const ShoppingCheckout = () => {
   const { cartItems } = useSelector((state: any) => state.shoppingCartStore);
   const { user } = useSelector((state: any) => state.authStore);
 
-  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
   const totalCartAmount =

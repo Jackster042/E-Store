@@ -38,6 +38,13 @@ interface Product {
   totalStock: number;
 }
 
+interface CartState {
+  items: Array<{
+    productId: string;
+    quantity: number;
+  }>;
+}
+
 const createUrlQueryString = (filters: Record<string, string[]>): string => {
   const queryString: string[] = [];
 
@@ -64,8 +71,8 @@ const ShoppingListing = () => {
   );
   const { user } = useSelector((state: RootState) => state.authStore);
   const { cartItems } = useSelector(
-    (state: RootState) => state.shoppingCartStore
-  );
+      (state: RootState) => state.shoppingCartStore
+  ) as unknown as { cartItems: CartState };
 
   const categorySearchParam = searchParams.get("category");
 
@@ -77,7 +84,7 @@ const ShoppingListing = () => {
     if (!getOptionId) return;
 
     // CHECK IF THE CURRENT INDEX OF CURRENT SECTION IS PRESENT
-    let copyFilters: Record<string, string[]> = { ...filters };
+    const copyFilters: Record<string, string[]> = { ...filters };
     const currentIndex = Object.keys(copyFilters).indexOf(getSectionId);
 
     if (currentIndex === -1) {
