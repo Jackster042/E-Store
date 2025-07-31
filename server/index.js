@@ -21,7 +21,10 @@ const featureRoutes = require("./routes/common/featureRoutes");
 // MIDDLEWARES
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: [
+        "https://e-store-client.onrender.com",
+        "http://localhost:5173"
+    ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: [
