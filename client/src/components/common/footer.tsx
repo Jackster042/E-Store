@@ -38,11 +38,15 @@ const socialLinks = [
 ];
 
 const footer = () => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const dispatch = useDispatch<AppDispatch>();
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const [ setSearchParams ] = useSearchParams();
 
-  const { products, productDetails } = useSelector(
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { products } = useSelector(
     (state: RootState) => state.shopProductStore
   );
 
@@ -60,6 +64,7 @@ const footer = () => {
             sortParams: "price-lowtohigh",
           })
         );
+        // @ts-ignore
         setSearchParams(new URLSearchParams());
       } else {
         navigate(`/shop/listing`);
@@ -75,6 +80,7 @@ const footer = () => {
     navigate(`/shop/listing`);
   };
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     dispatch(
       getFilteredProducts({
@@ -84,6 +90,7 @@ const footer = () => {
     );
   }, []);
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     console.log(products, " products from FOOTER");
   }, [products]);

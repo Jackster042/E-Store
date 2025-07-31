@@ -27,7 +27,6 @@ interface ProductImageUploadProps {
 const ProductImageUpload: React.FC<ProductImageUploadProps> = ({
   file,
   setFile,
-  url,
   setUrl,
   imageLoadingState,
   setImageLoadingState,

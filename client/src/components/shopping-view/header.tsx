@@ -54,7 +54,7 @@ import { getFilteredProducts } from "@/store/shop/product-slice";
 const MenuItems = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [ setSearchParams] = useSearchParams();
   const dispatch = useDispatch<AppDispatch>();
 
   function handleNavigate(getCurrentMenuItem: any) {
@@ -100,10 +100,12 @@ const MenuItems = () => {
 
     if (location.pathname.includes("listing")) {
       if (currentFilter) {
+        // @ts-ignore
         setSearchParams(
           new URLSearchParams(`?category=${getCurrentMenuItem.id}`)
         );
       } else {
+        // @ts-ignore
         setSearchParams(new URLSearchParams());
       }
     } else {

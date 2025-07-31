@@ -72,6 +72,7 @@ const Address = ({
       return;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     currentEditedId !== null
       ? dispatch(
           editAddress({
@@ -79,7 +80,7 @@ const Address = ({
             addressId: currentEditedId,
             formData: formData,
           })
-        ).then((data) => {
+        ).then(() => {
           dispatch(fetchAllData(user?.id));
           setFormData(initialFormdata);
           setCurrentEditedId(null);

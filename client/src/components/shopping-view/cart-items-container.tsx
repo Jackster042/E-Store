@@ -12,7 +12,7 @@ import { MinusIcon } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 // TYPES
-import { CartItem } from "../../types";
+import { CartItem } from "@/types.ts";
 
 const UserCartItemsContainer = ({ items }: { items: CartItem }) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -20,7 +20,7 @@ const UserCartItemsContainer = ({ items }: { items: CartItem }) => {
   const { cartItems } = useSelector(
     (state: RootState) => state.shoppingCartStore
   );
-  const { products, productDetails } = useSelector(
+  const { products } = useSelector(
     (state: RootState) => state.shopProductStore
   );
 
@@ -31,14 +31,13 @@ const UserCartItemsContainer = ({ items }: { items: CartItem }) => {
   const handleUpdateQuantity = ({
     items,
     typeOfAction,
-    totalStock,
   }: {
     items: CartItem;
     typeOfAction: "plus" | "minus";
     totalStock: number;
   }) => {
     if (typeOfAction === "plus") {
-      let getCartItems = cartItems?.items || [];
+      const getCartItems = cartItems?.item || [];
       if (getCartItems.length) {
         const indexOfCurrentCartItem = getCartItems.findIndex(
           (item: any) => item.productId === items?.productId

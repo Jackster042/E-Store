@@ -24,7 +24,6 @@ interface AdminProductTileProps {
 
 const AdminProductTile = ({
   product,
-  formData,
   setFormData,
   setCurrentEditedId,
   setOpenAddProduct,
