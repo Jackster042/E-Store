@@ -18,28 +18,6 @@ const reviewRoutes = require("./routes/shop/reviewRoutes");
 
 const featureRoutes = require("./routes/common/featureRoutes");
 
-// console.log(require.cache, "require.cache");
-// console.log(process.memoryUsage(), "memoryUsage");
-// let user = { name: "Alice" };
-// let copy = user;
-// console.log(user, "user");
-// console.log(copy, "copy");
-// user = null;
-// copy = null;
-// console.log(user, "user");
-// console.log(copy, "copy");
-
-function outer() {
-  let x = 10;
-  return function inner() {
-    console.log(x);
-  };
-}
-
-const innerFn = outer();
-innerFn();
-// console.log(x, "x form outer fn");
-
 // MIDDLEWARES
 app.use(
   cors({
