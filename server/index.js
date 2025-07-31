@@ -20,22 +20,32 @@ const featureRoutes = require("./routes/common/featureRoutes");
 
 // MIDDLEWARES
 app.use(
-  cors({
-    origin: [
-        "https://e-store-client.onrender.com",
-        "http://localhost:5173"
-    ],
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-    allowedHeaders: [
-      "Content-Type",
-      "Authorization",
-      "Cache-Control  ",
-      "Expires",
-      "Pragma",
-    ],
-  })
+    cors({
+        origin: function (origin, callback) {
+            const allowedOrigins = [
+                "https://e-store-client.onrender.com",
+                "http://localhost:5173"
+            ];
+            if (!origin || allowedOrigins.includes(origin)) {
+                callback(null, true);
+            } else {
+                callback(new Error('Not allowed by CORS'));
+            }
+        },
+        credentials: true,
+        methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"], // Added OPTIONS
+        allowedHeaders: [
+            "Content-Type",
+            "Authorization",
+            "X-Requested-With",
+            "Accept"
+        ],
+        exposedHeaders: ["Authorization"]
+    })
 );
+
+// Handle preflight requests
+app.options('*', cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
