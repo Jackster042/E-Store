@@ -20,6 +20,8 @@ const reviewRoutes = require("./routes/shop/reviewRoutes");
 
 const featureRoutes = require("./routes/common/featureRoutes");
 
+app.options('*', cors());
+
 // MIDDLEWARES
 app.use(
     cors({
@@ -41,7 +43,6 @@ app.use(
 );
 
 // Explicitly handle OPTIONS requests
-app.options('*', cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
