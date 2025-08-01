@@ -1,4 +1,4 @@
-const { imageUploadUtil } = require("../../utils/cloudinary");
+const { uploadToCloudinary } = require("../../utils/cloudinary");
 const ProductModel = require("../../models/ProductModels");
 exports.handleImageUpload = async (req, res, next) => {
   console.log(req.file, "req.file from IMAGE UPLOAD");
@@ -10,7 +10,7 @@ exports.handleImageUpload = async (req, res, next) => {
     const url = `data:${req.file.mimetype};base64,${b64}`;
 
     // upload image to cloudinary
-    const result = await imageUploadUtil(url);
+    const result = await uploadToCloudinary(url);
 
     // return the result
     return res.status(200).json({

@@ -4,6 +4,7 @@ const cors = require("cors");
 
 const app = express();
 
+
 // ROUTES
 const authRoutes = require("./routes/auth/auth-routes");
 const adminRoutes = require("./routes/admin/productRoutes");
@@ -43,6 +44,7 @@ app.options('*', cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.get("/", (req, res) => {
   res.send("Hello World");
