@@ -20,7 +20,7 @@ const initialState: ReviewState = {
 };
 
 // API URL
-const API_URL = "http://localhost:3000";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const addReview = createAsyncThunk(
   "/order/addReview",

@@ -23,7 +23,7 @@ const initialState: ShopProductsState = {
 };
 
 // API URL
-const API_URL = "http://localhost:3000";
+const API_URL = import.meta.env.VITE_API_URL;
 
 // GET FILTERED PRODUCTS
 export const getFilteredProducts = createAsyncThunk(
