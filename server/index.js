@@ -20,7 +20,6 @@ const reviewRoutes = require("./routes/shop/reviewRoutes");
 
 const featureRoutes = require("./routes/common/featureRoutes");
 
-app.options('*', cors());
 
 // MIDDLEWARES
 app.use(
@@ -46,12 +45,12 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+
+app.options('*', cors());
+
+
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
-
 // ROUTES
 app.use("/api/auth", authRoutes);
 app.use("/api/admin/products", adminRoutes);
